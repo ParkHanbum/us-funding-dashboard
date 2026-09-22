@@ -59,10 +59,38 @@
     <div id="settlements" class="settlements">Loading…</div>
   </section>
 
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>5-business-day liquidity heatmap</h2>
+        <p>Public issuance와 공개 보유 만기 원금을 settlement 기준으로 비교</p>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="liquidity-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Public issuance</th>
+            <th>Public maturity</th>
+            <th>Net principal</th>
+            <th>Net cash est.</th>
+            <th>Risk</th>
+            <th>Coverage</th>
+          </tr>
+        </thead>
+        <tbody id="liquidityRows">
+          <tr><td colspan="7">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p id="liquidityMethod" class="muted"></p>
+  </section>
+
   <section class="panel note">
-    <h2>v2.4 status</h2>
-    <p>자동 수집: SOFR · EFFR · TGCR · BGCR · IORB · TGA · Reserves · ON RRP · Standing Repo. Treasury auction/settlement는 브라우저에서 U.S. Treasury FiscalData 공식 API를 live 조회.</p>
-    <p>다음 모듈: CUSIP별 public maturity/redemption → true net cash → 5영업일 risk heatmap.</p>
+    <h2>v3 status</h2>
+    <p>Treasury auction/settlement는 GitHub Actions → D1 경로로 통일. Public issuance는 SOMA add-on을 제외하고 계산.</p>
+    <p>Liquidity heatmap은 Treasury announcement의 publicly-held maturity estimate를 사용한다. Price-adjusted cash estimate는 표시하지만 coupon payment와 일부 TIPS 조정은 아직 별도 모듈 대상.</p>
   </section>
 
   <footer>Worker Cron: hourly · Browser refresh: 5 minutes</footer>

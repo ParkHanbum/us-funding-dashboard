@@ -26,6 +26,9 @@ export default {
     if (url.pathname === "/api/settlements")
       return json(await buildSettlementCalendar(env.DB, 12));
 
+    if (url.pathname === "/api/liquidity")
+      return json(await buildLiquidityCalendar(env.DB, 5));
+
     if (url.pathname === "/api/debug/auctions") {
       const r = await env.DB.prepare(`
         SELECT cusip,security_type,security_term,auction_date,issue_date,maturity_date,
@@ -54,90 +57,85 @@ export default {
       return json({ metric, data: result.results.reverse() });
     }
 
-// Replace ONLY the body of your existing /api/treasury-ingest endpoint
-// with this batched D1 implementation.
-//
-// Keep the existing authorization check and body parsing if you prefer.
-// The important change is: build prepared statements, then env.DB.batch().
 
-if (url.pathname === "/api/treasury-ingest" && request.method === "POST") {
-  const auth = request.headers.get("authorization");
-  if (!env.TREASURY_INGEST_TOKEN ||
-      auth !== `Bearer ${env.TREASURY_INGEST_TOKEN}`) {
-    return json({ error: "unauthorized" }, 401);
-  }
+    if (url.pathname === "/api/treasury-ingest" && request.method === "POST") {
+      const auth = request.headers.get("authorization");
+      if (!env.TREASURY_INGEST_TOKEN ||
+          auth !== `Bearer ${env.TREASURY_INGEST_TOKEN}`) {
+        return json({ error: "unauthorized" }, 401);
+      }
 
-  let body;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: "invalid_json" }, 400);
-  }
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return json({ error: "invalid_json" }, 400);
+      }
 
-  if (!Array.isArray(body?.auctions)) {
-    return json({ error: "auctions_array_required" }, 400);
-  }
+      if (!Array.isArray(body?.auctions)) {
+        return json({ error: "auctions_array_required" }, 400);
+      }
 
-  const sql = `
-    INSERT INTO auctions(
-      cusip,security_type,security_term,auction_date,issue_date,maturity_date,
-      offering_amt,total_accepted,soma_accepted,price_per_100,status,raw_json
-    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
-    ON CONFLICT(cusip,auction_date) DO UPDATE SET
-      security_type=excluded.security_type,
-      security_term=excluded.security_term,
-      issue_date=excluded.issue_date,
-      maturity_date=excluded.maturity_date,
-      offering_amt=COALESCE(excluded.offering_amt,auctions.offering_amt),
-      total_accepted=COALESCE(excluded.total_accepted,auctions.total_accepted),
-      soma_accepted=COALESCE(excluded.soma_accepted,auctions.soma_accepted),
-      price_per_100=COALESCE(excluded.price_per_100,auctions.price_per_100),
-      status=CASE WHEN excluded.status='actual' THEN 'actual' ELSE auctions.status END,
-      fetched_at=datetime('now'),
-      raw_json=excluded.raw_json
-  `;
+      const sql = `
+        INSERT INTO auctions(
+          cusip,security_type,security_term,auction_date,issue_date,maturity_date,
+          offering_amt,total_accepted,soma_accepted,price_per_100,status,raw_json
+        ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
+        ON CONFLICT(cusip,auction_date) DO UPDATE SET
+          security_type=excluded.security_type,
+          security_term=excluded.security_term,
+          issue_date=excluded.issue_date,
+          maturity_date=excluded.maturity_date,
+          offering_amt=COALESCE(excluded.offering_amt,auctions.offering_amt),
+          total_accepted=COALESCE(excluded.total_accepted,auctions.total_accepted),
+          soma_accepted=COALESCE(excluded.soma_accepted,auctions.soma_accepted),
+          price_per_100=COALESCE(excluded.price_per_100,auctions.price_per_100),
+          status=CASE WHEN excluded.status='actual' THEN 'actual' ELSE auctions.status END,
+          fetched_at=datetime('now'),
+          raw_json=excluded.raw_json
+      `;
 
-  const statements = [];
-  let skipped = 0;
+      const statements = [];
+      let skipped = 0;
 
-  for (const row of body.auctions) {
-    if (!row?.cusip || !row?.auction_date) {
-      skipped++;
-      continue;
+      for (const row of body.auctions) {
+        if (!row?.cusip || !row?.auction_date) {
+          skipped++;
+          continue;
+        }
+
+        // Treasury collector sends currency in raw USD.
+        // D1's historical dashboard convention is USD billions.
+        statements.push(
+          env.DB.prepare(sql).bind(
+            row.cusip,
+            row.security_type ?? null,
+            row.security_term ?? null,
+            row.auction_date,
+            row.issue_date ?? null,
+            row.maturity_date ?? null,
+            usdToBn(row.offering_amt),
+            usdToBn(row.total_accepted),
+            usdToBn(row.soma_accepted),
+            finiteOrNull(row.price_per_100),
+            row.status === "actual" ? "actual" : "tentative",
+            JSON.stringify(row)
+          )
+        );
+      }
+
+      if (statements.length)
+        await env.DB.batch(statements);
+
+      return json({
+        ok: true,
+        accepted: statements.length,
+        skipped,
+        source: body.source || "github-actions",
+        batch: body.batch ?? null,
+        collected_at: body.collected_at || null
+      });
     }
-
-    statements.push(
-      env.DB.prepare(sql).bind(
-        row.cusip,
-        row.security_type ?? null,
-        row.security_term ?? null,
-        row.auction_date,
-        row.issue_date ?? null,
-        row.maturity_date ?? null,
-        row.offering_amt ?? null,
-        row.total_accepted ?? null,
-        row.soma_accepted ?? null,
-        row.price_per_100 ?? null,
-        row.status === "actual" ? "actual" : "tentative",
-        JSON.stringify(row)
-      )
-    );
-  }
-
-  if (statements.length) {
-    // One D1 round trip instead of N sequential writes.
-    await env.DB.batch(statements);
-  }
-
-  return json({
-    ok: true,
-    accepted: statements.length,
-    skipped,
-    source: body.source || "github-actions",
-    batch: body.batch ?? null,
-    collected_at: body.collected_at || null
-  });
-}
 
     if (url.pathname === "/api/refresh" && request.method === "POST") {
       const auth = request.headers.get("authorization");
@@ -418,7 +416,7 @@ async function buildSettlementCalendar(db, daysAhead=12) {
 
   const r = await db.prepare(`
     SELECT cusip,security_type,security_term,auction_date,issue_date,maturity_date,
-           offering_amt,total_accepted,soma_accepted,price_per_100,status
+           offering_amt,total_accepted,soma_accepted,price_per_100,status,raw_json
     FROM auctions
     WHERE issue_date >= ? AND issue_date <= ?
     ORDER BY issue_date, security_type, security_term
@@ -427,26 +425,255 @@ async function buildSettlementCalendar(db, daysAhead=12) {
   const groups = {};
   for (const row of r.results || []) {
     const d = row.issue_date;
+    if (!d) continue;
+
     if (!groups[d]) groups[d] = {
-      settlementDate: d, grossFaceBn: 0, actualFaceBn: 0,
-      tentativeFaceBn: 0, rows: []
+      settlementDate: d,
+      grossFaceBn: 0,
+      actualFaceBn: 0,
+      tentativeFaceBn: 0,
+      rows: []
     };
-    const face = Number(
-      row.status === "actual"
-        ? (row.total_accepted ?? row.offering_amt ?? 0)
-        : (row.offering_amt ?? row.total_accepted ?? 0)
-    );
-    groups[d].grossFaceBn += face;
-    if (row.status === "actual") groups[d].actualFaceBn += face;
-    else groups[d].tentativeFaceBn += face;
-    groups[d].rows.push(row);
+
+    const faceBn = publicIssuanceBn(row);
+    groups[d].grossFaceBn += faceBn ?? 0;
+
+    if (row.status === "actual")
+      groups[d].actualFaceBn += faceBn ?? 0;
+    else
+      groups[d].tentativeFaceBn += faceBn ?? 0;
+
+    groups[d].rows.push({
+      ...row,
+      public_face_bn: faceBn,
+      offering_amt: storedMoneyBn(row.offering_amt),
+      total_accepted: storedMoneyBn(row.total_accepted),
+      soma_accepted: storedMoneyBn(row.soma_accepted)
+    });
   }
 
   return {
-    from, to,
-    note: "Server-side TreasuryDirect fetch is disabled because Cloudflare receives TLS 525. The dashboard browser fetches TreasuryDirect official JSON directly.",
+    from,
+    to,
+    note: "Treasury auction data is collected by GitHub Actions and stored in D1. Amounts returned by this endpoint are USD billions.",
     days: Object.values(groups)
   };
+}
+
+async function buildLiquidityCalendar(db, businessDays=5) {
+  const dates = nextBusinessDates(new Date(), businessDays);
+  if (!dates.length)
+    return { generatedAt: new Date().toISOString(), days: [] };
+
+  const from = dates[0];
+  const to = dates[dates.length - 1];
+
+  const r = await db.prepare(`
+    SELECT cusip,security_type,security_term,auction_date,issue_date,maturity_date,
+           offering_amt,total_accepted,soma_accepted,price_per_100,status,raw_json
+    FROM auctions
+    WHERE issue_date >= ? AND issue_date <= ?
+    ORDER BY issue_date, auction_date, security_type, security_term
+  `).bind(from,to).all();
+
+  const rowsByDate = new Map(dates.map(d => [d, []]));
+  for (const row of r.results || []) {
+    if (rowsByDate.has(row.issue_date))
+      rowsByDate.get(row.issue_date).push(row);
+  }
+
+  const days = dates.map(date => {
+    const rows = rowsByDate.get(date) || [];
+
+    let issuanceFaceBn = 0;
+    let actualIssuanceBn = 0;
+    let tentativeIssuanceBn = 0;
+    let cashProceedsBn = 0;
+    let cashKnown = rows.length > 0;
+
+    // Treasury announcements often repeat the same "publicly held
+    // maturities by type" figure across several auctions settling that day.
+    // Deduplicate by settlement date + maturing date + broad security type.
+    const maturityMap = new Map();
+
+    for (const row of rows) {
+      const face = publicIssuanceBn(row) ?? 0;
+      issuanceFaceBn += face;
+      if (row.status === "actual") actualIssuanceBn += face;
+      else tentativeIssuanceBn += face;
+
+      const raw = parseRaw(row.raw_json);
+      const px = firstFinite(
+        raw.adjusted_price,
+        raw.price_per_100,
+        row.price_per_100
+      );
+      const accrued = firstFinite(
+        raw.adjusted_accrued_interest_per_100,
+        raw.accrued_interest_per_100,
+        raw.unadjusted_accrued_interest_per_100
+      );
+
+      if (row.status === "actual" && px != null) {
+        // Principal purchase cash. For coupon securities add auction accrued
+        // interest when the source exposes it.
+        const settlementPer100 = px + (accrued ?? 0);
+        cashProceedsBn += face * settlementPer100 / 100;
+      } else {
+        cashKnown = false;
+      }
+
+      const matBn = rawMoneyBn(raw.est_pub_held_mat_by_type_amt);
+      const matDate = raw.maturing_date || raw.mat_date || row.issue_date;
+      if (matBn != null && matDate) {
+        const bucket = maturityBucket(row.security_type);
+        const key = `${date}|${matDate}|${bucket}`;
+        const old = maturityMap.get(key);
+        // Duplicate rows normally carry the same aggregate. max() is safer
+        // than summing repeated announcement metadata.
+        if (old == null || matBn > old)
+          maturityMap.set(key, matBn);
+      }
+    }
+
+    const publicMaturityBn = [...maturityMap.values()]
+      .reduce((a,b) => a+b, 0);
+
+    const hasMaturityEstimate = maturityMap.size > 0;
+    const netPrincipalDrainBn = hasMaturityEstimate
+      ? issuanceFaceBn - publicMaturityBn
+      : null;
+
+    const netCashEstimateBn = hasMaturityEstimate && cashKnown
+      ? cashProceedsBn - publicMaturityBn
+      : null;
+
+    return {
+      date,
+      issuanceFaceBn: round3(issuanceFaceBn),
+      actualIssuanceBn: round3(actualIssuanceBn),
+      tentativeIssuanceBn: round3(tentativeIssuanceBn),
+      publicMaturityBn: hasMaturityEstimate ? round3(publicMaturityBn) : null,
+      netPrincipalDrainBn: netPrincipalDrainBn == null ? null : round3(netPrincipalDrainBn),
+      cashProceedsBn: cashKnown ? round3(cashProceedsBn) : null,
+      netCashEstimateBn: netCashEstimateBn == null ? null : round3(netCashEstimateBn),
+      status: rows.some(r => r.status !== "actual") ? "tentative" : (rows.length ? "actual" : "none"),
+      risk: settlementRisk(netPrincipalDrainBn),
+      confidence: hasMaturityEstimate
+        ? (cashKnown ? "cash-estimate" : "principal-only")
+        : "maturity-pending",
+      rows: rows.map(row => ({
+        cusip: row.cusip,
+        security_type: row.security_type,
+        security_term: row.security_term,
+        auction_date: row.auction_date,
+        issue_date: row.issue_date,
+        status: row.status,
+        public_face_bn: publicIssuanceBn(row)
+      }))
+    };
+  });
+
+  return {
+    generatedAt: new Date().toISOString(),
+    from,
+    to,
+    methodology: {
+      issuance: "Public issuance = total accepted minus SOMA when auction results are available; otherwise announced offering amount.",
+      maturity: "Treasury announcement field: estimated publicly held maturing securities by type, deduplicated within each settlement date.",
+      netPrincipalDrain: "Positive = Treasury raises more principal than is redeemed (liquidity drain); negative = principal liquidity addition.",
+      netCashEstimate: "Price-adjusted auction proceeds minus public principal maturities. Coupon payments and some TIPS/indexation effects are not yet included.",
+      risk: "Dashboard heuristic: HIGH >= $75bn drain, MODERATE >= $25bn, LOW otherwise; PENDING when maturity estimate is unavailable."
+    },
+    days
+  };
+}
+
+function publicIssuanceBn(row) {
+  const offering = storedMoneyBn(row.offering_amt);
+  const accepted = storedMoneyBn(row.total_accepted);
+  const soma = storedMoneyBn(row.soma_accepted);
+
+  if (row.status === "actual" && accepted != null) {
+    const publicAccepted = accepted - (soma ?? 0);
+    if (publicAccepted > 0)
+      return publicAccepted;
+  }
+  return offering ?? accepted ?? 0;
+}
+
+function storedMoneyBn(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return null;
+
+  // Seamless migration: the first GitHub ingest revision accidentally
+  // stored raw dollars. New ingests store billions.
+  return Math.abs(n) > 1_000_000 ? n / 1e9 : n;
+}
+
+function rawMoneyBn(value) {
+  const n = Number(String(value ?? "").replaceAll(",", ""));
+  if (!Number.isFinite(n)) return null;
+  return Math.abs(n) > 1_000_000 ? n / 1e9 : n;
+}
+
+function usdToBn(value) {
+  const n = Number(String(value ?? "").replaceAll(",", ""));
+  return Number.isFinite(n) ? n / 1e9 : null;
+}
+
+function finiteOrNull(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+function firstFinite(...values) {
+  for (const value of values) {
+    const n = Number(value);
+    if (Number.isFinite(n)) return n;
+  }
+  return null;
+}
+
+function parseRaw(raw) {
+  if (!raw) return {};
+  try { return typeof raw === "string" ? JSON.parse(raw) : raw; }
+  catch { return {}; }
+}
+
+function maturityBucket(securityType) {
+  const s = String(securityType || "").toLowerCase();
+  if (s.includes("bill")) return "bill";
+  if (s.includes("tips")) return "tips";
+  if (s.includes("frn") || s.includes("floating")) return "frn";
+  if (s.includes("bond")) return "bond";
+  if (s.includes("note")) return "note";
+  return s || "unknown";
+}
+
+function nextBusinessDates(start, count) {
+  const out = [];
+  const d = new Date(Date.UTC(
+    start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate()
+  ));
+  while (out.length < count) {
+    const dow = d.getUTCDay();
+    if (dow !== 0 && dow !== 6)
+      out.push(isoDate(d));
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  return out;
+}
+
+function settlementRisk(netDrainBn) {
+  if (netDrainBn == null) return "PENDING";
+  if (netDrainBn >= 75) return "HIGH";
+  if (netDrainBn >= 25) return "MODERATE";
+  return "LOW";
+}
+
+function round3(v) {
+  return Number(Number(v).toFixed(3));
 }
 
 

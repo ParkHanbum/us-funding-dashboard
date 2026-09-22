@@ -12,3 +12,18 @@ article span,.grid span{font-size:12px;color:#8592a3}article strong{display:bloc
 .settlement-top{display:flex;justify-content:space-between;gap:15px}.settlement-top b{font-size:16px}.actual{color:#a5d6a7}.tentative{color:#ffd48a}
 .rows{margin-top:8px;color:#93a0b0;font-size:13px}.rows div{padding:3px 0}.note p{margin:7px 0}footer{margin-top:20px;color:#667486;font-size:11px}
 @media(max-width:850px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){header{flex-direction:column}.cards,.grid{grid-template-columns:1fr}}
+
+.table-wrap{overflow-x:auto;margin-top:12px}
+.liquidity-table{width:100%;border-collapse:collapse;min-width:850px}
+.liquidity-table th,.liquidity-table td{padding:12px 10px;border-top:1px solid #202b3a;text-align:right;white-space:nowrap}
+.liquidity-table th:first-child,.liquidity-table td:first-child{text-align:left}
+.liquidity-table th{font-size:11px;color:#7f8da0;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.liquidity-table td{font-size:13px;color:#d5dce6}
+.mini{font-size:10px;color:#718095;margin-top:3px}
+.drain{color:#ffb6a6!important;font-weight:700}
+.addition{color:#9dd8aa!important;font-weight:700}
+.risk{display:inline-block;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800;border:1px solid #334155}
+.risk-high{color:#ffb4a7;border-color:#7d3b35;background:#2a1515}
+.risk-moderate{color:#ffd48a;border-color:#715529;background:#261f12}
+.risk-low{color:#a5d6a7;border-color:#355c3a;background:#142118}
+.risk-pending{color:#aab5c3;border-color:#3a4656;background:#151b23}

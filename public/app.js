@@ -1,4 +1,3 @@
-
 const $=id=>document.getElementById(id);
 const pct=x=>x==null?"—":`${Number(x).toFixed(2)}%`;
 const bn=x=>x==null?"—":`$${Number(x).toFixed(3)}bn`;
@@ -27,69 +26,8 @@ async function loadSettlements(){
   const r=await fetch("/api/settlements",{cache:"no-store"});
   if(!r.ok) throw new Error(`settlements ${r.status}`);
   const x=await r.json();
-
-  const rows=(x.days||[]).flatMap(d=>(d.rows||[]).map(a=>({
-    ...a,
-    issue_date:d.settlementDate
-  })));
-
+  const rows=(x.days||[]).flatMap(d=>(d.rows||[]).map(a=>({...a,issue_date:d.settlementDate})));
   renderSettlementRows(rows,"GitHub Actions → D1");
-}
-
-function normalizeFiscalAuction(r){
-  const accepted=firstMoneyBn(r.total_accepted_amt,r.total_accepted);
-  const offering=firstMoneyBn(r.offering_amt,r.offering_amount);
-  const hasResult=accepted!=null && accepted>0;
-  return {
-    cusip:nullish(r.cusip),
-    security_type:nullish(r.security_type),
-    security_term:nullish(r.security_term),
-    auction_date:fdDate(r.auction_date || r.record_date),
-    issue_date:fdDate(r.issue_date),
-    maturity_date:fdDate(r.maturity_date),
-    offering_amt:offering,
-    public_face_bn:hasResult ? accepted : offering,
-    status:hasResult ? "actual" : "tentative"
-  };
-}
-
-function normalizeFiscalUpcoming(r){
-  return {
-    cusip:nullish(r.cusip),
-    security_type:nullish(r.security_type),
-    security_term:nullish(r.security_term),
-    auction_date:fdDate(r.auction_date),
-    issue_date:fdDate(r.issue_date),
-    maturity_date:fdDate(r.maturity_date),
-    offering_amt:firstMoneyBn(r.offering_amt,r.offering_amount),
-    public_face_bn:firstMoneyBn(r.offering_amt,r.offering_amount),
-    status:"tentative"
-  };
-}
-
-function rankStatus(s){ return s==="actual"?2:1; }
-function nullish(v){ return v==null || v==="null" || v==="" ? null : String(v); }
-function fdDate(v){
-  if(!v || v==="null") return null;
-  const s=String(v);
-  const m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(m) return `${m[1]}-${m[2]}-${m[3]}`;
-  return null;
-}
-function firstMoneyBn(...vals){
-  for(const v of vals){
-    if(v==null || v==="" || v==="null") continue;
-    const n=Number(String(v).replace(/,/g,""));
-    if(Number.isFinite(n)){
-      // FiscalData auction currency fields are dollar amounts.
-      return n/1e9;
-    }
-  }
-  return null;
-}
-function localIsoDate(d){
-  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
-  return `${y}-${m}-${day}`;
 }
 
 function renderSettlementRows(rows,source){
@@ -97,16 +35,20 @@ function renderSettlementRows(rows,source){
     $("settlements").innerHTML=`<div class="muted">향후 settlement를 찾지 못했습니다. · ${esc(source)}</div>`;
     return;
   }
+
   const groups={};
   for(const a of rows){
     const d=a.issue_date || a.settlementDate;
     if(!d) continue;
     if(!groups[d]) groups[d]={date:d,gross:0,actual:0,tentative:0,rows:[]};
-    const face=Number(a.public_face_bn ?? a.offering_amt ?? a.total_accepted ?? 0);
+
+    const face=Number(a.public_face_bn ?? a.offering_amt ?? 0);
     groups[d].gross+=Number.isFinite(face)?face:0;
-    if(a.status==="actual") groups[d].actual+=face||0; else groups[d].tentative+=face||0;
+    if(a.status==="actual") groups[d].actual+=face||0;
+    else groups[d].tentative+=face||0;
     groups[d].rows.push(a);
   }
+
   $("settlements").innerHTML=Object.values(groups).sort((a,b)=>a.date.localeCompare(b.date)).map(day=>`
     <div class="settlement-day">
       <div class="settlement-top">
@@ -118,13 +60,58 @@ function renderSettlementRows(rows,source){
           <span class="${a.status==="actual"?"actual":"tentative"}">${a.status==="actual"?"ACTUAL":"TENTATIVE"}</span>
           · ${esc(a.security_type)} ${esc(a.security_term)}
           · auction ${esc(a.auction_date)}
-          · $${Number(a.public_face_bn ?? a.offering_amt ?? a.total_accepted ?? 0).toFixed(1)}bn
+          · $${Number(a.public_face_bn ?? a.offering_amt ?? 0).toFixed(1)}bn
         </div>`).join("")}
         <div class="muted">Source: ${esc(source)}</div>
       </div>
     </div>`).join("");
 }
 
+async function loadLiquidity(){
+  const r=await fetch("/api/liquidity",{cache:"no-store"});
+  if(!r.ok) throw new Error(`liquidity ${r.status}`);
+  const x=await r.json();
+  const days=x.days||[];
+
+  if(!days.length){
+    $("liquidityRows").innerHTML=`<tr><td colspan="7" class="muted">No data</td></tr>`;
+    return;
+  }
+
+  $("liquidityRows").innerHTML=days.map(d=>{
+    const maturity=d.publicMaturityBn==null?"TBD":`$${Number(d.publicMaturityBn).toFixed(1)}bn`;
+    const net=d.netPrincipalDrainBn==null?"TBD":signedBn(d.netPrincipalDrainBn);
+    const cash=d.netCashEstimateBn==null?"—":signedBn(d.netCashEstimateBn);
+    const issue=`$${Number(d.issuanceFaceBn||0).toFixed(1)}bn`;
+    return `<tr>
+      <td><b>${esc(d.date)}</b></td>
+      <td>${issue}<div class="mini">${esc(d.status)}</div></td>
+      <td>${maturity}<div class="mini">${confidenceText(d.confidence)}</div></td>
+      <td class="${netClass(d.netPrincipalDrainBn)}">${net}</td>
+      <td>${cash}</td>
+      <td><span class="risk risk-${String(d.risk).toLowerCase()}">${esc(d.risk)}</span></td>
+      <td class="mini">${d.rows?.length||0} settlement(s)</td>
+    </tr>`;
+  }).join("");
+
+  $("liquidityMethod").textContent=
+    "Net principal: public issuance − estimated publicly-held maturities. Positive = liquidity drain. Cash estimate is price-adjusted and still excludes coupon-payment/TIPS details.";
+}
+
+function signedBn(v){
+  const n=Number(v);
+  if(!Number.isFinite(n)) return "—";
+  return `${n>=0?"+":"−"}$${Math.abs(n).toFixed(1)}bn`;
+}
+function netClass(v){
+  if(v==null) return "";
+  return Number(v)>0?"drain":"addition";
+}
+function confidenceText(v){
+  if(v==="cash-estimate") return "price-adjusted";
+  if(v==="principal-only") return "principal only";
+  return "maturity pending";
+}
 
 async function loadTreasuryTgaDirect(){
   const url="https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/operating_cash_balance?sort=-record_date&page%5Bsize%5D=80";
@@ -149,7 +136,17 @@ async function loadTreasuryTgaDirect(){
 }
 
 async function load(){
-  try{await Promise.all([loadSummary(),loadSettlements(),loadTreasuryTgaDirect()])}
-  catch(e){$("status").textContent="DATA ERROR"; $("freshness").textContent=String(e)}
+  try{
+    await Promise.all([
+      loadSummary(),
+      loadSettlements(),
+      loadLiquidity(),
+      loadTreasuryTgaDirect()
+    ]);
+  }catch(e){
+    $("status").textContent="DATA ERROR";
+    $("freshness").textContent=String(e);
+  }
 }
-load(); setInterval(load,300000);
+load();
+setInterval(load,300000);
