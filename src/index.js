@@ -524,13 +524,26 @@ async function buildLiquidityCalendar(db, businessDays=5) {
       }
 
       const matBn = rawMoneyBn(raw.est_pub_held_mat_by_type_amt);
-      const matDate = raw.maturing_date || raw.mat_date || row.issue_date;
-      if (matBn != null && matDate) {
+      const matDate = raw.maturing_date || raw.mat_date || null;
+      const matSource = raw.maturity_source || null;
+
+      // A zero that came only from enrichment was the source of the false
+      // "$0.0bn maturity" bug. Trust zero only when it came from the
+      // TreasuryDirect offering announcement itself. A positive fallback is
+      // still useful if the announcement field is temporarily unavailable.
+      const maturityUsable =
+        matBn != null &&
+        matDate != null &&
+        (matSource === "treasurydirect-announcement" || matBn > 0);
+
+      if (maturityUsable) {
         const bucket = maturityBucket(row.security_type);
         const key = `${date}|${matDate}|${bucket}`;
         const old = maturityMap.get(key);
-        // Duplicate rows normally carry the same aggregate. max() is safer
-        // than summing repeated announcement metadata.
+
+        // The same settlement-day maturity aggregate is repeated on multiple
+        // auction announcements. Use max(), not sum(), inside a Bill/Coupon
+        // bucket to avoid double counting.
         if (old == null || matBn > old)
           maturityMap.set(key, matBn);
       }
@@ -559,9 +572,9 @@ async function buildLiquidityCalendar(db, businessDays=5) {
       netCashEstimateBn: netCashEstimateBn == null ? null : round3(netCashEstimateBn),
       status: rows.some(r => r.status !== "actual") ? "tentative" : (rows.length ? "actual" : "none"),
       risk: settlementRisk(netPrincipalDrainBn),
-      confidence: hasMaturityEstimate
-        ? (cashKnown ? "cash-estimate" : "principal-only")
-        : "maturity-pending",
+      maturitySource: hasMaturityEstimate ? "Treasury announcement" : null,
+      cashConfidence: cashKnown ? "price-adjusted" : null,
+      confidence: hasMaturityEstimate ? "official-maturity" : "maturity-pending",
       rows: rows.map(row => ({
         cusip: row.cusip,
         security_type: row.security_type,
@@ -580,7 +593,7 @@ async function buildLiquidityCalendar(db, businessDays=5) {
     to,
     methodology: {
       issuance: "Public issuance = total accepted minus SOMA when auction results are available; otherwise announced offering amount.",
-      maturity: "Treasury announcement field: estimated publicly held maturing securities by type, deduplicated within each settlement date.",
+      maturity: "TreasuryDirect offering-announcement field: estimated publicly held maturing securities by type. Repeated values are deduplicated by settlement date and Bill/Coupon bucket.",
       netPrincipalDrain: "Positive = Treasury raises more principal than is redeemed (liquidity drain); negative = principal liquidity addition.",
       netCashEstimate: "Price-adjusted auction proceeds minus public principal maturities. Coupon payments and some TIPS/indexation effects are not yet included.",
       risk: "Dashboard heuristic: HIGH >= $75bn drain, MODERATE >= $25bn, LOW otherwise; PENDING when maturity estimate is unavailable."
@@ -643,12 +656,13 @@ function parseRaw(raw) {
 
 function maturityBucket(securityType) {
   const s = String(securityType || "").toLowerCase();
-  if (s.includes("bill")) return "bill";
-  if (s.includes("tips")) return "tips";
-  if (s.includes("frn") || s.includes("floating")) return "frn";
-  if (s.includes("bond")) return "bond";
-  if (s.includes("note")) return "note";
-  return s || "unknown";
+
+  // Treasury's own cash/pay-down presentation separates Bills from
+  // Coupons; Coupons includes Notes, Bonds, FRNs, and TIPS.
+  if (s.includes("bill"))
+    return "bill";
+
+  return "coupon";
 }
 
 function nextBusinessDates(start, count) {

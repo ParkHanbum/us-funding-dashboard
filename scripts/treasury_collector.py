@@ -91,7 +91,12 @@ def date_only(value):
 def number(value):
     if value is None:
         return None
-    s = str(value).replace(",", "").strip()
+    s = (
+        str(value)
+        .replace(",", "")
+        .replace("$", "")
+        .strip()
+    )
     if not s or s.lower() == "null":
         return None
     try:
@@ -100,8 +105,55 @@ def number(value):
         return None
 
 
-def td_normalize(row, status):
+def normalized_key(key):
+    return "".join(ch for ch in str(key).lower() if ch.isalnum())
+
+
+def find_value_by_key(row, predicate):
+    for key, value in row.items():
+        if value is None:
+            continue
+        if predicate(normalized_key(key)):
+            return value
+    return None
+
+
+def td_maturity_metadata(row):
+    # TreasuryDirect JSON has changed field naming over time. Match the
+    # semantic field instead of depending on one exact camelCase spelling.
+    #
+    # Examples represented by the official Auction Query fields:
+    #   Estimated Amount of Publicly Held Maturing Securities by Type
+    #   Maturing Date
+    #   SOMA Holdings Maturing
+    amount_raw = find_value_by_key(
+        row,
+        lambda k: (
+            "maturing" in k
+            and "held" in k
+            and ("pub" in k or "public" in k)
+            and ("est" in k or "estimated" in k)
+        ),
+    )
+    date_raw = find_value_by_key(
+        row,
+        lambda k: "maturing" in k and "date" in k,
+    )
+    soma_raw = find_value_by_key(
+        row,
+        lambda k: "soma" in k and "maturing" in k,
+    )
+
     return {
+        "maturing_date": date_only(date_raw),
+        "est_pub_held_mat_by_type_amt": number(amount_raw),
+        "soma_holdings_maturing": number(soma_raw),
+    }
+
+
+def td_normalize(row, status):
+    maturity = td_maturity_metadata(row)
+    result = {
         "cusip": row.get("cusip"),
         "security_type": row.get("securityType"),
         "security_term": row.get("securityTerm"),
@@ -117,7 +169,13 @@ def td_normalize(row, status):
             or row.get("highPrice")
         ),
         "status": status,
+        **maturity,
     }
+
+    if maturity["est_pub_held_mat_by_type_amt"] is not None:
+        result["maturity_source"] = "treasurydirect-announcement"
+
+    return result
 
 
 def first(row, *keys):
@@ -161,6 +219,11 @@ def fiscal_normalize(row):
         "soma_holdings_maturing": number(first(
             row, "soma_holdings", "soma_holdings_maturing"
         )),
+        "maturity_source": (
+            "fiscaldata"
+            if first(row, "est_pub_held_mat_by_type_amt") is not None
+            else None
+        ),
         "reopening": first(row, "reopening"),
         "status": "actual" if accepted is not None and accepted > 0 else "tentative",
     }
@@ -168,12 +231,50 @@ def fiscal_normalize(row):
 
 def merge_rows(primary, extra):
     out = dict(primary)
+    prefer_existing = {
+        "maturing_date",
+        "est_pub_held_mat_by_type_amt",
+        "soma_holdings_maturing",
+        "maturity_source",
+    }
+
     for k, v in extra.items():
-        if v is not None:
-            # TreasuryDirect result status wins once completed.
-            if k == "status" and out.get("status") == "actual":
-                continue
-            out[k] = v
+        if v is None:
+            continue
+
+        # TreasuryDirect announcement metadata is the authoritative source
+        # for settlement-day publicly-held maturities. Do not let a later
+        # FiscalData enrichment overwrite it with 0/null-like values.
+        if k in prefer_existing and out.get(k) is not None:
+            continue
+
+        # Completed TreasuryDirect result status wins.
+        if k == "status" and out.get("status") == "actual":
+            continue
+
+        out[k] = v
+    return out
+
+
+def merge_announcement_into_result(result_row, announcement_row):
+    out = dict(result_row)
+
+    # Preserve result-only fields (accepted amounts, auction price, ACTUAL
+    # status), but carry announcement-only maturity metadata forward.
+    for key in (
+        "maturing_date",
+        "est_pub_held_mat_by_type_amt",
+        "soma_holdings_maturing",
+        "maturity_source",
+    ):
+        value = announcement_row.get(key)
+        if value is not None:
+            out[key] = value
+
+    # Offering amount can be present in the announcement before results.
+    if out.get("offering_amt") is None and announcement_row.get("offering_amt") is not None:
+        out["offering_amt"] = announcement_row["offering_amt"]
+
     return out
 
 
@@ -203,10 +304,18 @@ def main():
         row = td_normalize(item, "tentative")
         if not row["cusip"] or not row["auction_date"]:
             continue
+
         key = (row["cusip"], row["auction_date"])
         old = dedup.get(key)
-        if old is None or old.get("status") != "actual":
+
+        if old is None:
             dedup[key] = row
+        elif old.get("status") == "actual":
+            # Critical: the results endpoint has the auction result, while
+            # the announcement carries settlement-day maturity metadata.
+            dedup[key] = merge_announcement_into_result(old, row)
+        else:
+            dedup[key] = merge_rows(old, row)
 
     fiscal_count = 0
     fiscal_error = None
@@ -253,6 +362,11 @@ def main():
         "fiscaldata_rows": fiscal_count,
         "fiscaldata_error": fiscal_error,
         "dedup_rows": len(all_rows),
+        "maturity_metadata_rows": sum(
+            1 for row in all_rows
+            if row.get("maturity_source") == "treasurydirect-announcement"
+            and row.get("est_pub_held_mat_by_type_amt") is not None
+        ),
         "batches": len(responses),
         "accepted": total_accepted,
         "skipped": total_skipped,
