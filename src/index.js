@@ -54,6 +54,71 @@ export default {
       return json({ metric, data: result.results.reverse() });
     }
 
+
+    if (url.pathname === "/api/treasury-ingest" && request.method === "POST") {
+      const auth = request.headers.get("authorization");
+      if (!env.TREASURY_INGEST_TOKEN ||
+          auth !== `Bearer ${env.TREASURY_INGEST_TOKEN}`) {
+        return json({ error: "unauthorized" }, 401);
+      }
+
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return json({ error: "invalid_json" }, 400);
+      }
+
+      if (!Array.isArray(body?.auctions)) {
+        return json({ error: "auctions_array_required" }, 400);
+      }
+
+      let accepted = 0;
+      let skipped = 0;
+      const errors = [];
+
+      for (const row of body.auctions) {
+        try {
+          const normalized = {
+            cusip: row.cusip,
+            security_type: row.security_type,
+            security_term: row.security_term,
+            auction_date: row.auction_date,
+            issue_date: row.issue_date,
+            maturity_date: row.maturity_date,
+            offering_amt: row.offering_amt,
+            total_accepted: row.total_accepted,
+            soma_accepted: row.soma_accepted,
+            unadj_price: row.price_per_100,
+            raw: row.raw ?? row
+          };
+
+          if (!normalized.cusip || !normalized.auction_date) {
+            skipped++;
+            continue;
+          }
+
+          await upsertAuction(
+            env.DB,
+            normalized,
+            row.status === "actual" ? "actual" : "tentative"
+          );
+          accepted++;
+        } catch (e) {
+          errors.push(String(e?.message || e));
+        }
+      }
+
+      return json({
+        ok: errors.length === 0,
+        accepted,
+        skipped,
+        errors: errors.slice(0, 10),
+        source: body.source || "github-actions",
+        collected_at: body.collected_at || null
+      }, errors.length ? 207 : 200);
+    }
+
     if (url.pathname === "/api/refresh" && request.method === "POST") {
       const auth = request.headers.get("authorization");
       if (!env.REFRESH_TOKEN || auth !== `Bearer ${env.REFRESH_TOKEN}`)

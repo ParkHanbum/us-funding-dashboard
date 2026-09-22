@@ -24,51 +24,16 @@ async function loadSummary(){
 }
 
 async function loadSettlements(){
-  // FiscalData works from the browser in this deployment (daily TGA already proves it).
-  // Use its official auctions dataset instead of TreasuryDirect, which is blocked by TLS/CORS.
-  const base="https://api.fiscaldata.treasury.gov/services/api/fiscal_service";
-  const auctionsUrl=base+"/v1/accounting/od/auctions_query?sort=-auction_date&page%5Bsize%5D=250";
-  const upcomingUrl=base+"/v1/accounting/od/upcoming_auctions?sort=auction_date&page%5Bsize%5D=100";
-
-  try{
-    const [aRes,uRes]=await Promise.all([
-      fetch(auctionsUrl,{cache:"no-store"}),
-      fetch(upcomingUrl,{cache:"no-store"})
-    ]);
-    if(!aRes.ok) throw new Error(`FiscalData auctions ${aRes.status}`);
-
-    const actualBody=await aRes.json();
-    const upcomingBody=uRes.ok ? await uRes.json() : {data:[]};
-
-    const rows=[];
-    for(const r of actualBody.data||[]) rows.push(normalizeFiscalAuction(r));
-    for(const r of upcomingBody.data||[]) rows.push(normalizeFiscalUpcoming(r));
-
-    const dedup=new Map();
-    for(const r of rows){
-      if(!r.issue_date) continue;
-      const key=`${r.cusip||r.security_type+"-"+r.security_term}|${r.auction_date||""}|${r.issue_date}`;
-      const old=dedup.get(key);
-      if(!old || rankStatus(r.status)>rankStatus(old.status)) dedup.set(key,r);
-    }
-
-    const today=new Date();
-    const from=localIsoDate(today);
-    const to=localIsoDate(new Date(today.getTime()+12*86400000));
-    const future=[...dedup.values()]
-      .filter(r=>r.issue_date>=from && r.issue_date<=to)
-      .sort((a,b)=>a.issue_date.localeCompare(b.issue_date) || String(a.security_term).localeCompare(String(b.security_term)));
-
-    renderSettlementRows(future,"Treasury FiscalData live");
-    return;
-  }catch(e){
-    console.warn("Direct FiscalData auction fetch failed; falling back to Worker cache",e);
-  }
-
   const r=await fetch("/api/settlements",{cache:"no-store"});
+  if(!r.ok) throw new Error(`settlements ${r.status}`);
   const x=await r.json();
-  const rows=(x.days||[]).flatMap(d=>(d.rows||[]).map(a=>({...a,issue_date:d.settlementDate})));
-  renderSettlementRows(rows,"Worker cache");
+
+  const rows=(x.days||[]).flatMap(d=>(d.rows||[]).map(a=>({
+    ...a,
+    issue_date:d.settlementDate
+  })));
+
+  renderSettlementRows(rows,"GitHub Actions → D1");
 }
 
 function normalizeFiscalAuction(r){
