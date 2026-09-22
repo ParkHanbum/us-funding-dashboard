@@ -54,70 +54,90 @@ export default {
       return json({ metric, data: result.results.reverse() });
     }
 
+// Replace ONLY the body of your existing /api/treasury-ingest endpoint
+// with this batched D1 implementation.
+//
+// Keep the existing authorization check and body parsing if you prefer.
+// The important change is: build prepared statements, then env.DB.batch().
 
-    if (url.pathname === "/api/treasury-ingest" && request.method === "POST") {
-      const auth = request.headers.get("authorization");
-      if (!env.TREASURY_INGEST_TOKEN ||
-          auth !== `Bearer ${env.TREASURY_INGEST_TOKEN}`) {
-        return json({ error: "unauthorized" }, 401);
-      }
+if (url.pathname === "/api/treasury-ingest" && request.method === "POST") {
+  const auth = request.headers.get("authorization");
+  if (!env.TREASURY_INGEST_TOKEN ||
+      auth !== `Bearer ${env.TREASURY_INGEST_TOKEN}`) {
+    return json({ error: "unauthorized" }, 401);
+  }
 
-      let body;
-      try {
-        body = await request.json();
-      } catch {
-        return json({ error: "invalid_json" }, 400);
-      }
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: "invalid_json" }, 400);
+  }
 
-      if (!Array.isArray(body?.auctions)) {
-        return json({ error: "auctions_array_required" }, 400);
-      }
+  if (!Array.isArray(body?.auctions)) {
+    return json({ error: "auctions_array_required" }, 400);
+  }
 
-      let accepted = 0;
-      let skipped = 0;
-      const errors = [];
+  const sql = `
+    INSERT INTO auctions(
+      cusip,security_type,security_term,auction_date,issue_date,maturity_date,
+      offering_amt,total_accepted,soma_accepted,price_per_100,status,raw_json
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
+    ON CONFLICT(cusip,auction_date) DO UPDATE SET
+      security_type=excluded.security_type,
+      security_term=excluded.security_term,
+      issue_date=excluded.issue_date,
+      maturity_date=excluded.maturity_date,
+      offering_amt=COALESCE(excluded.offering_amt,auctions.offering_amt),
+      total_accepted=COALESCE(excluded.total_accepted,auctions.total_accepted),
+      soma_accepted=COALESCE(excluded.soma_accepted,auctions.soma_accepted),
+      price_per_100=COALESCE(excluded.price_per_100,auctions.price_per_100),
+      status=CASE WHEN excluded.status='actual' THEN 'actual' ELSE auctions.status END,
+      fetched_at=datetime('now'),
+      raw_json=excluded.raw_json
+  `;
 
-      for (const row of body.auctions) {
-        try {
-          const normalized = {
-            cusip: row.cusip,
-            security_type: row.security_type,
-            security_term: row.security_term,
-            auction_date: row.auction_date,
-            issue_date: row.issue_date,
-            maturity_date: row.maturity_date,
-            offering_amt: row.offering_amt,
-            total_accepted: row.total_accepted,
-            soma_accepted: row.soma_accepted,
-            unadj_price: row.price_per_100,
-            raw: row.raw ?? row
-          };
+  const statements = [];
+  let skipped = 0;
 
-          if (!normalized.cusip || !normalized.auction_date) {
-            skipped++;
-            continue;
-          }
-
-          await upsertAuction(
-            env.DB,
-            normalized,
-            row.status === "actual" ? "actual" : "tentative"
-          );
-          accepted++;
-        } catch (e) {
-          errors.push(String(e?.message || e));
-        }
-      }
-
-      return json({
-        ok: errors.length === 0,
-        accepted,
-        skipped,
-        errors: errors.slice(0, 10),
-        source: body.source || "github-actions",
-        collected_at: body.collected_at || null
-      }, errors.length ? 207 : 200);
+  for (const row of body.auctions) {
+    if (!row?.cusip || !row?.auction_date) {
+      skipped++;
+      continue;
     }
+
+    statements.push(
+      env.DB.prepare(sql).bind(
+        row.cusip,
+        row.security_type ?? null,
+        row.security_term ?? null,
+        row.auction_date,
+        row.issue_date ?? null,
+        row.maturity_date ?? null,
+        row.offering_amt ?? null,
+        row.total_accepted ?? null,
+        row.soma_accepted ?? null,
+        row.price_per_100 ?? null,
+        row.status === "actual" ? "actual" : "tentative",
+        JSON.stringify(row)
+      )
+    );
+  }
+
+  if (statements.length) {
+    // One D1 round trip instead of N sequential writes.
+    await env.DB.batch(statements);
+  }
+
+  return json({
+    ok: true,
+    accepted: statements.length,
+    skipped,
+    source: body.source || "github-actions",
+    batch: body.batch ?? null,
+    collected_at: body.collected_at || null
+  });
+}
 
     if (url.pathname === "/api/refresh" && request.method === "POST") {
       const auth = request.headers.get("authorization");
