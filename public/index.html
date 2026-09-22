@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>U.S. Funding Stress Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <p class="eyebrow">U.S. MONEY MARKETS · AUTO UPDATE</p>
+      <h1>Funding Stress Dashboard</h1>
+      <p>NY Fed · U.S. Treasury · Federal Reserve 공식 데이터</p>
+    </div>
+    <div id="status" class="pill">Loading</div>
+  </header>
+
+  <section class="cards">
+    <article><span>SOFR</span><strong id="sofr">—</strong><small id="sofrDate">—</small></article>
+    <article><span>EFFR</span><strong id="effr">—</strong><small id="effrDate">—</small></article>
+    <article><span>IORB</span><strong id="iorb">—</strong><small id="iorbDate">—</small></article>
+    <article><span>SOFR − IORB</span><strong id="sofrIorb">—</strong><small>basis points</small></article>
+    <article><span>ON RRP</span><strong id="rrp">—</strong><small id="rrpDate">—</small></article>
+    <article><span>Standing Repo</span><strong id="srf">—</strong><small id="srfDate">—</small></article>
+    <article><span>TGA</span><strong id="tga">—</strong><small id="tgaDate">—</small></article>
+    <article><span>Reserve balances</span><strong id="reserves">—</strong><small id="reservesDate">—</small></article>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div><h2>Funding spreads</h2><p>정책금리와 단기자금 가격</p></div>
+      <div id="freshness" class="muted">—</div>
+    </div>
+    <div class="grid">
+      <div><span>SOFR − EFFR</span><b id="sofrEffr">—</b></div>
+      <div><span>SOFR − IORB</span><b id="sofrIorb2">—</b></div>
+      <div><span>EFFR − IORB</span><b id="effrIorb">—</b></div>
+      <div><span>SOFR p99</span><b id="p99">—</b></div>
+      <div><span>TGCR</span><b id="tgcr">—</b></div>
+      <div><span>BGCR</span><b id="bgcr">—</b></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>TGA changes</h2>
+    <div class="grid">
+      <div><span>1 business day</span><b id="tga1d">—</b></div>
+      <div><span>5 business days</span><b id="tga5d">—</b></div>
+      <div><span>Week over week</span><b id="tgaWow">—</b></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div><h2>Upcoming Treasury settlements</h2><p>Auction date와 settlement date를 분리해서 표시</p></div>
+    </div>
+    <div id="settlements" class="settlements">Loading…</div>
+  </section>
+
+  <section class="panel note">
+    <h2>v2.4 status</h2>
+    <p>자동 수집: SOFR · EFFR · TGCR · BGCR · IORB · TGA · Reserves · ON RRP · Standing Repo. Treasury auction/settlement는 브라우저에서 U.S. Treasury FiscalData 공식 API를 live 조회.</p>
+    <p>다음 모듈: CUSIP별 public maturity/redemption → true net cash → 5영업일 risk heatmap.</p>
+  </section>
+
+  <footer>Worker Cron: hourly · Browser refresh: 5 minutes</footer>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>
