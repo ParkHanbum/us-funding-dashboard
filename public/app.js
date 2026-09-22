@@ -74,28 +74,60 @@ async function loadLiquidity(){
   const days=x.days||[];
 
   if(!days.length){
-    $("liquidityRows").innerHTML=`<tr><td colspan="7" class="muted">No data</td></tr>`;
+    $("liquidityRows").innerHTML=`<tr><td colspan="8" class="muted">No data</td></tr>`;
     return;
   }
 
   $("liquidityRows").innerHTML=days.map(d=>{
-    const maturity=d.publicMaturityBn==null?"TBD":`$${Number(d.publicMaturityBn).toFixed(1)}bn`;
-    const net=d.netPrincipalDrainBn==null?"TBD":signedBn(d.netPrincipalDrainBn);
-    const cash=d.netCashEstimateBn==null?"—":signedBn(d.netCashEstimateBn);
+    const maturity=d.publicMaturityBn==null
+      ?"TBD":`$${Number(d.publicMaturityBn).toFixed(1)}bn`;
+    const coupon=d.couponPaymentsBn==null
+      ?"TBD":`$${Number(d.couponPaymentsBn).toFixed(2)}bn`;
+    const net=d.netPrincipalDrainBn==null
+      ?"TBD":signedBn(d.netPrincipalDrainBn);
+    const cash=d.netCashAfterCouponsBn==null
+      ?"—":signedBn(d.netCashAfterCouponsBn);
     const issue=`$${Number(d.issuanceFaceBn||0).toFixed(1)}bn`;
+
+    const riskSub=d.riskScore==null
+      ?"cash-flow pending"
+      :`score ${d.riskScore}`;
+
+    const coverage=[
+      `${d.rows?.length||0} settlement(s)`,
+      d.couponBreakdown?.mspdRecordDate
+        ?`MSPD ${d.couponBreakdown.mspdRecordDate}`:null,
+      d.couponBreakdown?.somaAsOf
+        ?`SOMA ${d.couponBreakdown.somaAsOf}`:null
+    ].filter(Boolean).join("<br>");
+
     return `<tr>
       <td><b>${esc(d.date)}</b></td>
       <td>${issue}<div class="mini">${esc(d.status)}</div></td>
-      <td>${maturity}<div class="mini">${confidenceText(d.confidence)}</div></td>
+      <td>${maturity}<div class="mini">${maturityLabel(d)}</div></td>
+      <td>${coupon}<div class="mini">${couponLabel(d)}</div></td>
       <td class="${netClass(d.netPrincipalDrainBn)}">${net}</td>
-      <td>${cash}</td>
-      <td><span class="risk risk-${String(d.risk).toLowerCase()}">${esc(d.risk)}</span></td>
-      <td class="mini">${d.rows?.length||0} settlement(s)</td>
+      <td class="${netClass(d.netCashAfterCouponsBn)}">${cash}<div class="mini">${cashLabel(d)}</div></td>
+      <td>
+        <span class="risk risk-${String(d.risk).toLowerCase()}">${esc(d.risk)}</span>
+        <div class="mini">${esc(riskSub)}</div>
+      </td>
+      <td class="mini">${coverage}</td>
     </tr>`;
   }).join("");
 
-  $("liquidityMethod").textContent=
-    "Net principal: public issuance − estimated publicly-held maturities. Positive = liquidity drain. Cash estimate is price-adjusted and still excludes coupon-payment/TIPS details.";
+  const f=x.fundingContext||{};
+  const overlay=[
+    `SOFR-IORB ${f.sofrIorbBp==null?"—":bp(f.sofrIorbBp)}`,
+    `SRF ${f.srfBn==null?"—":bn(f.srfBn)}`,
+    `ON RRP ${f.onRrpBn==null?"—":bn(f.onRrpBn)}`,
+    `Reserves ${f.reservesBn==null?"—":bn(f.reservesBn)}`
+  ].join(" · ");
+
+  $("liquidityMethod").innerHTML=
+    `Net cash: auction settlement cash − publicly-held maturity − modeled coupon payments. `+
+    `Positive = liquidity drain.<br><span class="mini">Funding overlay: ${esc(overlay)} · `+
+    `FRN coupon payments are not yet included.</span>`;
 }
 
 function signedBn(v){
@@ -107,10 +139,22 @@ function netClass(v){
   if(v==null) return "";
   return Number(v)>0?"drain":"addition";
 }
-function confidenceText(v){
-  if(v==="cash-estimate") return "price-adjusted";
-  if(v==="principal-only") return "principal only";
-  return "maturity pending";
+function maturityLabel(d){
+  return d.publicMaturityBn==null
+    ? "maturity pending"
+    : (d.maturitySource || "Treasury maturity estimate");
+}
+function couponLabel(d){
+  if(d.couponPaymentsBn==null) return "coupon pending";
+  const tips=Number(d.couponBreakdown?.tipsBn||0);
+  return tips>0
+    ?`MSPD/SOMA · TIPS $${tips.toFixed(2)}bn`
+    :"MSPD/SOMA";
+}
+function cashLabel(d){
+  return d.netCashAfterCouponsBn==null
+    ? ""
+    : (d.cashConfidence || "estimate");
 }
 
 async function loadTreasuryTgaDirect(){

@@ -72,11 +72,15 @@ export default {
         return json({ error: "invalid_json" }, 400);
       }
 
-      if (!Array.isArray(body?.auctions)) {
-        return json({ error: "auctions_array_required" }, 400);
+      const auctions = Array.isArray(body?.auctions) ? body.auctions : [];
+      const couponSchedule = Array.isArray(body?.coupon_schedule)
+        ? body.coupon_schedule : [];
+
+      if (!auctions.length && !couponSchedule.length) {
+        return json({ error: "nothing_to_ingest" }, 400);
       }
 
-      const sql = `
+      const auctionSql = `
         INSERT INTO auctions(
           cusip,security_type,security_term,auction_date,issue_date,maturity_date,
           offering_amt,total_accepted,soma_accepted,price_per_100,status,raw_json
@@ -95,19 +99,28 @@ export default {
           raw_json=excluded.raw_json
       `;
 
+      const metricSql = `
+        INSERT INTO metrics(source,metric,observed_at,value,unit,raw_json)
+        VALUES(?,?,?,?,?,?)
+        ON CONFLICT(metric,observed_at) DO UPDATE SET
+          source=excluded.source,
+          value=excluded.value,
+          unit=excluded.unit,
+          fetched_at=datetime('now'),
+          raw_json=excluded.raw_json
+      `;
+
       const statements = [];
       let skipped = 0;
 
-      for (const row of body.auctions) {
+      for (const row of auctions) {
         if (!row?.cusip || !row?.auction_date) {
           skipped++;
           continue;
         }
 
-        // Treasury collector sends currency in raw USD.
-        // D1's historical dashboard convention is USD billions.
         statements.push(
-          env.DB.prepare(sql).bind(
+          env.DB.prepare(auctionSql).bind(
             row.cusip,
             row.security_type ?? null,
             row.security_term ?? null,
@@ -124,12 +137,35 @@ export default {
         );
       }
 
+      let couponAccepted = 0;
+      for (const row of couponSchedule) {
+        const value = finiteOrNull(row?.coupon_payments_bn);
+        if (!row?.date || value == null) {
+          skipped++;
+          continue;
+        }
+
+        statements.push(
+          env.DB.prepare(metricSql).bind(
+            "TREASURY_GITHUB",
+            "TREASURY_COUPON_PAYMENTS",
+            row.date,
+            value,
+            "USD bn",
+            JSON.stringify(row)
+          )
+        );
+        couponAccepted++;
+      }
+
       if (statements.length)
         await env.DB.batch(statements);
 
       return json({
         ok: true,
-        accepted: statements.length,
+        accepted: auctions.length - skipped + couponAccepted,
+        auctionAccepted: auctions.length,
+        couponAccepted,
         skipped,
         source: body.source || "github-actions",
         batch: body.batch ?? null,
@@ -461,29 +497,52 @@ async function buildSettlementCalendar(db, daysAhead=12) {
 }
 
 async function buildLiquidityCalendar(db, businessDays=5) {
-  const dates = nextBusinessDates(new Date(), businessDays);
+  const dates = nextBusinessDatesNY(businessDays);
   if (!dates.length)
     return { generatedAt: new Date().toISOString(), days: [] };
 
   const from = dates[0];
   const to = dates[dates.length - 1];
 
-  const r = await db.prepare(`
-    SELECT cusip,security_type,security_term,auction_date,issue_date,maturity_date,
-           offering_amt,total_accepted,soma_accepted,price_per_100,status,raw_json
-    FROM auctions
-    WHERE issue_date >= ? AND issue_date <= ?
-    ORDER BY issue_date, auction_date, security_type, security_term
-  `).bind(from,to).all();
+  const [auctionResult, couponResult, funding] = await Promise.all([
+    db.prepare(`
+      SELECT cusip,security_type,security_term,auction_date,issue_date,maturity_date,
+             offering_amt,total_accepted,soma_accepted,price_per_100,status,raw_json
+      FROM auctions
+      WHERE issue_date >= ? AND issue_date <= ?
+      ORDER BY issue_date, auction_date, security_type, security_term
+    `).bind(from,to).all(),
+
+    db.prepare(`
+      SELECT observed_at,value,raw_json,fetched_at
+      FROM metrics
+      WHERE metric='TREASURY_COUPON_PAYMENTS'
+        AND observed_at >= ? AND observed_at <= ?
+      ORDER BY observed_at
+    `).bind(from,to).all(),
+
+    currentFundingContext(db)
+  ]);
 
   const rowsByDate = new Map(dates.map(d => [d, []]));
-  for (const row of r.results || []) {
+  for (const row of auctionResult.results || []) {
     if (rowsByDate.has(row.issue_date))
       rowsByDate.get(row.issue_date).push(row);
   }
 
+  const couponByDate = new Map();
+  for (const row of couponResult.results || []) {
+    const raw = parseRaw(row.raw_json);
+    couponByDate.set(row.observed_at, {
+      value: Number(row.value),
+      raw,
+      fetched_at: row.fetched_at
+    });
+  }
+
   const days = dates.map(date => {
     const rows = rowsByDate.get(date) || [];
+    const coupon = couponByDate.get(date) || null;
 
     let issuanceFaceBn = 0;
     let actualIssuanceBn = 0;
@@ -491,9 +550,6 @@ async function buildLiquidityCalendar(db, businessDays=5) {
     let cashProceedsBn = 0;
     let cashKnown = rows.length > 0;
 
-    // Treasury announcements often repeat the same "publicly held
-    // maturities by type" figure across several auctions settling that day.
-    // Deduplicate by settlement date + maturing date + broad security type.
     const maturityMap = new Map();
 
     for (const row of rows) {
@@ -503,22 +559,20 @@ async function buildLiquidityCalendar(db, businessDays=5) {
       else tentativeIssuanceBn += face;
 
       const raw = parseRaw(row.raw_json);
-      const px = firstFinite(
+      const cashPrice = firstFinite(
+        raw.cash_price_per_100,
         raw.adjusted_price,
         raw.price_per_100,
         row.price_per_100
       );
-      const accrued = firstFinite(
+      const cashAccrued = firstFinite(
+        raw.cash_accrued_interest_per_100,
         raw.adjusted_accrued_interest_per_100,
-        raw.accrued_interest_per_100,
-        raw.unadjusted_accrued_interest_per_100
-      );
+        raw.accrued_interest_per_100
+      ) ?? 0;
 
-      if (row.status === "actual" && px != null) {
-        // Principal purchase cash. For coupon securities add auction accrued
-        // interest when the source exposes it.
-        const settlementPer100 = px + (accrued ?? 0);
-        cashProceedsBn += face * settlementPer100 / 100;
+      if (row.status === "actual" && cashPrice != null) {
+        cashProceedsBn += face * (cashPrice + cashAccrued) / 100;
       } else {
         cashKnown = false;
       }
@@ -527,10 +581,6 @@ async function buildLiquidityCalendar(db, businessDays=5) {
       const matDate = raw.maturing_date || raw.mat_date || null;
       const matSource = raw.maturity_source || null;
 
-      // A zero that came only from enrichment was the source of the false
-      // "$0.0bn maturity" bug. Trust zero only when it came from the
-      // TreasuryDirect offering announcement itself. A positive fallback is
-      // still useful if the announcement field is temporarily unavailable.
       const maturityUsable =
         matBn != null &&
         matDate != null &&
@@ -540,10 +590,6 @@ async function buildLiquidityCalendar(db, businessDays=5) {
         const bucket = maturityBucket(row.security_type);
         const key = `${date}|${matDate}|${bucket}`;
         const old = maturityMap.get(key);
-
-        // The same settlement-day maturity aggregate is repeated on multiple
-        // auction announcements. Use max(), not sum(), inside a Bill/Coupon
-        // bucket to avoid double counting.
         if (old == null || matBn > old)
           maturityMap.set(key, matBn);
       }
@@ -557,9 +603,24 @@ async function buildLiquidityCalendar(db, businessDays=5) {
       ? issuanceFaceBn - publicMaturityBn
       : null;
 
-    const netCashEstimateBn = hasMaturityEstimate && cashKnown
+    const netCashBeforeCouponsBn = hasMaturityEstimate && cashKnown
       ? cashProceedsBn - publicMaturityBn
       : null;
+
+    const couponPaymentsBn = coupon ? Number(coupon.value) : null;
+
+    const netCashAfterCouponsBn =
+      netCashBeforeCouponsBn != null && couponPaymentsBn != null
+        ? netCashBeforeCouponsBn - couponPaymentsBn
+        : null;
+
+    const principalAfterCouponsBn =
+      netPrincipalDrainBn != null && couponPaymentsBn != null
+        ? netPrincipalDrainBn - couponPaymentsBn
+        : null;
+
+    const riskCashBn = netCashAfterCouponsBn ?? principalAfterCouponsBn;
+    const combinedRisk = fundingRisk(riskCashBn, funding);
 
     return {
       date,
@@ -567,13 +628,31 @@ async function buildLiquidityCalendar(db, businessDays=5) {
       actualIssuanceBn: round3(actualIssuanceBn),
       tentativeIssuanceBn: round3(tentativeIssuanceBn),
       publicMaturityBn: hasMaturityEstimate ? round3(publicMaturityBn) : null,
-      netPrincipalDrainBn: netPrincipalDrainBn == null ? null : round3(netPrincipalDrainBn),
+      couponPaymentsBn: couponPaymentsBn == null ? null : round3(couponPaymentsBn),
+      couponBreakdown: coupon?.raw ? {
+        notesBondsBn: finiteOrNull(coupon.raw.notes_bonds_bn),
+        tipsBn: finiteOrNull(coupon.raw.tips_bn),
+        securitiesCount: coupon.raw.securities_count ?? null,
+        coverage: coupon.raw.coverage ?? null,
+        mspdRecordDate: coupon.raw.mspd_record_date ?? null,
+        somaAsOf: coupon.raw.soma_as_of ?? null,
+        frnIncluded: coupon.raw.frn_included ?? false
+      } : null,
+      netPrincipalDrainBn:
+        netPrincipalDrainBn == null ? null : round3(netPrincipalDrainBn),
       cashProceedsBn: cashKnown ? round3(cashProceedsBn) : null,
-      netCashEstimateBn: netCashEstimateBn == null ? null : round3(netCashEstimateBn),
-      status: rows.some(r => r.status !== "actual") ? "tentative" : (rows.length ? "actual" : "none"),
-      risk: settlementRisk(netPrincipalDrainBn),
+      netCashBeforeCouponsBn:
+        netCashBeforeCouponsBn == null ? null : round3(netCashBeforeCouponsBn),
+      netCashAfterCouponsBn:
+        netCashAfterCouponsBn == null ? null : round3(netCashAfterCouponsBn),
+      status: rows.some(r => r.status !== "actual")
+        ? "tentative" : (rows.length ? "actual" : "none"),
+      risk: combinedRisk.level,
+      riskScore: combinedRisk.score,
+      riskDrivers: combinedRisk.drivers,
       maturitySource: hasMaturityEstimate ? "Treasury announcement" : null,
-      cashConfidence: cashKnown ? "price-adjusted" : null,
+      cashConfidence: cashKnown ? "auction settlement" : null,
+      couponConfidence: coupon ? "MSPD/SOMA" : null,
       confidence: hasMaturityEstimate ? "official-maturity" : "maturity-pending",
       rows: rows.map(row => ({
         cusip: row.cusip,
@@ -591,15 +670,83 @@ async function buildLiquidityCalendar(db, businessDays=5) {
     generatedAt: new Date().toISOString(),
     from,
     to,
+    fundingContext: funding,
     methodology: {
       issuance: "Public issuance = total accepted minus SOMA when auction results are available; otherwise announced offering amount.",
-      maturity: "TreasuryDirect offering-announcement field: estimated publicly held maturing securities by type. Repeated values are deduplicated by settlement date and Bill/Coupon bucket.",
-      netPrincipalDrain: "Positive = Treasury raises more principal than is redeemed (liquidity drain); negative = principal liquidity addition.",
-      netCashEstimate: "Price-adjusted auction proceeds minus public principal maturities. Coupon payments and some TIPS/indexation effects are not yet included.",
-      risk: "Dashboard heuristic: HIGH >= $75bn drain, MODERATE >= $25bn, LOW otherwise; PENDING when maturity estimate is unavailable."
+      maturity: "TreasuryDirect offering-announcement field: estimated publicly held maturing securities by type, deduplicated by settlement date and Bill/Coupon bucket.",
+      settlementCash: "Actual auction settlement cash uses the Treasury auction price plus accrued interest per $100. TIPS prefer adjusted price and adjusted accrued interest.",
+      coupons: "Notes/Bonds/TIPS coupon outflows are estimated from the latest MSPD CUSIP-level outstanding snapshot less NY Fed SOMA holdings. TIPS use MSPD inflation-adjusted outstanding. FRN coupons are intentionally excluded because exact FRN interest requires the daily 13-week bill index over the accrual period.",
+      netCash: "Positive = private-sector cash drain. Net cash after coupons = auction settlement cash - public maturities - modeled coupon payments.",
+      risk: "Transparent dashboard heuristic combining daily net cash drain with current SOFR-IORB and SRF usage. ON RRP and reserve balances are displayed as context but not scored."
     },
     days
   };
+}
+
+async function currentFundingContext(db) {
+  const [sofr, iorb, srf, rrp, reserves] = await Promise.all([
+    latest(db, "SOFR"),
+    latest(db, "IORB"),
+    latest(db, "SRF_USAGE"),
+    latest(db, "ON_RRP"),
+    latest(db, "RESERVES")
+  ]);
+
+  return {
+    sofrIorbBp: spreadBp(sofr, iorb),
+    srfBn: srf?.value ?? null,
+    onRrpBn: rrp?.value ?? null,
+    reservesBn: reserves?.value ?? null,
+    sofrDate: sofr?.observed_at ?? null,
+    iorbDate: iorb?.observed_at ?? null
+  };
+}
+
+function fundingRisk(netCashDrainBn, funding) {
+  if (netCashDrainBn == null)
+    return { level: "PENDING", score: null, drivers: ["cash-flow pending"] };
+
+  let score = 0;
+  const drivers = [];
+
+  if (netCashDrainBn >= 75) {
+    score += 3; drivers.push("cash drain ≥ $75bn");
+  } else if (netCashDrainBn >= 25) {
+    score += 2; drivers.push("cash drain ≥ $25bn");
+  } else if (netCashDrainBn > 0) {
+    score += 1; drivers.push("positive cash drain");
+  } else {
+    drivers.push("cash addition / no drain");
+  }
+
+  const spread = funding?.sofrIorbBp;
+  if (spread != null) {
+    if (spread >= 5) {
+      score += 3; drivers.push("SOFR-IORB ≥ +5bp");
+    } else if (spread >= 2) {
+      score += 2; drivers.push("SOFR-IORB ≥ +2bp");
+    } else if (spread >= 0) {
+      score += 1; drivers.push("SOFR-IORB non-negative");
+    } else {
+      drivers.push("SOFR below IORB");
+    }
+  }
+
+  const srf = funding?.srfBn;
+  if (srf != null) {
+    if (srf >= 5) {
+      score += 3; drivers.push("SRF ≥ $5bn");
+    } else if (srf >= 1) {
+      score += 2; drivers.push("SRF ≥ $1bn");
+    } else if (srf > 0) {
+      score += 1; drivers.push("SRF usage > 0");
+    } else {
+      drivers.push("SRF unused");
+    }
+  }
+
+  const level = score >= 5 ? "HIGH" : score >= 3 ? "MODERATE" : "LOW";
+  return { level, score, drivers };
 }
 
 function publicIssuanceBn(row) {
@@ -618,30 +765,29 @@ function publicIssuanceBn(row) {
 function storedMoneyBn(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return null;
-
-  // Seamless migration: the first GitHub ingest revision accidentally
-  // stored raw dollars. New ingests store billions.
   return Math.abs(n) > 1_000_000 ? n / 1e9 : n;
 }
 
 function rawMoneyBn(value) {
-  const n = Number(String(value ?? "").replaceAll(",", ""));
+  const n = Number(String(value ?? "").replaceAll(",", "").replaceAll("$",""));
   if (!Number.isFinite(n)) return null;
   return Math.abs(n) > 1_000_000 ? n / 1e9 : n;
 }
 
 function usdToBn(value) {
-  const n = Number(String(value ?? "").replaceAll(",", ""));
+  const n = Number(String(value ?? "").replaceAll(",", "").replaceAll("$",""));
   return Number.isFinite(n) ? n / 1e9 : null;
 }
 
 function finiteOrNull(value) {
+  if (value == null || value === "") return null;
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
 }
 
 function firstFinite(...values) {
   for (const value of values) {
+    if (value == null || value === "") continue;
     const n = Number(value);
     if (Number.isFinite(n)) return n;
   }
@@ -656,34 +802,83 @@ function parseRaw(raw) {
 
 function maturityBucket(securityType) {
   const s = String(securityType || "").toLowerCase();
-
-  // Treasury's own cash/pay-down presentation separates Bills from
-  // Coupons; Coupons includes Notes, Bonds, FRNs, and TIPS.
-  if (s.includes("bill"))
-    return "bill";
-
-  return "coupon";
+  return s.includes("bill") ? "bill" : "coupon";
 }
 
-function nextBusinessDates(start, count) {
+function todayNewYorkISO() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York",
+    year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(new Date());
+
+  const get = type => parts.find(x => x.type === type)?.value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+function nextBusinessDatesNY(count) {
   const out = [];
-  const d = new Date(Date.UTC(
-    start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate()
-  ));
+  let d = new Date(`${todayNewYorkISO()}T12:00:00Z`);
+
   while (out.length < count) {
-    const dow = d.getUTCDay();
-    if (dow !== 0 && dow !== 6)
+    if (isFedBusinessDay(d))
       out.push(isoDate(d));
     d.setUTCDate(d.getUTCDate() + 1);
   }
   return out;
 }
 
-function settlementRisk(netDrainBn) {
-  if (netDrainBn == null) return "PENDING";
-  if (netDrainBn >= 75) return "HIGH";
-  if (netDrainBn >= 25) return "MODERATE";
-  return "LOW";
+function isFedBusinessDay(d) {
+  const dow = d.getUTCDay();
+  if (dow === 0 || dow === 6) return false;
+
+  const iso = isoDate(d);
+  return !fedHolidaySet(d.getUTCFullYear()).has(iso);
+}
+
+function fedHolidaySet(year) {
+  const result = new Set();
+
+  const addFixedObserved = (y,m,day) => {
+    const d = new Date(Date.UTC(y,m-1,day));
+    if (d.getUTCDay() === 6) d.setUTCDate(d.getUTCDate()-1);
+    else if (d.getUTCDay() === 0) d.setUTCDate(d.getUTCDate()+1);
+    result.add(isoDate(d));
+  };
+
+  const nthWeekday = (y,m,weekday,n) => {
+    const d = new Date(Date.UTC(y,m-1,1));
+    const delta = (weekday - d.getUTCDay() + 7) % 7;
+    d.setUTCDate(1 + delta + 7*(n-1));
+    result.add(isoDate(d));
+  };
+
+  const lastWeekday = (y,m,weekday) => {
+    const d = new Date(Date.UTC(y,m,0));
+    const delta = (d.getUTCDay() - weekday + 7) % 7;
+    d.setUTCDate(d.getUTCDate()-delta);
+    result.add(isoDate(d));
+  };
+
+  addFixedObserved(year,1,1);
+  nthWeekday(year,1,1,3);
+  nthWeekday(year,2,1,3);
+  lastWeekday(year,5,1);
+  addFixedObserved(year,6,19);
+  addFixedObserved(year,7,4);
+  nthWeekday(year,9,1,1);
+  nthWeekday(year,10,1,2);
+  addFixedObserved(year,11,11);
+  nthWeekday(year,11,4,4);
+  addFixedObserved(year,12,25);
+
+  // Saturday Jan 1 of next year may be observed on Dec 31 this year.
+  const next = new Date(Date.UTC(year+1,0,1));
+  if (next.getUTCDay() === 6) {
+    next.setUTCDate(next.getUTCDate()-1);
+    result.add(isoDate(next));
+  }
+
+  return result;
 }
 
 function round3(v) {
