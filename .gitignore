@@ -1,4 +1,4 @@
-node_modules/
+node_modules
 .wrangler/
 .dev.vars
 .env
@@ -6,3 +6,4 @@ node_modules/
 .DS_Store
 __pycache__/
 *.pyc
+.sox-backups/

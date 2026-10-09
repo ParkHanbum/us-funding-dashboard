@@ -1,3 +1,4 @@
+import { handleSox } from './sox.js';
 
 const NYFED_RATES = "https://markets.newyorkfed.org/api/rates/all/latest.json";
 const NYFED_RRP = "https://markets.newyorkfed.org/api/rp/reverserepo/all/results/last/10.json";
@@ -15,6 +16,9 @@ const FED_IORB_TABLE =
 
 export default {
   async fetch(request, env) {
+    const __sox = await handleSox(request, env);
+    if (__sox) return __sox;
+
     const url = new URL(request.url);
 
     if (url.pathname === "/api/health")

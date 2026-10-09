@@ -1,0 +1,13 @@
+{
+  "model_id": "tga-public-face-residual-v1",
+  "update_after_ny_hour": 18,
+  "source_lookback_days": 80,
+  "event_selection": "all_eligible_sessions",
+  "extra_market_closures": [],
+  "sox": {
+    "provider": "fred",
+    "series_id": "NASDAQSOX",
+    "public_use_confirmed": false,
+    "csv_url": null
+  }
+}

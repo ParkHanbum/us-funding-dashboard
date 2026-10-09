@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-10-09T03:55:37.358753+00:00",
+  "method": "read-only public Treasury GETs; no SOX download or Worker POST",
+  "tga": {
+    "valid_days": 57,
+    "latest": "2026-10-07",
+    "display_format": "$1,000,000"
+  },
+  "mspd": {
+    "snapshot": "2026-09-30",
+    "rows": 893,
+    "payment_dates": 287
+  },
+  "auctions": {
+    "rows": 108,
+    "normalized": 108
+  },
+  "ok": true
+}

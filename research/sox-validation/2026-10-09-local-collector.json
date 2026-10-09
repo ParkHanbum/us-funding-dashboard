@@ -1,0 +1,36 @@
+{
+  "status": "LICENSE_REQUIRED",
+  "changed_input_days": 0,
+  "stored_days": 5,
+  "drawdown_points": 0,
+  "rebound_points": 0,
+  "latest_macro_date": "2026-10-07",
+  "sources": {
+    "tga": {
+      "status": "ok",
+      "observed_through": "2026-10-07",
+      "fetched_at": "2026-10-09T04:09:37.291041+00:00",
+      "source": "Treasury DTS closing balance"
+    },
+    "principal": {
+      "status": "ok",
+      "inventory_asof": "2026-09-30",
+      "auction_rows": 105,
+      "known_days": 5,
+      "source": "actual public face less Treasury public maturity estimates",
+      "fetched_at": "2026-10-09T04:09:37.291041+00:00"
+    },
+    "sox": {
+      "status": "permission_required",
+      "series": "NASDAQSOX"
+    }
+  },
+  "warnings": [
+    "SOX_PUBLIC_USE_NOT_CONFIRMED"
+  ],
+  "second_run": {
+    "status": "WAITING_DAILY_WINDOW",
+    "after_hour_et": 18
+  },
+  "scope": "Actual public Treasury GETs, local-only D1 writes; no SOX download or production write"
+}
