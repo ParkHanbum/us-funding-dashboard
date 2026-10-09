@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-10-09T15:34:42.983345+00:00",
+  "checked_at": "2026-10-09T15:56:34.861570+00:00",
   "worker_url": "https://us-funding-dashboard.nb2sy.workers.dev",
-  "deployed_version_id": "7a2f4749-0fbc-4de8-b407-e22d5eff088f",
-  "feature_commit": "37181e9e6c261446f94d79b228ff3f617e016312",
+  "deployed_version_id": "204546be-29c6-4944-8ad0-104f0b92a47d",
+  "feature_commit": "d744b3f0107d4de80f9c88054efc3141fc402825",
   "first_run": {
     "status": "READY",
-    "changed_input_days": 55,
+    "changed_input_days": 0,
     "stored_days": 55,
     "drawdown_points": 51,
     "rebound_points": 47,
@@ -14,7 +14,7 @@
       "tga": {
         "status": "ok",
         "observed_through": "2026-10-07",
-        "fetched_at": "2026-10-09T15:34:15.998800+00:00",
+        "fetched_at": "2026-10-09T15:56:11.756614+00:00",
         "source": "Treasury DTS closing balance"
       },
       "principal": {
@@ -30,12 +30,13 @@
         "auction_rows": 127,
         "known_days": 55,
         "source": "actual public face less Treasury public maturity estimates",
-        "fetched_at": "2026-10-09T15:34:15.998800+00:00"
+        "fetched_at": "2026-10-09T15:56:11.756614+00:00"
       },
       "sox": {
         "status": "ok",
         "observed_through": "2026-10-08",
-        "fetched_at": "2026-10-09T15:34:15.998800+00:00",
+        "expected_through": "2026-10-08",
+        "fetched_at": "2026-10-09T15:56:11.756614+00:00",
         "provider": "fred",
         "series": "NASDAQSOX"
       }
@@ -75,5 +76,29 @@
   "analysis_use": "personal_noncommercial",
   "personal_use_confirmed": true,
   "public_use_confirmed": false,
-  "scope": "Initial production collection through the existing owner Cloudflare CLI session, using the unchanged collector math and D1 upserts. No ingest secret retrieved or changed, no raw prices in this receipt. Subsequent scheduled runs use the existing GitHub workflow and secret."
+  "scope": "Initial production collection through the existing owner Cloudflare CLI session, using the unchanged collector math and D1 upserts. No ingest secret retrieved or changed, no raw prices in this receipt. Subsequent scheduled runs use the existing GitHub workflow and secret.",
+  "initial_collection": {
+    "checked_at": "2026-10-09T15:34:42.983345+00:00",
+    "deployed_version_id": "7a2f4749-0fbc-4de8-b407-e22d5eff088f",
+    "feature_commit": "37181e9e6c261446f94d79b228ff3f617e016312",
+    "changed_input_days": 55,
+    "drawdown_points": 51,
+    "rebound_points": 47
+  },
+  "final_checks": {
+    "health_http": 200,
+    "sox_state_without_auth_http": 401,
+    "deployed_js_matches_local": true,
+    "production_browser": "passed",
+    "production_browser_points": 98,
+    "production_browser_mobile_overflow": false,
+    "production_browser_js_errors": 0,
+    "collector_tests": 8,
+    "model_tests": 26,
+    "first_personal_github_runner_verified": false,
+    "workflow_state": "active",
+    "github_cron": "17 * * * *",
+    "worker_cron": "0 * * * *",
+    "workflow_count": 1
+  }
 }
