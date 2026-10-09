@@ -157,9 +157,13 @@ def collect(*, force: bool = False) -> dict:
         warnings.append("PRINCIPAL_SOURCE_ERROR: " + str(exc))
         sources["principal"] = {"status": "error", "detail": str(exc)}
 
-    display_authorized = config.get("sox", {}).get("public_use_confirmed") is True
+    sox_config = config.get("sox", {})
+    public_use_confirmed = sox_config.get("public_use_confirmed") is True
+    personal_use_confirmed = sox_config.get("personal_use_confirmed") is True
+    analysis_allowed = public_use_confirmed or personal_use_confirmed
+    analysis_use = "approved_public" if public_use_confirmed else "personal_noncommercial" if personal_use_confirmed else "disabled"
     prices = {}
-    if display_authorized:
+    if analysis_allowed:
         try:
             provider = config["sox"].get("provider", "fred")
             if provider == "fred":
@@ -193,8 +197,9 @@ def collect(*, force: bool = False) -> dict:
     analysis_end = max(latest_tga, max(prices) if prices else latest_tga)
     rows = assemble_daily(tga, net, prices, old_rows, start=start, end=analysis_end,
                           seen_at=stamp, extra_closed=extra)
-    # Revoking display authorization also removes closes from the analysis, not from the private revision audit.
-    analysis_rows = rows if display_authorized else [{**r, "sox_close": None} for r in rows]
+    # Private revisions retain their audit history. Disabling both permitted
+    # uses removes closes from the analysis without inventing missing values.
+    analysis_rows = rows if analysis_allowed else [{**r, "sox_close": None} for r in rows]
     analysis = analyse(analysis_rows, extra_closed=extra)
     analysis.pop("daily", None)
     old_hashes = {r["date"]: r.get("input_hash") for r in old_rows}
@@ -202,14 +207,16 @@ def collect(*, force: bool = False) -> dict:
     report = {"schema_version": 1, "module_version": MODEL_VERSION, "model_id": MODEL_ID,
               "generated_at": stamp, "analysis_from": rows[0]["date"] if rows else None,
               "analysis_through": rows[-1]["date"] if rows else None,
-              "public_use_confirmed": display_authorized,
+              "public_use_confirmed": public_use_confirmed,
+              "personal_use_confirmed": personal_use_confirmed,
+              "analysis_use": analysis_use,
               "selection": "ALL_ELIGIBLE_SESSIONS_NO_OUTCOME_FILTER", "sources": sources,
               "warnings": warnings, "data_days": len(rows), **analysis}
     had_source_error = any(s.get("status") == "error" for s in sources.values())
     status = {"last_attempt": stamp, "last_success_day": day if not had_source_error and ny.hour >= config["update_after_ny_hour"] else last.get("last_success_day"),
               "last_success_at": stamp if not had_source_error else last.get("last_success_at"),
               "config_hash": version, "state": "PARTIAL" if had_source_error else
-                    "LICENSE_REQUIRED" if not display_authorized else "READY",
+                    "LICENSE_REQUIRED" if not analysis_allowed else "READY",
               "warnings": warnings, "source_dates": {k: v.get("observed_through", v.get("inventory_asof")) for k,v in sources.items()}}
     # Small idempotent D1 batches. Do not publish a new report until all rows succeeded.
     for i in range(0, len(changed), 25):
@@ -232,7 +239,7 @@ def main() -> int:
         result = collect(force=args.force)
         print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
         if result.get("status") == "LICENSE_REQUIRED":
-            print("::notice::SOX live display is disabled until data-use permission is confirmed; Treasury inputs still update.")
+            print("::notice::SOX collection/analysis is disabled until personal noncommercial use or public data use is confirmed; Treasury inputs still update.")
         if result.get("status") == "PARTIAL":
             print("::warning::Some SOX research inputs are unavailable; inspect source status, never treat missing inputs as zero.")
         # Partial data remain visible as partial; a source error must not masquerade as a full green success.

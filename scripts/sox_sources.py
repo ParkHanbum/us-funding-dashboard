@@ -5,6 +5,8 @@ import csv
 import io
 import json
 import math
+import shutil
+import subprocess
 import time
 import urllib.error
 import urllib.parse
@@ -28,6 +30,9 @@ class HttpClient:
         self.deadline = time.monotonic() + deadline_seconds
 
     def request(self, url: str, *, body: dict | None = None, token: str | None = None) -> bytes:
+        parsed = urllib.parse.urlsplit(url)
+        if not token and body is None and parsed.scheme == "https" and parsed.hostname == "fred.stlouisfed.org" and parsed.path == "/graph/fredgraph.csv":
+            return self.fred_csv(url)
         # Tokens are never sent on redirects or to arbitrary upstream hosts.
         class NoRedirect(urllib.request.HTTPRedirectHandler):
             def redirect_request(self, req, fp, code, msg, hdrs, newurl):
@@ -59,6 +64,33 @@ class HttpClient:
                     raise DataError(f"network failure: {type(exc).__name__} at {urllib.parse.urlparse(url).hostname}") from None
             time.sleep(1)
         raise DataError("request failed")
+
+    def fred_csv(self, url: str) -> bytes:
+        # The official CSV endpoint timed out with Python's TLS client in the
+        # local environment but worked with curl. Keep this transport limited
+        # to the public FRED download; authenticated Worker calls stay above.
+        executable = shutil.which("curl")
+        if not executable:
+            raise DataError("curl is required for the official FRED CSV download")
+        remaining = self.deadline - time.monotonic()
+        if remaining < 3:
+            raise DataError("collector time budget exhausted")
+        timeout = min(35, remaining - 1)
+        args = [executable, "--ipv4", "--fail", "--silent", "--show-error", "--location",
+                "--proto", "=https", "--proto-redir", "=https", "--connect-timeout", "8",
+                "--max-time", str(timeout), "--retry", "1", "--retry-delay", "1",
+                "--retry-max-time", str(timeout), "--max-filesize", "12000000", "--url", url]
+        try:
+            result = subprocess.run(args, capture_output=True, timeout=remaining - 1, check=False)
+        except subprocess.TimeoutExpired:
+            raise DataError("FRED CSV download timed out") from None
+        except OSError:
+            raise DataError("FRED CSV download could not start") from None
+        if result.returncode:
+            raise DataError(f"FRED CSV download failed (curl exit {result.returncode})")
+        if len(result.stdout) > 12_000_000:
+            raise DataError("response size limit exceeded")
+        return result.stdout
 
     def json(self, url: str, **kwargs) -> Any:
         try:

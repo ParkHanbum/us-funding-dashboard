@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-10-09T15:16:38.588418+00:00",
+  "first_run": {
+    "status": "READY",
+    "changed_input_days": 55,
+    "stored_days": 55,
+    "drawdown_points": 51,
+    "rebound_points": 47,
+    "latest_macro_date": "2026-10-07",
+    "sources": {
+      "tga": {
+        "status": "ok",
+        "observed_through": "2026-10-07",
+        "fetched_at": "2026-10-09T15:16:20.312144+00:00",
+        "source": "Treasury DTS closing balance"
+      },
+      "principal": {
+        "status": "ok",
+        "inventory_asof": "2026-09-30",
+        "inventory_from": "2026-06-30",
+        "inventory_snapshots": [
+          "2026-06-30",
+          "2026-07-31",
+          "2026-08-31",
+          "2026-09-30"
+        ],
+        "auction_rows": 127,
+        "known_days": 55,
+        "source": "actual public face less Treasury public maturity estimates",
+        "fetched_at": "2026-10-09T15:16:20.312144+00:00"
+      },
+      "sox": {
+        "status": "ok",
+        "observed_through": "2026-10-08",
+        "fetched_at": "2026-10-09T15:16:20.312144+00:00",
+        "provider": "fred",
+        "series": "NASDAQSOX"
+      }
+    },
+    "warnings": []
+  },
+  "second_run": {
+    "status": "WAITING_DAILY_WINDOW",
+    "after_hour_et": 18
+  },
+  "personal_use_confirmed": true,
+  "public_use_confirmed": false,
+  "scope": "Actual Treasury/FRED GETs and local-only D1 writes. Real SOX closes; no synthetic source responses, no production writes, no raw prices in this receipt."
+}

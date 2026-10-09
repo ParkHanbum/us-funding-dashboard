@@ -15,6 +15,13 @@ const page = await browser.newPage({viewport:{width:1440,height:1400},deviceScal
 const errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 try {
+  // Exercise the permission-pending UI independently of the local data's mode.
+  const actual=await (await fetch(base+'/api/sox')).json();
+  const pending={...actual,status:{state:'LICENSE_REQUIRED'},live:{...actual.live,
+    public_use_confirmed:false,personal_use_confirmed:false,analysis_use:'disabled',
+    points:{drawdown:[],rebound:[]},stats:{drawdown:{n:0,r:null},rebound:{n:0,r:null}}
+  }};
+  await page.route('**/api/sox',route=>route.fulfill({contentType:'application/json',body:JSON.stringify(pending)}));
   await page.goto(base,{waitUntil:'domcontentloaded'});
   const host=page.locator('#sox-research');
   await page.waitForFunction(()=>document.querySelector('#sox-research [data-sx="badge"]').textContent==='SOX 이용 확인 필요');
@@ -47,7 +54,7 @@ try {
 
   // Synthetic permitted results are intercepted only in this browser context.
   // They never change the Worker, stored data or the public-use config flag.
-  const actual=await (await fetch(base+'/api/sox')).json();
+  await page.unroute('**/api/sox');
   const fixture={...actual,status:{state:'READY'},live:{public_use_confirmed:true,
     points:{drawdown:[{date:'2026-10-01',x:10,y:1},{date:'2026-10-02',x:20,y:2},{date:'2026-10-05',x:30,y:1}],rebound:[]},
     stats:{drawdown:{n:3,r:0.123,slope:0,intercept:1},rebound:{n:0,r:null}},

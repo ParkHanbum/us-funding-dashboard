@@ -6,6 +6,8 @@
   const esc = v => String(v ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const fmt = (v,d=1) => typeof v === 'number' && Number.isFinite(v) ? v.toFixed(d) : '—';
   const money = v => typeof v === 'number' && Number.isFinite(v) ? '$'+v.toFixed(1)+'bn' : '—';
+  const analysisAllowed = live => live?.public_use_confirmed === true ||
+    (live?.personal_use_confirmed === true && live?.analysis_use === 'personal_noncommercial');
   const $ = id => host.querySelector('[data-sx="'+id+'"]');
   let payload = null, mode = 'live', visible = {drawdown:true,rebound:true};
   host.innerHTML = `
@@ -84,7 +86,7 @@
     svg+='</g></svg>';
     $('plot').innerHTML=svg;
     $('empty').style.display=points.length?'none':'flex';
-    const license=payload?.live?.public_use_confirmed===false || payload?.status?.state==='LICENSE_REQUIRED';
+    const license=(payload?.live && !analysisAllowed(payload.live)) || payload?.status?.state==='LICENSE_REQUIRED';
     $('empty').textContent=mode==='live'?(license?'SOX 공개 이용 확인 대기 · TGA·순발행 입력은 별도로 자동 수집됩니다.':'확정된 자동 표본이 아직 없습니다. 입력과 이후 4~5거래일 관측이 필요합니다.'):'표시할 계열을 선택하세요.';
     const tooltip=$('tooltip');
     for(const elem of $('plot').querySelectorAll('[data-tip]')){
@@ -104,7 +106,7 @@
       const s=data?.stats?.[kind];$(id).textContent=`r=${fmt(s?.r,3)}, n=${s?.n ?? 0}`;
     }
     const live=payload.live, state=payload.status?.state||'WAITING_FIRST_RUN';
-    const permissionPending=live?.public_use_confirmed===false || state==='LICENSE_REQUIRED';
+    const permissionPending=(live && !analysisAllowed(live)) || state==='LICENSE_REQUIRED';
     const liveEventDates=Object.values(live?.points||{}).flat().map(p=>p.date).sort();
     const referencePeriod=[payload.reference?.from,payload.reference?.to].filter(Boolean).join(' ~ ');
     $('current-view').textContent=mode==='reference'
@@ -114,10 +116,12 @@
         :'현재 차트: 자동 일별 표본 · 확정된 SOX 결과 없음';
     const latestInput=live?.latest_macro?.date || live?.analysis_through;
     const latestResult=permissionPending?'공개 이용 확인 대기':liveEventDates.length?`최신 확정 이벤트 ${liveEventDates.at(-1)}`:'확정 결과 대기';
-    $('freshness').textContent=`최근 TGA·순발행 입력: ${latestInput || '수집 대기'} · 자동 SOX 차트: ${latestResult}`;
+    const latestClose=live?.sources?.sox?.observed_through;
+    $('freshness').textContent=`최근 TGA·순발행 입력: ${latestInput || '수집 대기'} · SOX 종가 기준: ${latestClose || '수집 대기'} · 자동 SOX 차트: ${latestResult}`;
     const stateLabels={READY:'일별 갱신',LICENSE_REQUIRED:'SOX 이용 확인 필요',PARTIAL:'일부 입력 대기',SOURCE_ERROR:'수집 오류',WAITING_FIRST_RUN:'첫 수집 대기',MIGRATION_REQUIRED:'DB 초기화 필요'};
     $('badge').textContent=stateLabels[state]||state;$('badge').dataset.state=state;
-    $('sample').textContent=mode==='reference'?'2026-05-15~2026-07-22 · 원본 이벤트 14개 · 선택된 탐색 표본':'자동 모델 · 결과로 선별하지 않은 전체 유효 일별 표본 · 관측창 중첩 있음';
+    $('sample').textContent=mode==='reference'?'2026-05-15~2026-07-22 · 원본 이벤트 14개 · 선택된 탐색 표본':
+      (live?.analysis_use==='personal_noncommercial'?'개인·비상업 연구용 · ':'')+'자동 모델 · 결과로 선별하지 않은 전체 유효 일별 표본 · 관측창 중첩 있음';
     $('notice').textContent=mode==='reference'?'원본 상관계수는 과거 탐색 표본의 기술통계입니다. 선정 규칙을 복원한 예측모델이 아니며, 아래 자동 입력과 회귀선을 합치지 않습니다.':'TGA·순발행 자료가 실제로 알려진 시각은 이벤트 날짜보다 늦을 수 있습니다. 이 차트는 사건 이후의 연관 분석이며, 이벤트 당일 실행 가능한 매매 전략의 성과가 아닙니다.';
     const lm=live?.latest_macro;
     $('u1').textContent=money(lm?.u1_bn);$('u4').textContent=money(lm?.u4_bn);
@@ -133,7 +137,10 @@
     const methods=payload.methods||{};
     $('methods').innerHTML=Object.entries(methods).filter(([k])=>k!=='sources').map(([k,v])=>`<div><strong>${esc(k)}</strong> · ${esc(v)}</div>`).join('') +
       '<div>Sources · '+(methods.sources||[]).filter(u=>/^https:\/\//.test(u)).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(new URL(u).hostname)}</a>`).join(' · ')+'</div>'+
-      '<div>NASDAQSOX 원자료와 분석 결과의 공개 이용 권한을 확인하기 전까지 자동 SOX 표본 공개는 보류됩니다. TGA·순발행 입력은 별도로 갱신됩니다.</div>' +
+      '<div>SOX 데이터: Copyright © 2025, Nasdaq, Inc. · FRED NASDAQSOX를 통해 조회.</div>' +
+      (live?.analysis_use==='personal_noncommercial'
+        ?'<div>개인·비상업 연구용 분석입니다. SOX 원시 종가는 제공하지 않습니다.</div>'
+        :permissionPending?'<div>SOX 데이터 이용 확인 대기. TGA·순발행 입력은 별도로 갱신됩니다.</div>':'') +
       (live?.warnings?.length?`<div>현재 상태 · ${esc(live.warnings.join(' · '))}</div>`:'');
     const last=payload.status?.last_success_at;
     $('updated').textContent=last?`최근 수집 ${new Date(last).toLocaleString('ko-KR')} · 데이터 기준 ${live?.analysis_through||'—'}`:'원본 차트 로드 완료 · 자동 수집은 기존 Treasury workflow에서 실행';

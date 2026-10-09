@@ -13,7 +13,9 @@ The v3.3 SOX module adds a fixed original research scatterplot and a separate da
 - The model uses face-value issuance less SOMA and verified public maturity estimates. It is separate from the existing coupon-adjusted cash-flow heatmap.
 - Input revisions retain hashes and the first complete observation time. Outcomes require the following four/five market sessions.
 
-`config/sox-model.json` retains `sox.public_use_confirmed=false`. Treasury inputs update, but the collector does not download new SOX prices or publish new SOX outcomes. `LICENSE_REQUIRED` is the expected state until public data use is confirmed. [FRED's NASDAQSOX page](https://fred.stlouisfed.org/series/NASDAQSOX) identifies the data as copyrighted and requiring pre-approval.
+`config/sox-model.json` retains `sox.public_use_confirmed=false` and records the user's confirmed personal, noncommercial research use as `sox.personal_use_confirmed=true`. This mode downloads SOX closes and displays derived charts in the personal research dashboard, with Nasdaq/FRED attribution. It does not claim a general service or redistribution license. [FRED's terms](https://fred.stlouisfed.org/legal/) allow personal or noncommercial educational use of pre-approval series; other uses require the data owner's permission. [NASDAQSOX](https://fred.stlouisfed.org/series/NASDAQSOX) is owned by Nasdaq.
+
+The two confirmations are separate. Turning both off stops SOX collection and hides derived outcomes (`LICENSE_REQUIRED`), while retaining private revision history and continuing Treasury updates. Raw SOX closes remain restricted to the authenticated inputs endpoint in either mode. The daily FRED CSV download uses curl, which is available on the existing GitHub Ubuntu runner, with request/time/size limits. It does not scrape the HTML graph page.
 
 The original CSV estimates and selected events are preserved. The original selection algorithm is not reconstructed, and these regressions are descriptive associations.
 
@@ -56,14 +58,16 @@ node tests/test_sox_runtime.mjs
 node tests/test_sox_browser.mjs
 ```
 
+After collecting real sources into the local database in confirmed personal mode, `node tests/test_sox_personal_browser.mjs` checks the actual points, statistics, source dates, original-sample separation, attribution and mobile display. The runtime fixture test should use a separate disposable database rather than overwrite those real inputs.
+
 The browser test requires Playwright and its Chromium headless shell. `PLAYWRIGHT_MODULE`, `PLAYWRIGHT_BROWSERS_PATH` and `SOX_SCREENSHOT_DIR` can point to an existing test environment. Runtime fixtures should use a disposable local D1; they contain synthetic prices, and the tests reject production URLs.
 
 ## Production rollout
 
 Production migration, deployment and main changes require the user's approval. After approval, apply `migrations/0033_sox.sql` to the existing D1, deploy this Worker, then publish the verified repository changes to main. The migration creates three SOX tables and does not replace the existing schema or database.
 
-Keep the current `wrangler.jsonc`, D1 ID, Worker URL, cron schedules and `TREASURY_INGEST_TOKEN`. Keep SOX public use disabled until the relevant permission is confirmed. The next existing workflow run can then collect Treasury inputs and report its SOX state.
+Keep the current `wrangler.jsonc`, D1 ID, Worker URL, cron schedules and `TREASURY_INGEST_TOKEN`. Keep the general SOX public-use flag disabled until permission for that scope is confirmed. The user's personal research confirmation enables the existing workflow to collect Treasury and SOX inputs and update the derived chart without adding a workflow or schedule.
 
-Public endpoints: `/api/sox` and `/api/sox/status`. `/api/sox/state` and `/api/sox/ingest` require the existing ingest token. Public responses exclude raw SOX closes at both top level and inside nested report structures.
+Dashboard endpoints: `/api/sox` and `/api/sox/status`. The former serves the derived results for the confirmed analysis scope. `/api/sox/state` and `/api/sox/ingest` require the existing ingest token. Dashboard responses exclude raw SOX closes at both top level and inside nested report structures, and hide outcomes when neither scope is confirmed.
 
 See [the implementation and validation record](SOX_V33_VALIDATION.md) for the fixes, executed checks and remaining production verification.

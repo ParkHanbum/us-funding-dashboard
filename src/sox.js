@@ -47,7 +47,7 @@ function sanitizePublicReport(report) {
   if (!report) return null;
   // Public responses never expose stored raw SOX closes or private per-date inputs.
   const keys = ['schema_version','module_version','model_id','generated_at','analysis_from','analysis_through',
-    'public_use_confirmed','selection','sources','warnings','data_days','stats','recent','latest_macro','points'];
+    'public_use_confirmed','personal_use_confirmed','analysis_use','selection','sources','warnings','data_days','stats','recent','latest_macro','points'];
   const out = Object.fromEntries(keys.filter(k => report[k] !== undefined).map(k => [k, report[k]]));
   // Protect nested structures too, including future collector changes that
   // accidentally include private input fields in a derived report.
@@ -60,7 +60,11 @@ function sanitizePublicReport(report) {
   if (report.sources) out.sources = Object.fromEntries(['tga','principal','sox']
     .filter(k => report.sources[k] !== undefined)
     .map(k => [k, selectFields(report.sources[k], SOURCE_PUBLIC_KEYS)]));
-  if (out.public_use_confirmed !== true) {
+  // Confirmed personal/noncommercial research can show derived charts under
+  // FRED's personal-use terms. This does not claim a general redistribution
+  // license; raw closes remain excluded in either mode.
+  const personalAnalysis = out.personal_use_confirmed === true && out.analysis_use === 'personal_noncommercial';
+  if (out.public_use_confirmed !== true && !personalAnalysis) {
     out.points = {drawdown: [], rebound: []};
     out.stats = Object.fromEntries(['drawdown','rebound'].map(k => [k, {n:0,r:null,slope:null,intercept:null}]));
     out.recent = out.recent.map(withoutOutcomes);
@@ -76,6 +80,9 @@ function validPoint(p) {
 
 function validateReport(r) {
   if (!r || r.model_id !== MODEL || r.schema_version !== 1 || !r.points || !Array.isArray(r.recent)) return false;
+  if (r.personal_use_confirmed !== undefined && typeof r.personal_use_confirmed !== 'boolean') return false;
+  if (r.analysis_use !== undefined && !['disabled','personal_noncommercial','approved_public'].includes(r.analysis_use)) return false;
+  if (r.personal_use_confirmed === true && r.public_use_confirmed !== true && r.analysis_use !== 'personal_noncommercial') return false;
   for (const kind of ['drawdown','rebound']) {
     if (!Array.isArray(r.points[kind]) || r.points[kind].length > 700 || !r.points[kind].every(validPoint)) return false;
   }

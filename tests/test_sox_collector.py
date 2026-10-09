@@ -22,6 +22,7 @@ class MockHttp:
     state={'inputs':[],'auctions':[],'status':None}
     report=None
     fiscal_calls=0
+    price_calls=0
     def __init__(self,*a,**k):pass
     def json(self,url,body=None,token=None):
         if url.endswith('/api/sox/state'):return copy.deepcopy(self.state)
@@ -40,22 +41,45 @@ class MockHttp:
         if path==AUCTIONS_PATH:return ([{'cusip':'91282TEST','auction_date':'2026-10-01','issue_date':'2026-10-15','maturity_date':'2027-10-15','security_type':'Note','offering_amt':'1000000000','total_accepted':None,'soma_accepted':None}],{})
         raise AssertionError(path)
     def request(self,url,**k):
+        type(self).price_calls+=1
         return ('observation_date,NASDAQSOX\n'+'\n'.join(f'{d},{1000+i*3}' for i,d in enumerate(sessions('2026-09-30','2026-10-08')))).encode()
 
 class CollectorTests(unittest.TestCase):
     def setUp(self):
-        MockHttp.state={'inputs':[],'auctions':[],'status':None};MockHttp.report=None;MockHttp.fiscal_calls=0
-    def config_dir(self,tmp,allowed):
+        MockHttp.state={'inputs':[],'auctions':[],'status':None};MockHttp.report=None;MockHttp.fiscal_calls=0;MockHttp.price_calls=0
+    def config_dir(self,tmp,allowed,personal=False):
         p=Path(tmp);(p/'config').mkdir(exist_ok=True)
-        c={'model_id':'tga-public-face-residual-v1','update_after_ny_hour':18,'source_lookback_days':80,'extra_market_closures':[],'sox':{'provider':'fred','public_use_confirmed':allowed}}
+        c={'model_id':'tga-public-face-residual-v1','update_after_ny_hour':18,'source_lookback_days':80,'extra_market_closures':[],'sox':{'provider':'fred','public_use_confirmed':allowed,'personal_use_confirmed':personal}}
         (p/'config/sox-model.json').write_text(json.dumps(c));return p
     def test_default_license_gate_and_once_daily(self):
         with tempfile.TemporaryDirectory() as tmp, patch.dict('os.environ',{'TREASURY_INGEST_URL':'https://fixture.invalid/api/treasury-ingest','TREASURY_INGEST_TOKEN':'fake'}), patch.object(sox_daily,'HttpClient',MockHttp),patch.object(sox_daily,'datetime',Clock):
             with patch.object(sox_daily,'ROOT',self.config_dir(tmp,False)):
                 r=sox_daily.collect();self.assertEqual(r['status'],'LICENSE_REQUIRED')
                 self.assertEqual(r['drawdown_points'],0);self.assertGreater(r['stored_days'],0)
+                self.assertEqual(MockHttp.price_calls,0)
                 self.assertIsNotNone(MockHttp.report['latest_macro']['u4_bn'])
                 calls=MockHttp.fiscal_calls;r=sox_daily.collect();self.assertEqual(r['status'],'SKIPPED_ALREADY_UPDATED');self.assertEqual(MockHttp.fiscal_calls,calls)
+
+    def test_personal_analysis_collects_without_claiming_public_use_and_can_be_revoked(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.dict('os.environ',{'TREASURY_INGEST_URL':'https://fixture.invalid/api/treasury-ingest','TREASURY_INGEST_TOKEN':'fake'}),patch.object(sox_daily,'HttpClient',MockHttp),patch.object(sox_daily,'datetime',Clock):
+            root=self.config_dir(tmp,False,personal=True)
+            with patch.object(sox_daily,'ROOT',root):
+                first=sox_daily.collect()
+                self.assertEqual(first['status'],'READY')
+                self.assertGreater(first['drawdown_points'],0)
+                self.assertEqual(MockHttp.price_calls,1)
+                self.assertIs(MockHttp.report['public_use_confirmed'],False)
+                self.assertIs(MockHttp.report['personal_use_confirmed'],True)
+                self.assertEqual(MockHttp.report['analysis_use'],'personal_noncommercial')
+                self.assertTrue(any(r['sox_close'] is not None for r in MockHttp.state['inputs']))
+                self.assertEqual(sox_daily.collect()['status'],'SKIPPED_ALREADY_UPDATED')
+                self.assertEqual(MockHttp.price_calls,1)
+                self.config_dir(tmp,False,personal=False)
+                revoked=sox_daily.collect()
+                self.assertEqual(revoked['status'],'LICENSE_REQUIRED')
+                self.assertEqual(revoked['drawdown_points'],0)
+                self.assertEqual(MockHttp.price_calls,1)
+                self.assertTrue(any(r['sox_close'] is not None for r in MockHttp.state['inputs']))
     def test_config_change_and_later_close_matures_outcome(self):
         with tempfile.TemporaryDirectory() as tmp,patch.dict('os.environ',{'TREASURY_INGEST_URL':'https://fixture.invalid/api/treasury-ingest','TREASURY_INGEST_TOKEN':'fake'}),patch.object(sox_daily,'HttpClient',MockHttp),patch.object(sox_daily,'datetime',Clock):
             root=self.config_dir(tmp,False)

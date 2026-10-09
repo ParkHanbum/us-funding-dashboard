@@ -51,4 +51,22 @@ nested=await (await handleSox(req('/api/sox'),env)).json();
 assert.equal(nested.live.points.drawdown[0].sox_close,undefined);
 assert.equal(nested.live.stats.drawdown.sox_close,undefined);
 assert.equal(nested.live.latest_macro.drawdown_pct,2);
+
+// Explicit personal/noncommercial analysis is distinct from a public-use license.
+const personalReport={...nestedReport,public_use_confirmed:false,personal_use_confirmed:true,analysis_use:'personal_noncommercial'};
+assert.equal((await handleSox(req('/api/sox/ingest',{report:personalReport,status:{state:'READY'}},true),env)).status,200);
+const personal=await (await handleSox(req('/api/sox'),env)).json();
+assert.equal(personal.live.public_use_confirmed,false);
+assert.equal(personal.live.analysis_use,'personal_noncommercial');
+assert.equal(personal.live.points.drawdown.length,1);
+assert.equal(personal.live.latest_macro.drawdown_pct,2);
+assert.equal(personal.live.latest_macro.sox_close,undefined);
+assert.equal(personal.live.points.drawdown[0].sox_close,undefined);
+assert.equal(personal.live.sources.sox.sox_close,undefined);
+assert.equal((await handleSox(req('/api/sox/ingest',{report:{...personalReport,analysis_use:'approved_public'}},true),env)).status,400);
+assert.equal((await handleSox(req('/api/sox/ingest',{report:{...personalReport,personal_use_confirmed:'true'}},true),env)).status,400);
+await handleSox(req('/api/sox/ingest',{report:{...personalReport,personal_use_confirmed:false}},true),env);
+const revoked=await (await handleSox(req('/api/sox'),env)).json();
+assert.equal(revoked.live.points.drawdown.length,0);
+assert.equal(revoked.live.latest_macro.drawdown_pct,null);
 console.log('Worker routes/auth/validation/publication guards: passed');
