@@ -8,7 +8,7 @@
 
 원본 폴더 `/Users/b2sy/Downloads/us-funding-dashboard-v2.4`에는 `README.md`, `package.json`, `public/app.js`의 미커밋 삭제와 기존 적용 안내 파일 두 개가 있었다. 이 상태를 그대로 보존하고, 마지막 커밋에서 별도 Git 작업 폴더를 만들어 수정했다. 원본 main에 파일을 복원하거나 변경을 반영하지 않았다.
 
-첨부 ZIP의 소스·설치기를 검토한 뒤 15개 파일을 추가/수정했다. 운영 migration·배포·push 안내는 실행하지 않았다. 최초 적용 직후 설치기 dry run에서 추가 변경 0개를 확인했다. 아래 보완 사항은 그 후 저장소 소스에 직접 반영했으므로 이전 ZIP 설치기를 다시 실행해 덮어쓰지 않는다.
+첨부 ZIP의 소스·설치기를 검토한 뒤 15개 파일을 추가/수정했다. 최초 로컬 검증 단계에서는 운영 migration·배포·push를 실행하지 않았으며, 승인 후 운영 반영은 아래에 기록했다. 최초 적용 직후 설치기 dry run에서 추가 변경 0개를 확인했다. 아래 보완 사항은 그 후 저장소 소스에 직접 반영했으므로 이전 ZIP 설치기를 다시 실행해 덮어쓰지 않는다.
 
 ## 보완한 문제
 
@@ -35,7 +35,7 @@
 | 실제 로컬 D1 수정 이력 | 같은 입력 재수집은 현재 행 1개를 유지하고, 변경된 해시는 이력 2개를 유지 |
 | SQL | SQLite 및 실제 로컬 D1에서 migration을 각각 두 번 실행. 새 테이블 3개. SQLite 기존 스키마·검증용 기존 행 보존 |
 | Chromium | 최신 자동 차트 기본 표시, 새 결과의 5분 확인으로 점/통계 변경, 원본 14점, r/n, 계열 토글, 키보드 툴팁, 이용 보류, 합성 자동 표본과 원본의 분리, null 표시, 390px 모바일 가로 폭 및 오류 0건 확인 |
-| Worker 빌드 | 고정된 Wrangler 4.136.3으로 `deploy --dry-run` 성공. 실제 배포는 수행하지 않음 |
+| Worker 빌드 | 고정된 Wrangler 4.136.3으로 `deploy --dry-run` 성공. 승인 후 실제 배포도 성공했으며 아래 운영 반영에 기록 |
 | 구조 유지 | 기존 workflow 1개 유지. YAML 파싱 후 SOX step 1개를 제거하면 원본 workflow와 완전히 동일 |
 | 파일 유지 | `wrangler.jsonc`, `scripts/treasury_collector.py`, `public/app.js`, `schema.sql`, `package.json`, `package-lock.json`이 기존 커밋과 바이트 단위 동일 |
 | 정적 검사 | JavaScript/Python 문법 검사 및 `git diff --check` 통과 |
@@ -72,6 +72,8 @@
 
 첨부 ZIP에는 원본 일별 CSV 46행과 이벤트 CSV 자체가 없다. 따라서 고정 14점의 통계를 검증했으며, ZIP의 이전 검증 기록이 주장하는 일별 254개 값 재현을 이번 작업에서 다시 수행한 것은 아니다. 원본 추정값이나 이벤트 선택을 현재 데이터로 대체하지 않았다.
 
+이전 차트의 SOX 반응 값은 첨부 소스에 고정된 연구 CSV의 14개 좌표다. 원본 파일 이름과 SHA-256은 남아 있지만 당시 SOX 종가를 처음 내려받은 공급자·URL은 이 인계 자료에 없으므로 최초 가격 출처를 확정하지 않는다. 새 자동 수집의 기본 공급자는 FRED `NASDAQSOX`이며, 이 설정이 원본 CSV의 가격 출처를 증명하는 것은 아니다.
+
 SOX 원자료 자동 조회·공개는 이용 확인을 기다린다. 로컬 공개 Treasury 조회의 성공은 향후 모든 runner 실행의 성공을 보장하지 않는다. SOX 이용 권한은 취득하거나 확인 완료로 바꾸지 않았다.
 
 ## 승인된 운영 반영
@@ -80,13 +82,17 @@ SOX 원자료 자동 조회·공개는 이용 확인을 기다린다. 로컬 공
 
 기능 커밋 `4413548a173e777e7ba43b7917453f7a6946d415`를 GitHub main에 강제 push 없이 반영했다. main의 workflow 파일이 검증한 파일과 일치하고 기존 workflow가 `active`임을 공개 GitHub API로 확인했다. 운영 summary/settlements/liquidity는 HTTP 200, 인증 없는 SOX state 접근은 HTTP 401이었다. 배포된 SOX JavaScript/CSS와 기존 app.js의 SHA-256이 작업 파일과 일치했다.
 
-새 main으로의 첫 수집 실행은 아직 확인하지 않았다. 즉시 수동 실행하려면 GitHub 웹 로그인이 필요하며, 현재는 로그인 또는 기존 예약 실행을 기다린다. 따라서 운영 자금 입력 수집과 운영 SOX 수집의 성공을 주장하지 않는다. [운영 배포 검증 기록](research/sox-validation/2026-10-09-production-deploy.json)에 현재 확인 범위를 기록했다. 원본 작업 폴더의 기존 미커밋 변경은 유지했다.
+사용자가 기존 브라우저에서 수동 실행한 첫 새 main 수집을 확인했다. [GitHub 실행 37946082885](https://github.com/ParkHanbum/us-funding-dashboard/actions/runs/37946082885)은 `8ca875a7a95e53ffd7e7976e5a7494f66d8da2de`에서 `workflow_dispatch`로 실행됐고, 한국 시각 2026-10-09 23:42:12에 성공으로 완료됐다. 기존 Treasury 수집 단계와 새 SOX daily snapshot 단계가 각각 성공했다. 운영 API와 읽기 전용 D1 조회에서 2026-07-23~2026-10-07 54거래일의 TGA·이전 TGA·순발행 입력이 모두 저장됐으며 수정 이력도 54건임을 확인했다.
 
-## 승인 후 반영 순서
+SOX 이용 확인은 계속 `false`이므로 상태는 `LICENSE_REQUIRED`이고, 실제 SOX 종가와 새 낙폭/반등 점은 각각 0개다. 이번 workflow 성공은 운영 자금 입력 수집과 이용 보류 동작을 확인한 것이며 실제 SOX 가격 수집 성공을 뜻하지 않는다. [첫 운영 수집 검증 기록](research/sox-validation/2026-10-09-production-collector.json)에 실행·단계·API·D1 결과를 기록했다. [운영 배포 검증 기록](research/sox-validation/2026-10-09-production-deploy.json)은 최초 배포 당시의 확인 범위다. 원본 작업 폴더의 기존 미커밋 변경은 유지했다.
+
+첫 수집 확인 후 사용자가 SOX 데이터 이용 권한을 아직 확보하지 않았다고 답했다. 따라서 공개 이용 설정은 보류로 유지하며, 허용된 데이터 출처 확인 전 실제 SOX 가격 자동 수집·새 결과 공개를 완료로 표시하지 않는다.
+
+## 운영 반영에 사용한 순서
 
 1. 작업 브랜치 변경을 확인하고 커밋한다.
 2. 기존 운영 D1에 `migrations/0033_sox.sql`만 적용한다. 기존 `schema.sql`로 운영 DB를 초기화하지 않는다.
 3. 기존 Worker에 검증된 코드를 배포하고 `/api/sox` 및 `/api/sox/status`를 확인한다.
 4. main에 반영하고 기존 workflow의 다음 실행 또는 수동 실행에서 새 step을 확인한다.
 
-이 순서는 새 workflow 코드가 배포되지 않은 API를 호출하는 상황을 피한다. 운영 DB migration·배포·main 반영은 사용자의 승인을 받기 전까지 수행하지 않는다.
+이 순서는 새 workflow 코드가 배포되지 않은 API를 호출하는 상황을 피한다. 운영 DB migration·배포·main 반영은 사용자의 승인 후 수행했다.
