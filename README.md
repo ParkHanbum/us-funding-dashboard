@@ -9,6 +9,7 @@ The v3.3 SOX module adds a fixed original research scatterplot and a separate da
 - Original sample: six U1/drawdown points and eight U4/rebound points, with separate descriptive regressions.
 - Daily sample: every eligible session under `tga-public-face-residual-v1`, with no outcome-based event selection.
 - The daily chart is the default view. The fixed original sample stays in a separate tab; fresh results update the displayed points and regressions on the existing five-minute refresh.
+- Drawdown and rebound are displayed in separate panels by default, each with its own labeled axes and event coverage. A combined view remains available. Trend lines are optional. Clicking, tapping or pressing Enter on a point selects that date across both panels and shows its input/outcome values without changing the sample.
 - Missing inputs and prices remain unavailable. A verified no-principal day may be a genuine zero; an unverified maturity cannot.
 - The model uses face-value issuance less SOMA and verified public maturity estimates. It is separate from the existing coupon-adjusted cash-flow heatmap.
 - Input revisions retain hashes and the first complete observation time. Outcomes require the following four/five market sessions.
@@ -60,7 +61,7 @@ node tests/test_sox_runtime.mjs
 node tests/test_sox_browser.mjs
 ```
 
-After collecting real sources into the local database in confirmed personal mode, `node tests/test_sox_personal_browser.mjs` checks the actual points, statistics, source dates, original-sample separation, attribution and mobile display. The runtime fixture test should use a separate disposable database rather than overwrite those real inputs.
+After collecting real sources into the local database in confirmed personal mode, `node tests/test_sox_personal_browser.mjs` checks the actual points, statistics, source dates, original-sample separation, attribution, linked date selection, optional trends, keyboard/touch interaction and mobile display. The runtime fixture test should use a separate disposable database rather than overwrite those real inputs.
 
 The browser test requires Playwright and its Chromium headless shell. `PLAYWRIGHT_MODULE`, `PLAYWRIGHT_BROWSERS_PATH` and `SOX_SCREENSHOT_DIR` can point to an existing test environment. Runtime fixtures should use a disposable local D1; they contain synthetic prices, and the tests reject production URLs.
 

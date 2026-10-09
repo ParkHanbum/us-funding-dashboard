@@ -9,21 +9,34 @@
   const analysisAllowed = live => live?.public_use_confirmed === true ||
     (live?.personal_use_confirmed === true && live?.analysis_use === 'personal_noncommercial');
   const $ = id => host.querySelector('[data-sx="'+id+'"]');
-  let payload = null, mode = 'live', visible = {drawdown:true,rebound:true};
+  let payload = null, mode = 'live', layout = 'split', showTrend = false, selectedDate = null;
+  const visible = {drawdown:true,rebound:true};
+  const series = {
+    drawdown:{title:'1일 충격과 이후 낙폭',label:'4일 낙폭 크기',short:'낙폭',color:'#80bfff',x:'1일 충격 U1 (십억 달러)',y:'SOX 낙폭 (%)',stat:'stat-blue',description:'이벤트일부터 4거래일 뒤까지의 최대 낙폭',reading:'오른쪽일수록 충격이 크고, 위쪽일수록 낙폭이 큽니다.'},
+    rebound:{title:'4일 누적 충격과 반등',label:'5일째 반등률',short:'반등',color:'#ffbc83',x:'4일 누적 충격 U4 (십억 달러)',y:'SOX 반등 (%)',stat:'stat-orange',description:'관측 저점 대비 5거래일째의 가격 변화',reading:'위쪽일수록 반등이 큽니다. 0% 아래는 관측 저점보다 낮습니다.'}
+  };
   host.innerHTML = `
     <div class="sx-header"><div><div class="sx-eyebrow">LIQUIDITY RESEARCH · DAILY OBSERVATIONS</div>
-      <h2>준비금 전달 불일치와 SOX 반응</h2><p>1일 충격 이후 낙폭과 4일 누적 충격 이후 반등을 분리해 관측합니다.</p></div>
+      <h2>자금 충격과 SOX 반응</h2><p>충격의 크기와 이후 낙폭·반등의 관계를 두 가지 관측 기간으로 살펴봅니다.</p></div>
       <span class="sx-badge" data-sx="badge">불러오는 중</span></div>
     <div class="sx-tabs" role="tablist" aria-label="분석 표본">
       <button role="tab" aria-selected="true" data-mode="live">최신 자동 차트</button>
       <button role="tab" aria-selected="false" data-mode="reference">원본 탐색 표본</button>
     </div>
     <div class="sx-coverage" aria-live="polite"><strong data-sx="current-view">차트 표시 기간 확인 중</strong><span data-sx="freshness"></span></div>
-    <div class="sx-controls">
-      <label><input type="checkbox" data-series="drawdown" checked><i class="sx-circle"></i>1일 충격 → 4일 낙폭 <span class="sx-stat" data-sx="stat-blue"></span></label>
-      <label><input type="checkbox" data-series="rebound" checked><i class="sx-square"></i>4일 충격 → 5일째 반등 <span class="sx-stat" data-sx="stat-orange"></span></label>
+    <div class="sx-toolbar">
+      <div class="sx-view-switch" role="group" aria-label="차트 배치">
+        <button data-layout="split" aria-pressed="true">나눠 보기</button><button data-layout="overlay" aria-pressed="false">겹쳐 보기</button>
+      </div>
+      <div class="sx-controls">
+        <label><input type="checkbox" data-series="drawdown" checked><i class="sx-circle" aria-hidden="true"></i>낙폭</label>
+        <label><input type="checkbox" data-series="rebound" checked><i class="sx-square" aria-hidden="true"></i>반등</label>
+        <label class="sx-trend-toggle"><input type="checkbox" data-sx="trend">추세선</label>
+      </div>
     </div>
-    <div class="sx-chart"><div data-sx="plot"></div><div class="sx-tooltip" data-sx="tooltip"></div><div class="sx-empty" data-sx="empty">자료를 불러오는 중입니다.</div></div>
+    <div class="sx-chart"><div data-sx="plot" class="sx-plot-grid"></div><div class="sx-tooltip" data-sx="tooltip" role="tooltip"></div><div class="sx-empty" data-sx="empty">자료를 불러오는 중입니다.</div></div>
+    <div class="sx-plot-help"><span>점 하나 = 이벤트 하루 · 점을 누르면 같은 날짜의 두 결과를 함께 볼 수 있습니다.</span><span>r: 상관계수 · n: 표본 수</span></div>
+    <div class="sx-selection" data-sx="selection" hidden></div>
     <div class="sx-small" data-sx="sample"></div>
     <div class="sx-note" data-sx="notice"></div>
     <div class="sx-metrics">
@@ -39,63 +52,131 @@
 
   for (const button of host.querySelectorAll('[data-mode]')) button.addEventListener('click', () => {
     mode = button.dataset.mode;
+    selectedDate = null;
     for (const b of host.querySelectorAll('[data-mode]')) b.setAttribute('aria-selected',String(b===button));
     render();
   });
   for (const input of host.querySelectorAll('[data-series]')) input.addEventListener('change', () => {
     visible[input.dataset.series] = input.checked; render();
   });
+  for (const button of host.querySelectorAll('[data-layout]')) button.addEventListener('click', () => {
+    layout = button.dataset.layout;
+    for (const b of host.querySelectorAll('[data-layout]')) b.setAttribute('aria-pressed',String(b===button));
+    render();
+  });
+  $('trend').addEventListener('change', e => {showTrend=e.target.checked;render();});
+
+  function stepFor(range) {
+    const rough=Math.max(range,1)/5, power=10**Math.floor(Math.log10(rough)), fraction=rough/power;
+    return (fraction<=1?1:fraction<=2?2:fraction<=2.5?2.5:fraction<=5?5:10)*power;
+  }
+
+  function chartSvg(data, kinds, width) {
+    const points=kinds.flatMap(kind=>(data?.points?.[kind]||[])
+      .filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)).map(p=>({...p,kind})));
+    const W=Math.max(320,Math.round(width)), H=W>700?380:340;
+    const pad={l:56,r:20,t:22,b:62}, pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+    const xstep=stepFor(Math.max(10,...points.map(p=>p.x))*1.08);
+    const xmax=Math.ceil(Math.max(10,...points.map(p=>p.x))*1.08/xstep)*xstep;
+    const low=Math.min(0,...points.map(p=>p.y)), high=Math.max(3,...points.map(p=>p.y));
+    const ystep=stepFor(high-low+1);
+    const ymin=low<0?Math.floor((low-.25)/ystep)*ystep:0;
+    const ymax=Math.ceil((high+.4)/ystep)*ystep;
+    const sx=x=>pad.l+x/xmax*pw, sy=y=>pad.t+(ymax-y)/(ymax-ymin)*ph;
+    const tick=(v,step)=>v.toFixed(step<1?2:step%1?1:0);
+    const solo=kinds.length===1?series[kinds[0]]:null;
+    const clip=`sx-clip-${kinds.join('-')}`;
+    let svg=`<svg viewBox="0 0 ${W} ${H}" role="group" aria-label="${esc(solo?.title||'자금 충격과 SOX 반응 비교')} 산점도"><defs><clipPath id="${clip}"><rect x="${pad.l-8}" y="${pad.t-8}" width="${pw+16}" height="${ph+16}"/></clipPath></defs>`;
+    for(let x=0;x<=xmax+xstep/2;x+=xstep){
+      svg+=`<line x1="${sx(x)}" x2="${sx(x)}" y1="${pad.t}" y2="${H-pad.b}" stroke="#26364a" stroke-opacity=".55"/><text x="${sx(x)}" y="${H-pad.b+24}" fill="#a1b2c6" text-anchor="middle" font-size="13">${tick(x,xstep)}</text>`;
+    }
+    for(let y=ymin;y<=ymax+ystep/2;y+=ystep){
+      svg+=`<line x1="${pad.l}" x2="${W-pad.r}" y1="${sy(y)}" y2="${sy(y)}" stroke="${Math.abs(y)<1e-8?'#6b8098':'#26364a'}" stroke-opacity="${Math.abs(y)<1e-8?'.9':'.55'}" ${Math.abs(y)<1e-8?'stroke-dasharray="4 5"':''}/><text x="${pad.l-12}" y="${sy(y)+4}" fill="#a1b2c6" text-anchor="end" font-size="13">${tick(y,ystep)}</text>`;
+    }
+    svg+=`<text x="${pad.l+pw/2}" y="${H-12}" fill="#b5c5d8" text-anchor="middle" font-size="13">${esc(solo?.x||'자금 충격 (십억 달러)')}</text><text transform="translate(15 ${pad.t+ph/2}) rotate(-90)" fill="#b5c5d8" text-anchor="middle" font-size="13">${esc(solo?.y||'SOX 반응 (%)')}</text><g clip-path="url(#${clip})">`;
+    for(const kind of kinds){
+      const info=series[kind], fit=data?.stats?.[kind], ps=points.filter(p=>p.kind===kind);
+      if(showTrend && Number.isFinite(fit?.slope) && Number.isFinite(fit?.intercept) && ps.length>=3){
+        const a=Math.min(...ps.map(p=>p.x)), b=Math.max(...ps.map(p=>p.x));
+        svg+=`<line data-trend="${kind}" x1="${sx(a)}" x2="${sx(b)}" y1="${sy(a*fit.slope+fit.intercept)}" y2="${sy(b*fit.slope+fit.intercept)}" stroke="${info.color}" stroke-width="2" stroke-dasharray="6 4" opacity=".8"/>`;
+      }
+      // Draw the selected event last so dense near-zero points cannot cover it.
+      ps.sort((a,b)=>Number(a.date===selectedDate)-Number(b.date===selectedDate)).forEach(p=>{
+        const selected=p.date===selectedDate;
+        const title=`${p.date} · ${info.label}\n충격 ${fmt(p.x,3)} 십억 달러\nSOX 반응 ${fmt(p.y,3)}%` +
+          (p.delta_tga_bn!=null?`\nΔTGA ${money(p.delta_tga_bn)} · 순발행 ${money(p.net_issuance_bn)}`:'') +
+          (p.first_complete_seen_at?`\n입력 최초 확보 ${p.first_complete_seen_at}`:'');
+        const attr=`fill="${info.color}" fill-opacity="${selected?1:.78}" stroke="${selected?'#f5f9ff':'#0b121b'}" stroke-width="${selected?2.5:1.3}" class="sx-point${selected?' sx-point-selected':''}" data-kind="${kind}" data-date="${esc(p.date)}" data-tip="${esc(title)}" tabindex="0" role="button" aria-pressed="${selected}" aria-label="${esc(title+' · 이 날짜 선택')}"`;
+        svg+=kind==='drawdown'?`<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="${selected?7:5.5}" ${attr}/>`:`<rect x="${sx(p.x)-(selected?6.5:5)}" y="${sy(p.y)-(selected?6.5:5)}" width="${selected?13:10}" height="${selected?13:10}" rx="1.5" ${attr}/>`;
+      });
+    }
+    return svg+'</g></svg>';
+  }
+
+  function pointSelection(data) {
+    const ps=Object.values(data?.points||{}).flat();
+    if(selectedDate && !ps.some(p=>p.date===selectedDate)) selectedDate=null;
+    const selection=$('selection');
+    selection.hidden=!selectedDate;
+    if(!selectedDate) {selection.innerHTML='';return;}
+    const dd=data?.points?.drawdown?.find(p=>p.date===selectedDate);
+    const rb=data?.points?.rebound?.find(p=>p.date===selectedDate);
+    const recent=mode==='live'?data?.recent?.find(p=>p.date===selectedDate):null;
+    const outcome=(point,status)=>point?`${fmt(point.y,2)}%`:status==='pending'?'관측 중':'해당 표본 없음';
+    const value=(point,macro)=>Number.isFinite(point?.x)?`${fmt(point.x,2)} 십억 달러`:Number.isFinite(macro)?`${fmt(macro,2)} 십억 달러`:'—';
+    selection.innerHTML=`<div class="sx-selection-heading"><strong>선택한 이벤트 · ${esc(selectedDate)}</strong><button data-sx="clear-selection" aria-label="선택한 날짜 해제">선택 해제</button></div><div class="sx-selection-values"><div><span>1일 충격 U1</span><strong>${value(dd,recent?.u1_bn)}</strong></div><div><span>4일 누적 충격 U4</span><strong>${value(rb,recent?.u4_bn)}</strong></div><div><span>4일 낙폭</span><strong>${outcome(dd,recent?.status4)}</strong></div><div><span>5일째 반등</span><strong>${outcome(rb,recent?.status5)}</strong></div></div>`;
+    $('clear-selection').addEventListener('click',()=>{selectedDate=null;render();});
+  }
 
   function plot(data) {
-    const labels = {drawdown:'4일 낙폭 크기',rebound:'5일째 반등률'};
-    const colors = {drawdown:'#75b8ff',rebound:'#ffb570'};
-    const points = Object.entries(data?.points || {}).flatMap(([kind,ps]) => visible[kind] ? ps.map(p=>({...p,kind})) : []);
-    const mobile=host.clientWidth<600;
-    const W=mobile?440:1060,H=mobile?410:440,pad={l:mobile?59:70,r:28,t:30,b:64},pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
-    const axisFont=mobile?16:12;
-    const xmax=Math.max(50,...points.map(p=>p.x))*1.13;
-    const ymin=Math.min(0,...points.map(p=>p.y))-0.7, ymax=Math.max(3,...points.map(p=>p.y))+0.9;
-    const sx=x=>pad.l+x/xmax*pw, sy=y=>pad.t+(ymax-y)/(ymax-ymin)*ph;
-    let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="불일치 충격과 SOX 반응 산점도"><defs><clipPath id="sx-clip"><rect x="${pad.l}" y="${pad.t}" width="${pw}" height="${ph}"/></clipPath></defs>`;
-    for(let i=0;i<=5;i++){
-      const x=i/5*xmax,y=ymin+i/5*(ymax-ymin);
-      svg+=`<line x1="${sx(x)}" x2="${sx(x)}" y1="${pad.t}" y2="${H-pad.b}" stroke="#26364a" stroke-opacity=".6"/><text x="${sx(x)}" y="${H-pad.b+24}" fill="#93a7bd" text-anchor="middle" font-size="${axisFont}">${x.toFixed(0)}</text>`;
-      svg+=`<line x1="${pad.l}" x2="${W-pad.r}" y1="${sy(y)}" y2="${sy(y)}" stroke="#26364a" stroke-opacity=".6"/><text x="${pad.l-12}" y="${sy(y)+4}" fill="#93a7bd" text-anchor="end" font-size="${axisFont}">${y.toFixed(1)}</text>`;
+    const points=Object.keys(series).flatMap(kind=>visible[kind]?(data?.points?.[kind]||[])
+      .filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)).map(p=>({...p,kind})):[]);
+    const active=Object.keys(series).filter(kind=>visible[kind]);
+    const width=$('plot').clientWidth||host.clientWidth-48;
+    const stacked=window.matchMedia('(max-width:900px)').matches || active.length<2;
+    const cardWidth=(stacked?width:(width-18)/2)-36;
+    const stats=kind=>`<span class="sx-stat" data-sx="${series[kind].stat}"></span>`;
+    $('plot').className=`sx-plot-grid${layout==='overlay'?' sx-overlay':''}${active.length<2?' sx-single':''}`;
+    if(layout==='split'){
+      $('plot').innerHTML=Object.entries(series).map(([kind,info])=>{
+        const dates=(data?.points?.[kind]||[]).map(p=>p.date).sort();
+        return `<section class="sx-plot-card sx-${kind}" data-chart="${kind}" ${visible[kind]?'':'hidden'}><div class="sx-plot-heading"><h3><i class="${kind==='drawdown'?'sx-circle':'sx-square'}" aria-hidden="true"></i>${info.title}</h3>${stats(kind)}</div><p class="sx-plot-description">${info.description}</p><div class="sx-svg-wrap">${visible[kind]?chartSvg(data,[kind],cardWidth):''}${visible[kind]&&!dates.length?'<div class="sx-card-empty">확정된 표본 대기</div>':''}</div><div class="sx-reading">${info.reading}</div><div class="sx-series-date">${dates.length?`확정 이벤트 ${esc(dates[0])} ~ ${esc(dates.at(-1))}`:'이후 거래일 자료가 쌓이면 점이 추가됩니다.'}</div></section>`;
+      }).join('');
+    }else{
+      $('plot').innerHTML=`<section class="sx-plot-card" data-chart="overlay"><div class="sx-plot-heading"><h3>낙폭과 반등 비교</h3><div class="sx-overlay-stats">${Object.entries(series).map(([kind,info])=>`<span ${visible[kind]?'':'hidden'}><i class="${kind==='drawdown'?'sx-circle':'sx-square'}" aria-hidden="true"></i>${info.short} ${stats(kind)}</span>`).join('')}</div></div><p class="sx-plot-description">두 관측 기간을 같은 축에서 비교합니다. 자금 충격은 각각 U1·U4입니다.</p>${chartSvg(data,active,width-36)}<div class="sx-reading">파란 원: 4일 낙폭 · 주황 네모: 5일째 반등 · 추세선은 선택해서 볼 수 있습니다.</div></section>`;
     }
-    svg+=`<line x1="${pad.l}" x2="${W-pad.r}" y1="${sy(0)}" y2="${sy(0)}" stroke="#63758c" stroke-dasharray="4 5"/><text x="${pad.l+pw/2}" y="${H-14}" fill="#9eb1c6" text-anchor="middle" font-size="${mobile?17:13}">${mobile?"충격 (십억 달러)":"준비금 전달 불일치 충격 (십억 달러)"}</text><text transform="translate(19 ${pad.t+ph/2}) rotate(-90)" fill="#9eb1c6" text-anchor="middle" font-size="${mobile?17:13}">SOX 반응 (%)</text><g clip-path="url(#sx-clip)">`;
-    for(const kind of ['drawdown','rebound']){
-      if(!visible[kind]) continue;
-      const fit=data?.stats?.[kind], ps=points.filter(p=>p.kind===kind);
-      if(fit?.slope!=null && fit?.intercept!=null && ps.length>=3){
-        const a=Math.min(...ps.map(p=>p.x)),b=Math.max(...ps.map(p=>p.x));
-        svg+=`<line x1="${sx(a)}" x2="${sx(b)}" y1="${sy(a*fit.slope+fit.intercept)}" y2="${sy(b*fit.slope+fit.intercept)}" stroke="${colors[kind]}" stroke-width="2" opacity=".7"/>`;
-      }
-      ps.forEach((p,index)=>{
-        const title=`${p.date}\n${labels[kind]}\n충격 $${fmt(p.x,3)}bn · 반응 ${fmt(p.y,3)}%` +
-          (p.delta_tga_bn!=null?`\nΔTGA ${money(p.delta_tga_bn)} · 순발행 ${money(p.net_issuance_bn)}`:``) +
-          (p.first_complete_seen_at?`\n입력 최초 확보 ${p.first_complete_seen_at}`:``);
-        const attr=`fill="${colors[kind]}" stroke="#0b121b" stroke-width="1.5" data-tip="${esc(title)}" tabindex="0" aria-label="${esc(title)}"`;
-        svg+=kind==='drawdown'?`<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="6.5" ${attr}/>`:`<rect x="${sx(p.x)-6}" y="${sy(p.y)-6}" width="12" height="12" rx="1" ${attr}/>`;
-        if(mode==='reference' && !mobile){
-          // Offset coincident near-zero baseline points so the date labels stay readable.
-          const offset=p.y===0? (index%3)*15 : 0;
-          svg+=`<text x="${sx(p.x)+10}" y="${sy(p.y)-9-offset}" fill="#c4d0dc" font-size="11">${p.date.slice(5)}</text>`;
+    $('empty').style.display=points.length?'none':'flex';
+    const license=(payload?.live && !analysisAllowed(payload.live)) || payload?.status?.state==='LICENSE_REQUIRED';
+    $('empty').textContent=!active.length?'표시할 계열을 선택하세요.':mode==='live'?(license?'SOX 공개 이용 확인 대기 · TGA·순발행 입력은 별도로 자동 수집됩니다.':'확정된 자동 표본이 아직 없습니다. 입력과 이후 4~5거래일 관측이 필요합니다.'):'확정된 탐색 표본이 없습니다.';
+    const tooltip=$('tooltip');
+    tooltip.style.display='none';
+    const show=elem=>{
+      tooltip.textContent=elem.dataset.tip;tooltip.style.display='block';
+      const box=host.querySelector('.sx-chart').getBoundingClientRect(), point=elem.getBoundingClientRect();
+      tooltip.style.left=Math.max(8,Math.min(point.left-box.left+18,box.width-tooltip.offsetWidth-8))+'px';
+      tooltip.style.top=Math.max(8,Math.min(point.top-box.top-tooltip.offsetHeight-12,box.height-tooltip.offsetHeight-8))+'px';
+    };
+    const hide=()=>{tooltip.style.display='none';};
+    for(const elem of $('plot').querySelectorAll('[data-tip]')){
+      const select=keyboard=>{
+        selectedDate=elem.dataset.date;render();
+        if(keyboard) $('plot').querySelector(`[data-kind="${elem.dataset.kind}"][data-date="${selectedDate}"]`)?.focus({preventScroll:true});
+      };
+      elem.addEventListener('mouseenter',()=>show(elem));elem.addEventListener('mouseleave',hide);
+      elem.addEventListener('focus',()=>show(elem));elem.addEventListener('blur',hide);
+      elem.addEventListener('click',()=>select(false));
+      elem.addEventListener('keydown',event=>{
+        if(event.key==='Enter'||event.key===' '){event.preventDefault();select(true);}
+        if(event.key==='Escape'){
+          const date=elem.dataset.date, kind=elem.dataset.kind;
+          selectedDate=null;render();
+          $('plot').querySelector(`[data-kind="${kind}"][data-date="${date}"]`)?.focus({preventScroll:true});
+          hide();
         }
       });
     }
-    svg+='</g></svg>';
-    $('plot').innerHTML=svg;
-    $('empty').style.display=points.length?'none':'flex';
-    const license=(payload?.live && !analysisAllowed(payload.live)) || payload?.status?.state==='LICENSE_REQUIRED';
-    $('empty').textContent=mode==='live'?(license?'SOX 공개 이용 확인 대기 · TGA·순발행 입력은 별도로 자동 수집됩니다.':'확정된 자동 표본이 아직 없습니다. 입력과 이후 4~5거래일 관측이 필요합니다.'):'표시할 계열을 선택하세요.';
-    const tooltip=$('tooltip');
-    for(const elem of $('plot').querySelectorAll('[data-tip]')){
-      const show=()=>{tooltip.textContent=elem.dataset.tip;tooltip.style.display='block';};
-      const hide=()=>{tooltip.style.display='none';};
-      elem.addEventListener('mouseenter',show);elem.addEventListener('mouseleave',hide);
-      elem.addEventListener('focus',show);elem.addEventListener('blur',hide);
-    }
-    $('point-table').innerHTML=points.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(labels[p.kind])}</td><td>${fmt(p.x,3)}</td><td>${fmt(p.y,3)}</td></tr>`).join('') || '<tr><td colspan="4">확정 표본 없음</td></tr>';
+    pointSelection(data);
+    $('point-table').innerHTML=points.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(series[p.kind].label)}</td><td>${fmt(p.x,3)}</td><td>${fmt(p.y,3)}</td></tr>`).join('') || '<tr><td colspan="4">확정 표본 없음</td></tr>';
   }
 
   function render(){

@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-10-09T16:47:31.643728+00:00",
+  "base_commit": "40238c5",
+  "scope": "Local chart readability changes using previously collected real Treasury/FRED data. No production deployment or main update for this change yet.",
+  "changes": [
+    "separate drawdown/rebound panels by default",
+    "optional combined view and trend lines",
+    "rounded axis ticks with per-series units",
+    "linked event date selection with input/outcome detail",
+    "keyboard and touch selection",
+    "stacked mobile panels"
+  ],
+  "actual_data": {
+    "drawdown_points": 51,
+    "rebound_points": 47,
+    "drawdown_r": -0.16520702033219783,
+    "rebound_r": -0.028025162952641992,
+    "latest_macro": "2026-10-07",
+    "latest_sox": "2026-10-08",
+    "reference_points": 14
+  },
+  "checks": {
+    "actual_browser": "passed",
+    "synthetic_browser_regression": "passed",
+    "selected_values_match_actual_api": true,
+    "mobile_overflow": false,
+    "js_errors": 0,
+    "wrangler_version": "4.136.3",
+    "dry_run": "passed",
+    "worker_upload_kib": 45.93
+  },
+  "production_changes": false,
+  "migration_required": false,
+  "collector_model_config_workflow_unchanged": true,
+  "awaiting": "user approval before production deployment and main update"
+}

@@ -23,7 +23,7 @@ assert.equal(live.points.rebound.length,live.stats.rebound.n);
 assert.ok(!JSON.stringify(live).includes('sox_close'),'Raw closes must remain private.');
 
 const browser=await chromium.launch({headless:true});
-const page=await browser.newPage({viewport:{width:1440,height:1400},deviceScaleFactor:1});
+const page=await browser.newPage({viewport:{width:1440,height:1400},deviceScaleFactor:1,hasTouch:true});
 const errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 try {
@@ -44,6 +44,39 @@ try {
   assert.match(await host.locator('[data-sx="methods"]').innerText(),/Copyright © 2025, Nasdaq, Inc/);
   await host.locator('details').first().locator('summary').click();
   assert.ok(!(await host.locator('[data-sx="recent"]').innerText()).includes('이용 확인 대기'));
+  // Both views show the same real points. Selection links the event date
+  // across the two different observation windows without changing values.
+  assert.equal(await host.locator('[data-chart="drawdown"]').isVisible(),true);
+  assert.equal(await host.locator('[data-chart="rebound"]').isVisible(),true);
+  assert.equal(await host.locator('[data-trend]').count(),0);
+  const selected=live.points.drawdown.filter(p=>live.points.rebound.some(r=>r.date===p.date))
+    .sort((a,b)=>b.y-a.y)[0];
+  const rebound=live.points.rebound.find(p=>p.date===selected.date);
+  const point=()=>host.locator(`[data-kind="drawdown"][data-date="${selected.date}"]`);
+  await point().click();
+  assert.equal(await host.locator('[aria-pressed="true"][data-tip]').count(),2);
+  const detail=await host.locator('[data-sx="selection"]').innerText();
+  assert.ok(detail.includes(selected.date));
+  assert.ok(detail.includes(selected.x.toFixed(2)+' 십억 달러'));
+  assert.ok(detail.includes(rebound.x.toFixed(2)+' 십억 달러'));
+  assert.ok(detail.includes(selected.y.toFixed(2)+'%'));
+  assert.ok(detail.includes(rebound.y.toFixed(2)+'%'));
+  await host.locator('[data-layout="overlay"]').click();
+  assert.equal(await host.locator('[data-chart="overlay"]').isVisible(),true);
+  assert.equal(await host.locator('[data-tip]').count(),count);
+  assert.equal(await host.locator('[aria-pressed="true"][data-tip]').count(),2);
+  await host.locator('[data-sx="trend"]').check();
+  assert.equal(await host.locator('[data-trend]').count(),2);
+  await host.locator('[data-sx="trend"]').uncheck();
+  await host.locator('[data-layout="split"]').click();
+  await host.locator('[data-sx="clear-selection"]').click();
+  assert.equal(await host.locator('[data-sx="selection"]').isVisible(),false);
+  await point().focus();
+  await point().press('Enter');
+  assert.equal(await host.locator('[data-sx="selection"]').isVisible(),true);
+  await point().press('Escape');
+  assert.equal(await host.locator('[data-sx="selection"]').isVisible(),false);
+  await point().evaluate(el=>el.blur());
   await host.screenshot({path:join(output,'sox-personal-desktop.png')});
   await host.locator('[data-mode="reference"]').click();
   assert.equal(await host.locator('[data-tip]').count(),14);
@@ -56,6 +89,12 @@ try {
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
   assert.equal(await host.locator('[data-sx="stat-blue"]').isVisible(),true);
   assert.equal(await host.locator('[data-sx="stat-orange"]').isVisible(),true);
+  await point().tap();
+  assert.equal(await host.locator('[data-sx="selection"]').isVisible(),true);
+  const tooltipBox=await host.locator('[data-sx="tooltip"]').boundingBox();
+  if(tooltipBox) assert.ok(tooltipBox.x>=0 && tooltipBox.x+tooltipBox.width<=390);
+  await host.locator('[data-sx="clear-selection"]').click();
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
   await host.screenshot({path:join(output,'sox-personal-mobile.png')});
   assert.deepEqual(errors,[]);
   console.log(JSON.stringify({result:'passed',scope:'Actual local SOX collection, no intercepted responses',drawdown:live.stats.drawdown.n,rebound:live.stats.rebound.n,latest_sox:live.sources.sox.observed_through,screenshots:output}));
