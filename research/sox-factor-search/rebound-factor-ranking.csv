@@ -1,0 +1,692 @@
+feature,family,formula,n,r
+SOX_past_drawdown_4,market,100*(1-P_t/max(P_(t-3)..P_t)),47,0.6435903993284713
+N_sum_5_lag3,treasury,"sum(N, trailing 5 sessions), lag 3",43,-0.5819414371938997
+N_sum_6_lag3,treasury,"sum(N, trailing 6 sessions), lag 3",42,-0.5816526973149975
+delta_TGA_abs_sum_10_lag3,treasury,"abs_sum(delta_TGA, trailing 10 sessions), lag 3",38,0.5812845540321061
+abs_d_times_mom5,interaction,abs_d * SOX_mom5,45,-0.5739098876309136
+SOX_past_drawdown_5,market,100*(1-P_t/max(P_(t-4)..P_t)),46,0.5684115345754831
+delta_TGA_sum_10_lag5,treasury,"sum(delta_TGA, trailing 10 sessions), lag 5",36,-0.5476956043672312
+delta_TGA_abs_sum_10_lag2,treasury,"abs_sum(delta_TGA, trailing 10 sessions), lag 2",39,0.545074090675038
+SOX_past_drawdown_3,market,100*(1-P_t/max(P_(t-2)..P_t)),47,0.5373028921851232
+delta_TGA_abs_sum_8_lag3,treasury,"abs_sum(delta_TGA, trailing 8 sessions), lag 3",40,0.5372425453176563
+N_sum_4_lag3,treasury,"sum(N, trailing 4 sessions), lag 3",44,-0.5363423617446599
+N_sum_abs_5_lag3,treasury,"sum_abs(N, trailing 5 sessions), lag 3",43,-0.5285709548213798
+SOX_momentum_3,market,100*(P_t/P_(t-3) - 1),47,-0.5272245774973532
+delta_TGA_sum_4_lag0,treasury,"sum(delta_TGA, trailing 4 sessions), lag 0",47,0.526695915934129
+weighted_4_4_signed,weighted_treasury,"signed(sum(4*delta_TGA - N, trailing 4))",47,0.5246923400513035
+weighted_3_4_signed,weighted_treasury,"signed(sum(3*delta_TGA - N, trailing 4))",47,0.520634835362516
+N_std_5_lag3,treasury,"std(N, trailing 5 sessions), lag 3",43,-0.5123039413615527
+N_sum_abs_6_lag3,treasury,"sum_abs(N, trailing 6 sessions), lag 3",42,-0.5098086386727213
+SOX_ma_deviation_4,market,100*(P_t/mean(last 4 closes)-1),47,-0.508385267649973
+delta_TGA_abs_sum_8_lag5,treasury,"abs_sum(delta_TGA, trailing 8 sessions), lag 5",38,0.507707265321103
+weighted_2_4_signed,weighted_treasury,"signed(sum(2*delta_TGA - N, trailing 4))",47,0.506873749718044
+N_sum_8_lag1,treasury,"sum(N, trailing 8 sessions), lag 1",42,-0.5045145020856614
+delta_TGA_abs_sum_3_lag0,treasury,"abs_sum(delta_TGA, trailing 3 sessions), lag 0",47,0.4989115556425249
+delta_TGA_sum_10_lag3,treasury,"sum(delta_TGA, trailing 10 sessions), lag 3",38,-0.4925820182405739
+N_sum_6_lag2,treasury,"sum(N, trailing 6 sessions), lag 2",43,-0.4925351986953606
+delta_TGA_sum_3_lag0,treasury,"sum(delta_TGA, trailing 3 sessions), lag 0",47,0.4883381050439739
+N_sum_2_lag5,treasury,"sum(N, trailing 2 sessions), lag 5",44,-0.48661849920945077
+weighted_1.5_4_signed,weighted_treasury,"signed(sum(1.5*delta_TGA - N, trailing 4))",47,0.4856693973059058
+weighted_4_3_signed,weighted_treasury,"signed(sum(4*delta_TGA - N, trailing 3))",47,0.48360244184968665
+weighted_3_3_signed,weighted_treasury,"signed(sum(3*delta_TGA - N, trailing 3))",47,0.4794796486595676
+SOX_momentum_4,market,100*(P_t/P_(t-4) - 1),46,-0.4724486639621944
+N_sum_3_lag3,treasury,"sum(N, trailing 3 sessions), lag 3",45,-0.47059306040374144
+SOX_ma_deviation_5,market,100*(P_t/mean(last 5 closes)-1),46,-0.4685313589898217
+N_sum_5_lag2,treasury,"sum(N, trailing 5 sessions), lag 2",44,-0.4681137491983536
+weighted_2_3_signed,weighted_treasury,"signed(sum(2*delta_TGA - N, trailing 3))",47,0.46691595377407696
+N_sum_3_lag5,treasury,"sum(N, trailing 3 sessions), lag 5",43,-0.4660834828560873
+SOX_vol_5_lag0,market,"SD(past daily SOX log returns, 5 sessions), lag 0",45,0.4659390947526426
+weighted_1.25_4_signed,weighted_treasury,"signed(sum(1.25*delta_TGA - N, trailing 4))",47,0.46394021411170705
+delta_TGA_abs_sum_2_lag0,treasury,"abs_sum(delta_TGA, trailing 2 sessions), lag 0",47,0.4621227342660135
+N_abs_sum_6_lag3,treasury,"abs_sum(N, trailing 6 sessions), lag 3",42,-0.45931609034598275
+N_sum_4_lag5,treasury,"sum(N, trailing 4 sessions), lag 5",42,-0.453517924901774
+N_std_6_lag2,treasury,"std(N, trailing 6 sessions), lag 2",43,-0.4514951382014891
+N_sum_abs_8_lag1,treasury,"sum_abs(N, trailing 8 sessions), lag 1",42,-0.44893678028487155
+N_sum_8_lag2,treasury,"sum(N, trailing 8 sessions), lag 2",41,-0.4487043568645355
+weighted_1.5_3_signed,weighted_treasury,"signed(sum(1.5*delta_TGA - N, trailing 3))",47,0.448440743802257
+month_end_4_calendar_days,calendar,last four calendar days of month,47,0.44341842171177265
+d_abs_sum_8_lag5,treasury,"abs_sum(d, trailing 8 sessions), lag 5",38,0.43969567144421545
+delta_TGA_sum_2_lag0,treasury,"sum(delta_TGA, trailing 2 sessions), lag 0",47,0.4381832276653686
+N_max_abs_3_lag5,treasury,"max_abs(N, trailing 3 sessions), lag 5",43,-0.43540133814030335
+SOX_ma_deviation_3,market,100*(P_t/mean(last 3 closes)-1),47,-0.4332296950103698
+N_sum_8_lag0,treasury,"sum(N, trailing 8 sessions), lag 0",43,-0.43229807217852695
+weighted_4_3_abs,weighted_treasury,"abs(sum(4*delta_TGA - N, trailing 3))",47,0.4301872296016391
+weighted_2_5_signed,weighted_treasury,"signed(sum(2*delta_TGA - N, trailing 5))",46,0.42964392405061336
+weighted_1.25_3_signed,weighted_treasury,"signed(sum(1.25*delta_TGA - N, trailing 3))",47,0.4296232067334701
+weighted_1.5_5_signed,weighted_treasury,"signed(sum(1.5*delta_TGA - N, trailing 5))",46,0.4282323114880645
+N_abs_sum_3_lag5,treasury,"abs_sum(N, trailing 3 sessions), lag 5",43,-0.42799734231045194
+d_sum_4_lag0,treasury,"sum(d, trailing 4 sessions), lag 0",47,0.4253746959367899
+weighted_3_5_signed,weighted_treasury,"signed(sum(3*delta_TGA - N, trailing 5))",46,0.42437433160310967
+weighted_1.25_5_signed,weighted_treasury,"signed(sum(1.25*delta_TGA - N, trailing 5))",46,0.4227326443123408
+N_max_abs_5_lag3,treasury,"max_abs(N, trailing 5 sessions), lag 3",43,-0.42262868266072756
+N_abs_sum_8_lag1,treasury,"abs_sum(N, trailing 8 sessions), lag 1",42,-0.42195563459341107
+delta_TGA_max_abs_2_lag0,treasury,"max_abs(delta_TGA, trailing 2 sessions), lag 0",47,0.42185782712912895
+N_std_3_lag5,treasury,"std(N, trailing 3 sessions), lag 5",43,-0.4214110975874511
+delta_TGA_max_abs_3_lag0,treasury,"max_abs(delta_TGA, trailing 3 sessions), lag 0",47,0.42118232435017017
+N_abs_sum_5_lag3,treasury,"abs_sum(N, trailing 5 sessions), lag 3",43,-0.41951960184176107
+weighted_4_5_signed,weighted_treasury,"signed(sum(4*delta_TGA - N, trailing 5))",46,0.41925762503715747
+N_abs_sum_4_lag5,treasury,"abs_sum(N, trailing 4 sessions), lag 5",42,-0.41907421628355185
+delta_TGA_abs_sum_4_lag0,treasury,"abs_sum(delta_TGA, trailing 4 sessions), lag 0",47,0.4185631394919807
+N_sum_abs_4_lag5,treasury,"sum_abs(N, trailing 4 sessions), lag 5",42,-0.41855549136863995
+delta_TGA_abs_sum_8_lag2,treasury,"abs_sum(delta_TGA, trailing 8 sessions), lag 2",41,0.41673612410889105
+N_sum_abs_3_lag5,treasury,"sum_abs(N, trailing 3 sessions), lag 5",43,-0.4139369935650696
+d_sum_abs_10_lag5,treasury,"sum_abs(d, trailing 10 sessions), lag 5",36,0.4128027706556023
+TGA4_times_vol5,interaction,TGA4 * SOX_vol5,45,0.41058133852589224
+d_sum_5_lag0,treasury,"sum(d, trailing 5 sessions), lag 0",46,0.4087413091336204
+SOX_momentum_2,market,100*(P_t/P_(t-2) - 1),47,-0.40857950149629785
+d_sum_abs_10_lag1,treasury,"sum_abs(d, trailing 10 sessions), lag 1",40,0.4079030782863413
+N_sum_abs_6_lag2,treasury,"sum_abs(N, trailing 6 sessions), lag 2",43,-0.4039817034818284
+delta_TGA_sum_8_lag3,treasury,"sum(delta_TGA, trailing 8 sessions), lag 3",40,-0.40367952533609675
+delta_TGA_sum_6_lag3,treasury,"sum(delta_TGA, trailing 6 sessions), lag 3",42,-0.39959562229780604
+N_sum_6_lag1,treasury,"sum(N, trailing 6 sessions), lag 1",44,-0.39889688053561995
+d_sum_abs_8_lag5,treasury,"sum_abs(d, trailing 8 sessions), lag 5",38,0.3987234632935951
+SOX_vol_4_lag1,market,"SD(past daily SOX log returns, 4 sessions), lag 1",45,0.39854582324913296
+N_std_6_lag3,treasury,"std(N, trailing 6 sessions), lag 3",42,-0.39705099282874556
+d_abs_sum_10_lag5,treasury,"abs_sum(d, trailing 10 sessions), lag 5",36,0.39702720855354406
+N_sum_8_lag3,treasury,"sum(N, trailing 8 sessions), lag 3",40,-0.39671978622343756
+N_abs_sum_8_lag2,treasury,"abs_sum(N, trailing 8 sessions), lag 2",41,-0.39669348993995457
+d_abs_sum_10_lag0,treasury,"abs_sum(d, trailing 10 sessions), lag 0",41,-0.39655838697419116
+d_sum_3_lag0,treasury,"sum(d, trailing 3 sessions), lag 0",47,0.39578189952741333
+delta_TGA_sum_5_lag0,treasury,"sum(delta_TGA, trailing 5 sessions), lag 0",46,0.3954015000062493
+delta_TGA_sum_3_lag1,treasury,"sum(delta_TGA, trailing 3 sessions), lag 1",47,0.39342185094779814
+weighted_3_3_abs,weighted_treasury,"abs(sum(3*delta_TGA - N, trailing 3))",47,0.39276550390482745
+N_sum_abs_8_lag2,treasury,"sum_abs(N, trailing 8 sessions), lag 2",41,-0.3922171946505634
+N_max_abs_6_lag2,treasury,"max_abs(N, trailing 6 sessions), lag 2",43,-0.3920148991586535
+delta_TGA_abs_sum_10_lag1,treasury,"abs_sum(delta_TGA, trailing 10 sessions), lag 1",40,0.38662669443424
+N_abs_sum_10_lag0,treasury,"abs_sum(N, trailing 10 sessions), lag 0",41,-0.386440121270164
+N_sum_10_lag0,treasury,"sum(N, trailing 10 sessions), lag 0",41,-0.3856756234567714
+delta_TGA_abs_sum_6_lag5,treasury,"abs_sum(delta_TGA, trailing 6 sessions), lag 5",40,0.3823976186300792
+delta_TGA_abs_sum_5_lag0,treasury,"abs_sum(delta_TGA, trailing 5 sessions), lag 0",46,0.3778948526042364
+weighted_0.75_5_signed,weighted_treasury,"signed(sum(0.75*delta_TGA - N, trailing 5))",46,0.37649078718180456
+d_sum_abs_10_lag2,treasury,"sum_abs(d, trailing 10 sessions), lag 2",39,0.3764757299466598
+N_max_abs_4_lag0,treasury,"max_abs(N, trailing 4 sessions), lag 0",47,0.3762606611750453
+N_std_4_lag0,treasury,"std(N, trailing 4 sessions), lag 0",47,0.3761872194591992
+delta_TGA_max_abs_4_lag0,treasury,"max_abs(delta_TGA, trailing 4 sessions), lag 0",47,0.37552301383654524
+N_abs_sum_8_lag0,treasury,"abs_sum(N, trailing 8 sessions), lag 0",43,-0.3729930656908034
+delta_TGA_abs_sum_3_lag1,treasury,"abs_sum(delta_TGA, trailing 3 sessions), lag 1",47,0.3718614479616654
+N_abs_sum_8_lag3,treasury,"abs_sum(N, trailing 8 sessions), lag 3",40,-0.37149307082501926
+N_abs_sum_10_lag2,treasury,"abs_sum(N, trailing 10 sessions), lag 2",39,-0.3713171303284552
+N_std_5_lag2,treasury,"std(N, trailing 5 sessions), lag 2",44,-0.3710425563555693
+N_max_abs_6_lag3,treasury,"max_abs(N, trailing 6 sessions), lag 3",42,-0.37074156877293896
+delta_TGA_sum_5_lag3,treasury,"sum(delta_TGA, trailing 5 sessions), lag 3",43,-0.3703682750129786
+delta_TGA_sum_8_lag5,treasury,"sum(delta_TGA, trailing 8 sessions), lag 5",38,-0.36739246103793155
+SOX_vol_4_lag0,market,"SD(past daily SOX log returns, 4 sessions), lag 0",46,0.3668073768274772
+N_abs_sum_2_lag5,treasury,"abs_sum(N, trailing 2 sessions), lag 5",44,-0.36557637684156674
+N_sum_abs_4_lag3,treasury,"sum_abs(N, trailing 4 sessions), lag 3",44,-0.365363954489494
+SOX_momentum_1,market,100*(P_t/P_(t-1) - 1),47,-0.3641994685642748
+d_sum_3_lag1,treasury,"sum(d, trailing 3 sessions), lag 1",47,0.3621462690111488
+N_std_4_lag3,treasury,"std(N, trailing 4 sessions), lag 3",44,-0.35951921321827623
+N_max_abs_2_lag5,treasury,"max_abs(N, trailing 2 sessions), lag 5",44,-0.3594415110432914
+delta_TGA_sum_8_lag2,treasury,"sum(delta_TGA, trailing 8 sessions), lag 2",41,-0.3594243252186339
+d_sum_6_lag0,treasury,"sum(d, trailing 6 sessions), lag 0",45,0.3580696682497266
+delta_TGA_abs_sum_4_lag1,treasury,"abs_sum(delta_TGA, trailing 4 sessions), lag 1",46,0.35756253633470453
+N_sum_abs_2_lag5,treasury,"sum_abs(N, trailing 2 sessions), lag 5",44,-0.3572664600111359
+delta_TGA_sum_2_lag1,treasury,"sum(delta_TGA, trailing 2 sessions), lag 1",47,0.35713090133663833
+N_abs_sum_10_lag1,treasury,"abs_sum(N, trailing 10 sessions), lag 1",40,-0.35411974787208234
+weighted_0.75_4_signed,weighted_treasury,"signed(sum(0.75*delta_TGA - N, trailing 4))",47,0.3536086075539607
+N_abs_sum_6_lag2,treasury,"abs_sum(N, trailing 6 sessions), lag 2",43,-0.35360642870373177
+N_sum_abs_8_lag0,treasury,"sum_abs(N, trailing 8 sessions), lag 0",43,-0.3533855424301008
+N_sum_abs_5_lag2,treasury,"sum_abs(N, trailing 5 sessions), lag 2",44,-0.35299467860459705
+d_abs_sum_8_lag0,treasury,"abs_sum(d, trailing 8 sessions), lag 0",43,-0.3528720062864315
+N_sum_abs_5_lag5,treasury,"sum_abs(N, trailing 5 sessions), lag 5",41,-0.3520726440762202
+N_sum_4_lag2,treasury,"sum(N, trailing 4 sessions), lag 2",45,-0.3489622757172037
+abs_d_times_vol5,interaction,abs_d * SOX_vol5,45,0.34872739650636925
+delta_TGA_sum_abs_4_lag0,treasury,"sum_abs(delta_TGA, trailing 4 sessions), lag 0",47,0.3487051231084697
+weighted_4_4_abs,weighted_treasury,"abs(sum(4*delta_TGA - N, trailing 4))",47,0.3483437072675345
+N_abs_sum_10_lag3,treasury,"abs_sum(N, trailing 10 sessions), lag 3",38,-0.34807299828623595
+N_std_3_lag0,treasury,"std(N, trailing 3 sessions), lag 0",47,0.34754429759873623
+N_sum_10_lag1,treasury,"sum(N, trailing 10 sessions), lag 1",40,-0.3468532067902161
+delta_TGA_sum_10_lag2,treasury,"sum(delta_TGA, trailing 10 sessions), lag 2",39,-0.3465899820016826
+N_sum_10_lag3,treasury,"sum(N, trailing 10 sessions), lag 3",38,-0.34540435638598954
+N_sum_5_lag5,treasury,"sum(N, trailing 5 sessions), lag 5",41,-0.343764191256625
+N_max_abs_3_lag0,treasury,"max_abs(N, trailing 3 sessions), lag 0",47,0.3435954151994762
+d_sum_2_lag0,treasury,"sum(d, trailing 2 sessions), lag 0",47,0.3433496409318572
+delta_TGA_sum_abs_3_lag0,treasury,"sum_abs(delta_TGA, trailing 3 sessions), lag 0",47,0.3402281167529492
+N_sum_1_lag5,treasury,"sum(N, trailing 1 sessions), lag 5",45,-0.3394923179168089
+delta_TGA_max_abs_5_lag0,treasury,"max_abs(delta_TGA, trailing 5 sessions), lag 0",46,0.3394413581630556
+d_signed_sqrt,treasury_transform,sign(d)*sqrt(abs(d)),47,0.33907369000803106
+N_abs_sum_5_lag5,treasury,"abs_sum(N, trailing 5 sessions), lag 5",41,-0.33863336206476075
+N_sum_abs_10_lag0,treasury,"sum_abs(N, trailing 10 sessions), lag 0",41,-0.3372627877960928
+delta_TGA_sum_abs_2_lag0,treasury,"sum_abs(delta_TGA, trailing 2 sessions), lag 0",47,0.33683070599427817
+d_sum_abs_10_lag3,treasury,"sum_abs(d, trailing 10 sessions), lag 3",38,0.3360478887122279
+delta_TGA_abs_sum_2_lag1,treasury,"abs_sum(delta_TGA, trailing 2 sessions), lag 1",47,0.33565752483171907
+delta_TGA_abs_sum_5_lag5,treasury,"abs_sum(delta_TGA, trailing 5 sessions), lag 5",41,0.3352417240956927
+d_sum_4_lag1,treasury,"sum(d, trailing 4 sessions), lag 1",46,0.3346718280667891
+delta_TGA_abs_sum_3_lag2,treasury,"abs_sum(delta_TGA, trailing 3 sessions), lag 2",46,0.33446317965862926
+delta_TGA_sum_4_lag5,treasury,"sum(delta_TGA, trailing 4 sessions), lag 5",42,-0.3340996392571113
+d_sum_abs_8_lag3,treasury,"sum_abs(d, trailing 8 sessions), lag 3",40,0.3336733128004207
+delta_TGA_sum_abs_5_lag0,treasury,"sum_abs(delta_TGA, trailing 5 sessions), lag 0",46,0.3323268409143119
+N_sum_10_lag2,treasury,"sum(N, trailing 10 sessions), lag 2",39,-0.3313965414952952
+N_max_abs_4_lag3,treasury,"max_abs(N, trailing 4 sessions), lag 3",44,-0.33135859969479653
+d_sum_2_lag1,treasury,"sum(d, trailing 2 sessions), lag 1",47,0.3305188189800133
+weighted_0.75_3_signed,weighted_treasury,"signed(sum(0.75*delta_TGA - N, trailing 3))",47,0.33036078614231384
+N_max_abs_4_lag5,treasury,"max_abs(N, trailing 4 sessions), lag 5",42,-0.32930819796291044
+delta_TGA_signed_sqrt,treasury_transform,sign(delta_TGA)*sqrt(abs(delta_TGA)),47,0.3292243249015323
+d_sum_8_lag0,treasury,"sum(d, trailing 8 sessions), lag 0",43,0.32720732677925024
+N_sum_abs_8_lag3,treasury,"sum_abs(N, trailing 8 sessions), lag 3",40,-0.3268814556816028
+SOX_momentum_5,market,100*(P_t/P_(t-5) - 1),45,-0.32680387255127746
+delta_TGA_sum_2_lag5,treasury,"sum(delta_TGA, trailing 2 sessions), lag 5",44,-0.3267471284009865
+delta_TGA_max_abs_6_lag0,treasury,"max_abs(delta_TGA, trailing 6 sessions), lag 0",45,0.3256548890996156
+N_abs_sum_4_lag3,treasury,"abs_sum(N, trailing 4 sessions), lag 3",44,-0.32515285035246577
+delta_TGA_sum_5_lag5,treasury,"sum(delta_TGA, trailing 5 sessions), lag 5",41,-0.32511257210088346
+delta_TGA_pct_prior_TGA,treasury_normalized,100*delta_TGA/prior_TGA,47,0.3236389487423885
+N_std_4_lag5,treasury,"std(N, trailing 4 sessions), lag 5",42,-0.32271381130364807
+delta_TGA_sum_3_lag5,treasury,"sum(delta_TGA, trailing 3 sessions), lag 5",43,-0.32059081391697775
+d_sum_abs_6_lag5,treasury,"sum_abs(d, trailing 6 sessions), lag 5",40,0.3201569466223679
+SOX_vol_3_lag0,market,"SD(past daily SOX log returns, 3 sessions), lag 0",47,0.3196653124060677
+delta_TGA_abs_sum_6_lag3,treasury,"abs_sum(delta_TGA, trailing 6 sessions), lag 3",42,0.3195128063301111
+N_std_2_lag5,treasury,"std(N, trailing 2 sessions), lag 5",44,-0.31625624505440375
+N_max_abs_5_lag2,treasury,"max_abs(N, trailing 5 sessions), lag 2",44,-0.31593134523450844
+weighted_3_4_abs,weighted_treasury,"abs(sum(3*delta_TGA - N, trailing 4))",47,0.3158706201582605
+SOX_abs_momentum_2,market,abs(SOX_momentum_2),47,0.31475452809234333
+SOX_abs_momentum_10,market,abs(SOX_momentum_10),40,-0.3144683583667496
+delta_TGA_sum_abs_10_lag0,treasury,"sum_abs(delta_TGA, trailing 10 sessions), lag 0",41,0.31441398812328214
+SOX_abs_momentum_3,market,abs(SOX_momentum_3),47,0.3138500792680943
+weighted_4_5_abs,weighted_treasury,"abs(sum(4*delta_TGA - N, trailing 5))",46,0.3124185869641864
+SOX_vol_3_lag1,market,"SD(past daily SOX log returns, 3 sessions), lag 1",46,0.3116114379709934
+delta_TGA_abs_sum_8_lag1,treasury,"abs_sum(delta_TGA, trailing 8 sessions), lag 1",42,0.31157467860119853
+SOX_vol_10_lag3,market,"SD(past daily SOX log returns, 10 sessions), lag 3",37,-0.31149202185417263
+d_sum_abs_10_lag0,treasury,"sum_abs(d, trailing 10 sessions), lag 0",41,0.30921385526484996
+weighted_0.5_5_signed,weighted_treasury,"signed(sum(0.5*delta_TGA - N, trailing 5))",46,0.3087305452490295
+delta_TGA_std_10_lag0,treasury,"std(delta_TGA, trailing 10 sessions), lag 0",41,0.3053325489953755
+N_std_2_lag0,treasury,"std(N, trailing 2 sessions), lag 0",47,0.3034268876698483
+weighted_2_3_abs,weighted_treasury,"abs(sum(2*delta_TGA - N, trailing 3))",47,0.30297146334430247
+N_sum_5_lag1,treasury,"sum(N, trailing 5 sessions), lag 1",45,-0.30220766046623176
+delta_TGA_sum_1_lag0,treasury,"sum(delta_TGA, trailing 1 sessions), lag 0",47,0.3014867144940323
+SOX_ma_deviation_8,market,100*(P_t/mean(last 8 closes)-1),43,-0.29990629424592563
+delta_TGA_sum_abs_10_lag1,treasury,"sum_abs(delta_TGA, trailing 10 sessions), lag 1",40,0.299828182279572
+delta_TGA_sum_4_lag3,treasury,"sum(delta_TGA, trailing 4 sessions), lag 3",44,-0.29935546362316384
+d_abs_sum_6_lag5,treasury,"abs_sum(d, trailing 6 sessions), lag 5",40,0.29926922954003365
+weighted_4_1_signed,weighted_treasury,"signed(sum(4*delta_TGA - N, trailing 1))",47,0.2989730199736424
+N_std_8_lag1,treasury,"std(N, trailing 8 sessions), lag 1",42,-0.29894094799923765
+weighted_3_1_signed,weighted_treasury,"signed(sum(3*delta_TGA - N, trailing 1))",47,0.29678116958480744
+delta_TGA_abs_sum_4_lag2,treasury,"abs_sum(delta_TGA, trailing 4 sessions), lag 2",45,0.296447356441202
+delta_TGA_sum_1_lag1,treasury,"sum(delta_TGA, trailing 1 sessions), lag 1",47,0.2964464538106169
+N_sum_abs_4_lag0,treasury,"sum_abs(N, trailing 4 sessions), lag 0",47,0.2923922510605889
+N_sum_abs_3_lag3,treasury,"sum_abs(N, trailing 3 sessions), lag 3",45,-0.2923560626075865
+weighted_2_1_signed,weighted_treasury,"signed(sum(2*delta_TGA - N, trailing 1))",47,0.28983959476655696
+N_max_abs_8_lag1,treasury,"max_abs(N, trailing 8 sessions), lag 1",42,-0.2896044877100903
+SOX_vol_5_lag1,market,"SD(past daily SOX log returns, 5 sessions), lag 1",44,0.2892984297614734
+N_sum_abs_10_lag1,treasury,"sum_abs(N, trailing 10 sessions), lag 1",40,-0.28780028356452936
+delta_TGA_sum_6_lag5,treasury,"sum(delta_TGA, trailing 6 sessions), lag 5",40,-0.28759011961035014
+d_sum_5_lag1,treasury,"sum(d, trailing 5 sessions), lag 1",45,0.2847858620872974
+N_std_6_lag1,treasury,"std(N, trailing 6 sessions), lag 1",44,-0.28467885843478374
+N_max_abs_8_lag5,treasury,"max_abs(N, trailing 8 sessions), lag 5",38,0.2843509932395265
+delta_TGA_sum_abs_6_lag0,treasury,"sum_abs(delta_TGA, trailing 6 sessions), lag 0",45,0.28406993122604746
+delta_TGA_abs_sum_5_lag2,treasury,"abs_sum(delta_TGA, trailing 5 sessions), lag 2",44,0.2829858151079888
+d_sum_abs_8_lag2,treasury,"sum_abs(d, trailing 8 sessions), lag 2",41,0.2814899307048601
+N_max_abs_2_lag0,treasury,"max_abs(N, trailing 2 sessions), lag 0",47,0.28046853975973135
+delta_TGA_sum_4_lag1,treasury,"sum(delta_TGA, trailing 4 sessions), lag 1",46,0.2801600137370345
+weighted_1.5_1_signed,weighted_treasury,"signed(sum(1.5*delta_TGA - N, trailing 1))",47,0.2790055105489062
+N_abs_sum_5_lag2,treasury,"abs_sum(N, trailing 5 sessions), lag 2",44,-0.27683727676094805
+d_sum_10_lag0,treasury,"sum(d, trailing 10 sessions), lag 0",41,0.2754640997732063
+N_abs_sum_6_lag1,treasury,"abs_sum(N, trailing 6 sessions), lag 1",44,-0.27488263444070266
+d_sum_1_lag1,treasury,"sum(d, trailing 1 sessions), lag 1",47,0.27405095364459575
+d_sum_2_lag2,treasury,"sum(d, trailing 2 sessions), lag 2",47,0.27342964779756695
+weighted_3_5_abs,weighted_treasury,"abs(sum(3*delta_TGA - N, trailing 5))",46,0.2714391938979971
+delta_TGA_max_abs_10_lag0,treasury,"max_abs(delta_TGA, trailing 10 sessions), lag 0",41,0.26868707064171127
+weighted_1.25_1_signed,weighted_treasury,"signed(sum(1.25*delta_TGA - N, trailing 1))",47,0.26731371852739405
+d_pct_prior_TGA,treasury_normalized,100*d/prior_TGA,47,0.2672541087182814
+SOX_momentum_10,market,100*(P_t/P_(t-10) - 1),40,-0.26720150239091844
+SOX_past_drawdown_8,market,100*(1-P_t/max(P_(t-7)..P_t)),43,0.26529216718357485
+N_max_abs_6_lag1,treasury,"max_abs(N, trailing 6 sessions), lag 1",44,-0.2645279089732395
+d_sum_3_lag2,treasury,"sum(d, trailing 3 sessions), lag 2",46,0.26365189410829726
+N_sum_abs_10_lag3,treasury,"sum_abs(N, trailing 10 sessions), lag 3",38,-0.2636235316724525
+delta_TGA_sum_6_lag2,treasury,"sum(delta_TGA, trailing 6 sessions), lag 2",43,-0.2635006900182713
+N_sum_abs_6_lag1,treasury,"sum_abs(N, trailing 6 sessions), lag 1",44,-0.2619636135601509
+delta_TGA_std_6_lag0,treasury,"std(delta_TGA, trailing 6 sessions), lag 0",45,0.26140818396233323
+delta_TGA_abs_sum_5_lag1,treasury,"abs_sum(delta_TGA, trailing 5 sessions), lag 1",45,0.2611408631362386
+delta_TGA_abs_sum_4_lag3,treasury,"abs_sum(delta_TGA, trailing 4 sessions), lag 3",44,0.2610889897328379
+N_sum_abs_10_lag2,treasury,"sum_abs(N, trailing 10 sessions), lag 2",39,-0.2606189071873808
+N_sum_2_lag3,treasury,"sum(N, trailing 2 sessions), lag 3",46,-0.25999221990960086
+delta_TGA_max_abs_8_lag0,treasury,"max_abs(delta_TGA, trailing 8 sessions), lag 0",43,0.25882687430143053
+N_sum_abs_10_lag5,treasury,"sum_abs(N, trailing 10 sessions), lag 5",36,-0.2586999338068264
+N_abs_sum_10_lag5,treasury,"abs_sum(N, trailing 10 sessions), lag 5",36,-0.25828127241987436
+delta_TGA_abs_sum_3_lag3,treasury,"abs_sum(delta_TGA, trailing 3 sessions), lag 3",45,0.2573593059438297
+N_sum_10_lag5,treasury,"sum(N, trailing 10 sessions), lag 5",36,-0.2569605156166581
+delta_TGA_abs_sum_2_lag3,treasury,"abs_sum(delta_TGA, trailing 2 sessions), lag 3",46,0.25642876145790644
+delta_TGA_sum_2_lag2,treasury,"sum(delta_TGA, trailing 2 sessions), lag 2",47,0.25627850220316545
+N_abs_sum_6_lag5,treasury,"abs_sum(N, trailing 6 sessions), lag 5",40,-0.2551186767618458
+delta_TGA_std_2_lag0,treasury,"std(delta_TGA, trailing 2 sessions), lag 0",47,0.2545986985052436
+d_std_10_lag0,treasury,"std(d, trailing 10 sessions), lag 0",41,0.25343180724068537
+delta_TGA_std_4_lag0,treasury,"std(delta_TGA, trailing 4 sessions), lag 0",47,0.25195535258970103
+delta_TGA_abs_sum_1_lag0,treasury,"abs_sum(delta_TGA, trailing 1 sessions), lag 0",47,0.2502357597160226
+delta_TGA_abs_sum_6_lag1,treasury,"abs_sum(delta_TGA, trailing 6 sessions), lag 1",44,0.249782602316085
+SOX_ma_deviation_10,market,100*(P_t/mean(last 10 closes)-1),41,-0.24925760024925342
+N_sum_abs_2_lag0,treasury,"sum_abs(N, trailing 2 sessions), lag 0",47,0.24920183368415522
+delta_TGA_std_3_lag0,treasury,"std(delta_TGA, trailing 3 sessions), lag 0",47,0.24716118363999393
+N_std_3_lag3,treasury,"std(N, trailing 3 sessions), lag 3",45,-0.24613646634247388
+N_max_abs_3_lag1,treasury,"max_abs(N, trailing 3 sessions), lag 1",47,0.2454718077208176
+d_sum_1_lag0,treasury,"sum(d, trailing 1 sessions), lag 0",47,0.24487814896512283
+d_std_10_lag1,treasury,"std(d, trailing 10 sessions), lag 1",40,0.24436061210859275
+N_sum_6_lag0,treasury,"sum(N, trailing 6 sessions), lag 0",45,-0.24422004255756102
+N_sum_abs_3_lag0,treasury,"sum_abs(N, trailing 3 sessions), lag 0",47,0.24231791455314322
+N_max_abs_10_lag5,treasury,"max_abs(N, trailing 10 sessions), lag 5",36,0.2422478199707746
+d_abs_sum_8_lag1,treasury,"abs_sum(d, trailing 8 sessions), lag 1",42,-0.2417403370375075
+N_abs_sum_3_lag1,treasury,"abs_sum(N, trailing 3 sessions), lag 1",47,0.2407046323971194
+N_std_8_lag0,treasury,"std(N, trailing 8 sessions), lag 0",43,-0.239036927775573
+delta_TGA_sum_abs_4_lag1,treasury,"sum_abs(delta_TGA, trailing 4 sessions), lag 1",46,0.23785463562559275
+N_abs_sum_3_lag0,treasury,"abs_sum(N, trailing 3 sessions), lag 0",47,0.23524468667727969
+delta_TGA_abs_sum_4_lag5,treasury,"abs_sum(delta_TGA, trailing 4 sessions), lag 5",42,0.2342491710101726
+weighted_2_4_abs,weighted_treasury,"abs(sum(2*delta_TGA - N, trailing 4))",47,0.23419405119354111
+delta_TGA_std_5_lag0,treasury,"std(delta_TGA, trailing 5 sessions), lag 0",46,0.23377479917035957
+N_max_abs_3_lag3,treasury,"max_abs(N, trailing 3 sessions), lag 3",45,-0.23327128964803515
+d4_times_vol5,interaction,d4 * SOX_vol5,45,0.232846751194926
+N_abs_sum_4_lag0,treasury,"abs_sum(N, trailing 4 sessions), lag 0",47,0.23280754577836826
+N_abs_sum_2_lag0,treasury,"abs_sum(N, trailing 2 sessions), lag 0",47,0.23243712122201596
+N_abs_sum_3_lag3,treasury,"abs_sum(N, trailing 3 sessions), lag 3",45,-0.2318728151715959
+delta_TGA_max_abs_3_lag1,treasury,"max_abs(delta_TGA, trailing 3 sessions), lag 1",47,0.23140129960169328
+delta_TGA_abs_sum_10_lag5,treasury,"abs_sum(delta_TGA, trailing 10 sessions), lag 5",36,0.22976215321432153
+d_sum_1_lag2,treasury,"sum(d, trailing 1 sessions), lag 2",47,0.2267300776915433
+N_sum_2_lag0,treasury,"sum(N, trailing 2 sessions), lag 0",47,0.22643655213813996
+N_abs_sum_1_lag5,treasury,"abs_sum(N, trailing 1 sessions), lag 5",45,-0.22605599848302588
+delta_TGA_sum_10_lag1,treasury,"sum(delta_TGA, trailing 10 sessions), lag 1",40,-0.22349605118571964
+weighted_0.5_4_signed,weighted_treasury,"signed(sum(0.5*delta_TGA - N, trailing 4))",47,0.22265496451067096
+N_sum_6_lag5,treasury,"sum(N, trailing 6 sessions), lag 5",40,-0.22176578990440657
+delta_TGA_std_8_lag0,treasury,"std(delta_TGA, trailing 8 sessions), lag 0",43,0.22167479691558012
+SOX_past_drawdown_10,market,100*(1-P_t/max(P_(t-9)..P_t)),41,0.22150332605067435
+delta_TGA_sum_abs_3_lag1,treasury,"sum_abs(delta_TGA, trailing 3 sessions), lag 1",47,0.21863496388749595
+delta_TGA_abs_sum_2_lag2,treasury,"abs_sum(delta_TGA, trailing 2 sessions), lag 2",47,0.21840971263161413
+delta_TGA_max_abs_2_lag1,treasury,"max_abs(delta_TGA, trailing 2 sessions), lag 1",47,0.21824795738107786
+N_max_abs_8_lag0,treasury,"max_abs(N, trailing 8 sessions), lag 0",43,-0.2178684662120284
+SOX_abs_momentum_1,market,abs(SOX_momentum_1),47,0.21711631626796465
+d_sum_6_lag1,treasury,"sum(d, trailing 6 sessions), lag 1",44,0.21587350161015006
+delta_TGA_std_10_lag1,treasury,"std(delta_TGA, trailing 10 sessions), lag 1",40,0.21544306079492934
+N_sum_abs_3_lag1,treasury,"sum_abs(N, trailing 3 sessions), lag 1",47,0.2142720287975402
+weighted_1.5_3_abs,weighted_treasury,"abs(sum(1.5*delta_TGA - N, trailing 3))",47,0.21260891284869537
+weighted_4_1_abs,weighted_treasury,"abs(sum(4*delta_TGA - N, trailing 1))",47,0.21055532727844048
+delta_TGA_sum_8_lag1,treasury,"sum(delta_TGA, trailing 8 sessions), lag 1",42,-0.2099372464278432
+N_std_3_lag1,treasury,"std(N, trailing 3 sessions), lag 1",47,0.20875029729791586
+delta_TGA_sum_abs_8_lag0,treasury,"sum_abs(delta_TGA, trailing 8 sessions), lag 0",43,0.20697184899204807
+N_std_4_lag2,treasury,"std(N, trailing 4 sessions), lag 2",45,-0.20607586783660617
+N_sum_3_lag0,treasury,"sum(N, trailing 3 sessions), lag 0",47,0.20561615462123786
+delta_TGA_sum_1_lag2,treasury,"sum(delta_TGA, trailing 1 sessions), lag 2",47,0.20503351662482783
+d_abs_sum_10_lag3,treasury,"abs_sum(d, trailing 10 sessions), lag 3",38,0.20501700920141222
+d_std_8_lag0,treasury,"std(d, trailing 8 sessions), lag 0",43,0.20467998520541258
+d_sum_abs_8_lag1,treasury,"sum_abs(d, trailing 8 sessions), lag 1",42,0.20364621934539404
+N_max_abs_10_lag3,treasury,"max_abs(N, trailing 10 sessions), lag 3",38,0.20351616679053106
+weighted_0.5_3_signed,weighted_treasury,"signed(sum(0.5*delta_TGA - N, trailing 3))",47,0.20249096537974856
+d_sum_4_lag2,treasury,"sum(d, trailing 4 sessions), lag 2",45,0.20228950651134464
+d_sum_8_lag1,treasury,"sum(d, trailing 8 sessions), lag 1",42,0.20212546226321104
+N_abs_sum_6_lag0,treasury,"abs_sum(N, trailing 6 sessions), lag 0",45,-0.20096402410715736
+delta_TGA_max_abs_4_lag1,treasury,"max_abs(delta_TGA, trailing 4 sessions), lag 1",46,0.20057538006553166
+delta_TGA_sum_1_lag5,treasury,"sum(delta_TGA, trailing 1 sessions), lag 5",45,-0.2000164120715181
+N_std_8_lag5,treasury,"std(N, trailing 8 sessions), lag 5",38,0.1997567763118478
+delta_TGA_sum_6_lag0,treasury,"sum(delta_TGA, trailing 6 sessions), lag 0",45,0.1990706098766719
+delta_TGA_sum_5_lag2,treasury,"sum(delta_TGA, trailing 5 sessions), lag 2",44,-0.19785674743695206
+delta_TGA_abs_sum_1_lag1,treasury,"abs_sum(delta_TGA, trailing 1 sessions), lag 1",47,0.197644173644067
+weighted_0.75_1_signed,weighted_treasury,"signed(sum(0.75*delta_TGA - N, trailing 1))",47,0.19756621052349416
+delta_TGA_abs_sum_5_lag3,treasury,"abs_sum(delta_TGA, trailing 5 sessions), lag 3",43,0.1973639047685604
+delta_TGA_sum_abs_10_lag2,treasury,"sum_abs(delta_TGA, trailing 10 sessions), lag 2",39,0.1966917416543246
+N_abs_sum_8_lag5,treasury,"abs_sum(N, trailing 8 sessions), lag 5",38,-0.19621116045617007
+N_sum_abs_6_lag5,treasury,"sum_abs(N, trailing 6 sessions), lag 5",40,-0.19505691671287193
+weighted_3_1_abs,weighted_treasury,"abs(sum(3*delta_TGA - N, trailing 1))",47,0.19477643750949966
+delta_TGA_sum_abs_2_lag1,treasury,"sum_abs(delta_TGA, trailing 2 sessions), lag 1",47,0.19434693501515482
+delta_TGA_std_2_lag3,treasury,"std(delta_TGA, trailing 2 sessions), lag 3",46,-0.19340505520749668
+N4_times_mom5,interaction,N4 * SOX_mom5,45,-0.19230458490998936
+weighted_0.25_5_signed,weighted_treasury,"signed(sum(0.25*delta_TGA - N, trailing 5))",46,0.19150045294281923
+delta_TGA_std_3_lag3,treasury,"std(delta_TGA, trailing 3 sessions), lag 3",45,-0.19120887380479357
+N_sum_abs_4_lag2,treasury,"sum_abs(N, trailing 4 sessions), lag 2",45,-0.19072264812169334
+d_std_6_lag0,treasury,"std(d, trailing 6 sessions), lag 0",45,0.19046114521714694
+SOX_momentum_6,market,100*(P_t/P_(t-6) - 1),44,-0.19033690846375514
+d_sum_10_lag5,treasury,"sum(d, trailing 10 sessions), lag 5",36,-0.19005255122824988
+d_sum_abs_5_lag5,treasury,"sum_abs(d, trailing 5 sessions), lag 5",41,0.18886825421686937
+d_sum_1_lag3,treasury,"sum(d, trailing 1 sessions), lag 3",47,0.1878797959865299
+N_std_8_lag2,treasury,"std(N, trailing 8 sessions), lag 2",41,-0.186827544285688
+N4_times_vol5,interaction,N4 * SOX_vol5,45,0.18629225622680548
+N_pct_prior_TGA,treasury_normalized,100*N/prior_TGA,47,0.18502607679133376
+d_sum_abs_8_lag0,treasury,"sum_abs(d, trailing 8 sessions), lag 0",43,0.18500348249612159
+N_abs_sum_2_lag1,treasury,"abs_sum(N, trailing 2 sessions), lag 1",47,0.1845109456914083
+N_sum_3_lag2,treasury,"sum(N, trailing 3 sessions), lag 2",46,-0.18446813799606285
+delta_TGA_abs_sum_6_lag0,treasury,"abs_sum(delta_TGA, trailing 6 sessions), lag 0",45,0.18392027294436034
+SOX_vol_8_lag3,market,"SD(past daily SOX log returns, 8 sessions), lag 3",39,-0.1839079279629132
+delta_TGA_abs_sum_6_lag2,treasury,"abs_sum(delta_TGA, trailing 6 sessions), lag 2",43,0.18300114886183264
+delta_TGA_std_5_lag3,treasury,"std(delta_TGA, trailing 5 sessions), lag 3",43,-0.18251585551331798
+N_max_abs_2_lag1,treasury,"max_abs(N, trailing 2 sessions), lag 1",47,0.18200433422984685
+SOX_vol_3_lag2,market,"SD(past daily SOX log returns, 3 sessions), lag 2",45,0.1818076699572144
+delta_TGA_std_3_lag5,treasury,"std(delta_TGA, trailing 3 sessions), lag 5",43,-0.1817762498845471
+delta_TGA_max_abs_10_lag1,treasury,"max_abs(delta_TGA, trailing 10 sessions), lag 1",40,0.18155695457524504
+N_sum_8_lag5,treasury,"sum(N, trailing 8 sessions), lag 5",38,-0.17742025945972278
+N_max_abs_10_lag2,treasury,"max_abs(N, trailing 10 sessions), lag 2",39,0.17734040460726386
+N_max_abs_8_lag2,treasury,"max_abs(N, trailing 8 sessions), lag 2",41,-0.1741297417610203
+weighted_2_5_abs,weighted_treasury,"abs(sum(2*delta_TGA - N, trailing 5))",46,0.17410898934586597
+d_sum_2_lag3,treasury,"sum(d, trailing 2 sessions), lag 3",46,0.1740203120045402
+N_sum_1_lag0,treasury,"sum(N, trailing 1 sessions), lag 0",47,0.17400160537062676
+N_sum_4_lag0,treasury,"sum(N, trailing 4 sessions), lag 0",47,0.17387934609064087
+delta_TGA_std_2_lag5,treasury,"std(delta_TGA, trailing 2 sessions), lag 5",44,-0.17217071023815006
+d_abs_sum_6_lag2,treasury,"abs_sum(d, trailing 6 sessions), lag 2",43,-0.17206961460546383
+N_max_abs_4_lag2,treasury,"max_abs(N, trailing 4 sessions), lag 2",45,-0.17196189278816817
+N_std_10_lag3,treasury,"std(N, trailing 10 sessions), lag 3",38,0.17078380115052091
+N_std_5_lag0,treasury,"std(N, trailing 5 sessions), lag 0",46,0.17074557813556784
+N_std_10_lag2,treasury,"std(N, trailing 10 sessions), lag 2",39,0.16938522068319484
+delta_TGA_abs_sum_10_lag0,treasury,"abs_sum(delta_TGA, trailing 10 sessions), lag 0",41,0.1689523400716003
+d_std_2_lag5,treasury,"std(d, trailing 2 sessions), lag 5",44,0.16726292800772094
+d_sum_8_lag5,treasury,"sum(d, trailing 8 sessions), lag 5",38,-0.16712295754736156
+delta_TGA_sum_abs_6_lag1,treasury,"sum_abs(delta_TGA, trailing 6 sessions), lag 1",44,0.16664376935137595
+N_std_5_lag1,treasury,"std(N, trailing 5 sessions), lag 1",45,-0.16655089067878057
+N_sum_abs_5_lag1,treasury,"sum_abs(N, trailing 5 sessions), lag 1",45,-0.16565498836913117
+delta_TGA_sum_3_lag3,treasury,"sum(delta_TGA, trailing 3 sessions), lag 3",45,-0.16517680486784556
+N_abs_sum_1_lag0,treasury,"abs_sum(N, trailing 1 sessions), lag 0",47,0.16390399178813353
+TGA4_times_mom5,interaction,TGA4 * SOX_mom5,45,-0.16077813801029464
+delta_TGA_sum_1_lag3,treasury,"sum(delta_TGA, trailing 1 sessions), lag 3",47,0.15930472706510754
+d_abs_sum_4_lag2,treasury,"abs_sum(d, trailing 4 sessions), lag 2",45,-0.1587041695122687
+delta_TGA_std_4_lag5,treasury,"std(delta_TGA, trailing 4 sessions), lag 5",42,-0.15859524029431452
+delta_TGA_std_4_lag3,treasury,"std(delta_TGA, trailing 4 sessions), lag 3",44,-0.1579110230834314
+d_abs_sum_6_lag1,treasury,"abs_sum(d, trailing 6 sessions), lag 1",44,-0.1577368931975272
+N_std_2_lag1,treasury,"std(N, trailing 2 sessions), lag 1",47,0.15725429265067856
+d_abs_sum_5_lag5,treasury,"abs_sum(d, trailing 5 sessions), lag 5",41,0.15705368702554912
+N_abs_sum_5_lag1,treasury,"abs_sum(N, trailing 5 sessions), lag 1",45,-0.15693123487026808
+N_max_abs_5_lag0,treasury,"max_abs(N, trailing 5 sessions), lag 0",46,0.15590137325088166
+weighted_0.5_5_abs,weighted_treasury,"abs(sum(0.5*delta_TGA - N, trailing 5))",46,-0.15530356749405677
+weighted_2_1_abs,weighted_treasury,"abs(sum(2*delta_TGA - N, trailing 1))",47,0.1548048747512895
+delta_TGA_std_6_lag3,treasury,"std(delta_TGA, trailing 6 sessions), lag 3",42,-0.1532933549324481
+d_std_6_lag1,treasury,"std(d, trailing 6 sessions), lag 1",44,0.15317150733885132
+SOX_abs_momentum_8,market,abs(SOX_momentum_8),42,-0.15178747233103715
+delta_TGA_max_abs_5_lag1,treasury,"max_abs(delta_TGA, trailing 5 sessions), lag 1",45,0.1487513276816536
+N_std_5_lag5,treasury,"std(N, trailing 5 sessions), lag 5",41,-0.14862278550590513
+d_std_8_lag1,treasury,"std(d, trailing 8 sessions), lag 1",42,0.1478998388179922
+weighted_1.25_3_abs,weighted_treasury,"abs(sum(1.25*delta_TGA - N, trailing 3))",47,0.14767446505240575
+weighted_0.25_5_abs,weighted_treasury,"abs(sum(0.25*delta_TGA - N, trailing 5))",46,-0.14638962097041044
+d_std_8_lag2,treasury,"std(d, trailing 8 sessions), lag 2",41,0.14579800159535838
+d_abs_sum_5_lag3,treasury,"abs_sum(d, trailing 5 sessions), lag 3",43,-0.14543138594368682
+delta_TGA_max_abs_6_lag1,treasury,"max_abs(delta_TGA, trailing 6 sessions), lag 1",44,0.14533441738960806
+d_abs_sum_5_lag2,treasury,"abs_sum(d, trailing 5 sessions), lag 2",44,-0.1442154695514766
+SOX_vol_10_lag2,market,"SD(past daily SOX log returns, 10 sessions), lag 2",38,-0.14384839258914542
+d_abs_sum_2_lag3,treasury,"abs_sum(d, trailing 2 sessions), lag 3",46,-0.14377463584023936
+N_max_abs_5_lag1,treasury,"max_abs(N, trailing 5 sessions), lag 1",45,-0.142743605535516
+delta_TGA_sum_abs_5_lag1,treasury,"sum_abs(delta_TGA, trailing 5 sessions), lag 1",45,0.14227947295577376
+d_abs_sum_4_lag3,treasury,"abs_sum(d, trailing 4 sessions), lag 3",44,-0.14161150237840894
+SOX_vol_5_lag3,market,"SD(past daily SOX log returns, 5 sessions), lag 3",42,-0.14125418895650302
+SOX_abs_momentum_4,market,abs(SOX_momentum_4),46,0.14086630940786427
+weighted_1.5_4_abs,weighted_treasury,"abs(sum(1.5*delta_TGA - N, trailing 4))",47,0.1402945325410216
+d_sum_abs_6_lag0,treasury,"sum_abs(d, trailing 6 sessions), lag 0",45,0.13992509342340925
+delta_TGA_sum_abs_8_lag2,treasury,"sum_abs(delta_TGA, trailing 8 sessions), lag 2",41,0.13631030834026536
+d_abs_sum_8_lag3,treasury,"abs_sum(d, trailing 8 sessions), lag 3",40,0.1362589748183155
+N_abs_sum_2_lag2,treasury,"abs_sum(N, trailing 2 sessions), lag 2",47,0.13556044630276404
+d_abs_sum_5_lag1,treasury,"abs_sum(d, trailing 5 sessions), lag 1",45,-0.13520372710084427
+N_sum_abs_2_lag1,treasury,"sum_abs(N, trailing 2 sessions), lag 1",47,0.13508170592843585
+d_sum_5_lag2,treasury,"sum(d, trailing 5 sessions), lag 2",44,0.13490273139767006
+delta_TGA_max_abs_8_lag1,treasury,"max_abs(delta_TGA, trailing 8 sessions), lag 1",42,0.13379221710959827
+d_log_abs,treasury_transform,log(1+abs(d)),47,-0.1337618334842286
+d_max_abs_6_lag5,treasury,"max_abs(d, trailing 6 sessions), lag 5",40,0.1337540328126415
+d_std_2_lag2,treasury,"std(d, trailing 2 sessions), lag 2",47,-0.13345336677288025
+weighted_0.75_5_abs,weighted_treasury,"abs(sum(0.75*delta_TGA - N, trailing 5))",46,-0.13332638773656552
+N_abs_sum_4_lag2,treasury,"abs_sum(N, trailing 4 sessions), lag 2",45,-0.13302027395408839
+d_abs_sum_3_lag3,treasury,"abs_sum(d, trailing 3 sessions), lag 3",45,-0.13182360789591763
+d_abs_sum_6_lag0,treasury,"abs_sum(d, trailing 6 sessions), lag 0",45,-0.13076667029890676
+N_sum_abs_2_lag2,treasury,"sum_abs(N, trailing 2 sessions), lag 2",47,0.13063368971487402
+d_sum_3_lag3,treasury,"sum(d, trailing 3 sessions), lag 3",45,0.12967836675469094
+N_abs_sum_1_lag1,treasury,"abs_sum(N, trailing 1 sessions), lag 1",47,0.12929641598234917
+SOX_vol_4_lag3,market,"SD(past daily SOX log returns, 4 sessions), lag 3",43,-0.12921638234526628
+delta_TGA_sum_3_lag2,treasury,"sum(delta_TGA, trailing 3 sessions), lag 2",46,0.12839465114087215
+delta_TGA_abs_sum_1_lag5,treasury,"abs_sum(delta_TGA, trailing 1 sessions), lag 5",45,-0.12779017854705452
+d_max_abs_2_lag2,treasury,"max_abs(d, trailing 2 sessions), lag 2",47,-0.127051976859261
+N_std_10_lag5,treasury,"std(N, trailing 10 sessions), lag 5",36,0.12694141387092014
+N_sum_1_lag1,treasury,"sum(N, trailing 1 sessions), lag 1",47,0.1262648718277522
+d_sum_abs_6_lag1,treasury,"sum_abs(d, trailing 6 sessions), lag 1",44,0.12560502116454733
+N_sum_abs_8_lag5,treasury,"sum_abs(N, trailing 8 sessions), lag 5",38,-0.12557430971986558
+N_max_abs_2_lag2,treasury,"max_abs(N, trailing 2 sessions), lag 2",47,0.12529913441602641
+N_sum_2_lag1,treasury,"sum(N, trailing 2 sessions), lag 1",47,0.12420106648915215
+N_abs_sum_1_lag3,treasury,"abs_sum(N, trailing 1 sessions), lag 3",47,0.12353819358292445
+d_max_abs_10_lag3,treasury,"max_abs(d, trailing 10 sessions), lag 3",38,-0.12145521774913852
+d_abs_sum_10_lag1,treasury,"abs_sum(d, trailing 10 sessions), lag 1",40,-0.11983198530642207
+d_max_abs_2_lag3,treasury,"max_abs(d, trailing 2 sessions), lag 3",46,-0.11973361625359412
+SOX_vol_8_lag0,market,"SD(past daily SOX log returns, 8 sessions), lag 0",42,0.11863851824615905
+delta_TGA_sum_abs_8_lag3,treasury,"sum_abs(delta_TGA, trailing 8 sessions), lag 3",40,0.11524206626335744
+d_sum_6_lag5,treasury,"sum(d, trailing 6 sessions), lag 5",40,-0.11487360473434305
+N_signed_sqrt,treasury_transform,sign(N)*sqrt(abs(N)),47,0.11479151847684178
+delta_TGA_sum_abs_6_lag5,treasury,"sum_abs(delta_TGA, trailing 6 sessions), lag 5",40,0.11475258252776066
+delta_TGA_sum_abs_3_lag5,treasury,"sum_abs(delta_TGA, trailing 3 sessions), lag 5",43,-0.11436148254065732
+delta_TGA_sum_abs_8_lag1,treasury,"sum_abs(delta_TGA, trailing 8 sessions), lag 1",42,0.11346846163649518
+d_std_3_lag5,treasury,"std(d, trailing 3 sessions), lag 5",43,0.11282711350420341
+weighted_1.5_1_abs,weighted_treasury,"abs(sum(1.5*delta_TGA - N, trailing 1))",47,0.11165157609256109
+d_abs_sum_2_lag2,treasury,"abs_sum(d, trailing 2 sessions), lag 2",47,-0.1100919425275743
+d_sum_6_lag2,treasury,"sum(d, trailing 6 sessions), lag 2",43,0.10979536525721448
+d_sum_10_lag1,treasury,"sum(d, trailing 10 sessions), lag 1",40,0.10973857438878366
+d_std_6_lag5,treasury,"std(d, trailing 6 sessions), lag 5",40,0.10914299686470262
+N_sum_abs_6_lag0,treasury,"sum_abs(N, trailing 6 sessions), lag 0",45,-0.10909226425033731
+d_sum_abs_6_lag3,treasury,"sum_abs(d, trailing 6 sessions), lag 3",42,0.10717392567704363
+N_max_abs_5_lag5,treasury,"max_abs(N, trailing 5 sessions), lag 5",41,-0.10717213977311775
+N_sum_3_lag1,treasury,"sum(N, trailing 3 sessions), lag 1",47,0.10685214700807315
+delta_TGA_std_3_lag2,treasury,"std(delta_TGA, trailing 3 sessions), lag 2",46,-0.10591397931440848
+N_sum_abs_5_lag0,treasury,"sum_abs(N, trailing 5 sessions), lag 0",46,0.1041343457965436
+d_abs_sum_1_lag3,treasury,"abs_sum(d, trailing 1 sessions), lag 3",47,-0.1041274471897731
+N_sum_abs_4_lag1,treasury,"sum_abs(N, trailing 4 sessions), lag 1",46,0.10044158999977802
+delta_TGA_std_4_lag2,treasury,"std(delta_TGA, trailing 4 sessions), lag 2",45,-0.0996366791179164
+N_std_2_lag2,treasury,"std(N, trailing 2 sessions), lag 2",47,0.0985595164435023
+d_sum_abs_4_lag5,treasury,"sum_abs(d, trailing 4 sessions), lag 5",42,0.09846666026947652
+weighted_0.5_1_signed,weighted_treasury,"signed(sum(0.5*delta_TGA - N, trailing 1))",47,0.09774547361373359
+d_abs_sum_4_lag1,treasury,"abs_sum(d, trailing 4 sessions), lag 1",46,-0.09686853121944004
+delta_TGA_abs_sum_3_lag5,treasury,"abs_sum(delta_TGA, trailing 3 sessions), lag 5",43,0.09679840216319348
+delta_TGA_sum_abs_3_lag2,treasury,"sum_abs(delta_TGA, trailing 3 sessions), lag 2",46,0.09652501593146445
+d_std_8_lag3,treasury,"std(d, trailing 8 sessions), lag 3",40,0.09596469077167362
+N_max_abs_10_lag1,treasury,"max_abs(N, trailing 10 sessions), lag 1",40,0.09551713464818551
+N_std_2_lag3,treasury,"std(N, trailing 2 sessions), lag 3",46,-0.09549494143634699
+delta_TGA_max_abs_2_lag2,treasury,"max_abs(delta_TGA, trailing 2 sessions), lag 2",47,0.09524793230788332
+d_std_5_lag5,treasury,"std(d, trailing 5 sessions), lag 5",41,0.09514496824385794
+SOX_vol_3_lag3,market,"SD(past daily SOX log returns, 3 sessions), lag 3",44,-0.0945828258409386
+d_std_5_lag0,treasury,"std(d, trailing 5 sessions), lag 0",46,0.09442658638795486
+d_sum_abs_2_lag2,treasury,"sum_abs(d, trailing 2 sessions), lag 2",47,-0.09397014188747772
+delta_TGA_sum_abs_2_lag2,treasury,"sum_abs(delta_TGA, trailing 2 sessions), lag 2",47,0.09377573937437673
+delta_TGA_std_6_lag2,treasury,"std(delta_TGA, trailing 6 sessions), lag 2",43,-0.09369222177325132
+delta_TGA_sum_abs_8_lag5,treasury,"sum_abs(delta_TGA, trailing 8 sessions), lag 5",38,0.09266534175049072
+d_max_abs_3_lag2,treasury,"max_abs(d, trailing 3 sessions), lag 2",46,-0.09251602020873206
+N_max_abs_4_lag1,treasury,"max_abs(N, trailing 4 sessions), lag 1",46,0.09179363733800024
+d_max_abs_5_lag5,treasury,"max_abs(d, trailing 5 sessions), lag 5",41,0.09045960311857874
+delta_TGA_sum_abs_10_lag3,treasury,"sum_abs(delta_TGA, trailing 10 sessions), lag 3",38,0.08945531521243859
+d_sum_abs_6_lag2,treasury,"sum_abs(d, trailing 6 sessions), lag 2",43,0.08932608447608384
+delta_TGA_max_abs_10_lag3,treasury,"max_abs(delta_TGA, trailing 10 sessions), lag 3",38,-0.08853785050605206
+delta_TGA_abs_sum_2_lag5,treasury,"abs_sum(delta_TGA, trailing 2 sessions), lag 5",44,0.08823438769097892
+d_max_abs_4_lag2,treasury,"max_abs(d, trailing 4 sessions), lag 2",45,-0.08743991163465341
+weighted_1.5_5_abs,weighted_treasury,"abs(sum(1.5*delta_TGA - N, trailing 5))",46,0.08733802449314337
+d_std_4_lag5,treasury,"std(d, trailing 4 sessions), lag 5",42,0.08650295628696936
+N_std_3_lag2,treasury,"std(N, trailing 3 sessions), lag 2",46,-0.08607485406700809
+weighted_1.25_1_abs,weighted_treasury,"abs(sum(1.25*delta_TGA - N, trailing 1))",47,0.08575606601340903
+delta_TGA_max_abs_6_lag5,treasury,"max_abs(delta_TGA, trailing 6 sessions), lag 5",40,0.08560548889629288
+d_abs_sum_6_lag3,treasury,"abs_sum(d, trailing 6 sessions), lag 3",42,-0.08542594282159967
+d_sum_10_lag3,treasury,"sum(d, trailing 10 sessions), lag 3",38,-0.08514595806464405
+delta_TGA_sum_abs_4_lag5,treasury,"sum_abs(delta_TGA, trailing 4 sessions), lag 5",42,-0.08511916662429005
+N_max_abs_6_lag5,treasury,"max_abs(N, trailing 6 sessions), lag 5",40,0.08507827422742992
+d_abs_sum_3_lag2,treasury,"abs_sum(d, trailing 3 sessions), lag 2",46,-0.08478213874946021
+d_sum_abs_2_lag3,treasury,"sum_abs(d, trailing 2 sessions), lag 3",46,-0.08477857634395945
+delta_TGA_max_abs_8_lag2,treasury,"max_abs(delta_TGA, trailing 8 sessions), lag 2",41,0.08422520773734464
+d_sum_5_lag5,treasury,"sum(d, trailing 5 sessions), lag 5",41,-0.08330701484594596
+N_abs_sum_4_lag1,treasury,"abs_sum(N, trailing 4 sessions), lag 1",46,0.08329369810208558
+d_std_4_lag3,treasury,"std(d, trailing 4 sessions), lag 3",44,0.08320844350359326
+delta_TGA_std_5_lag2,treasury,"std(delta_TGA, trailing 5 sessions), lag 2",44,-0.08300100600786159
+d_abs_sum_10_lag2,treasury,"abs_sum(d, trailing 10 sessions), lag 2",39,0.08163307964064821
+N_max_abs_2_lag3,treasury,"max_abs(N, trailing 2 sessions), lag 3",46,-0.08129565659682077
+d_std_10_lag2,treasury,"std(d, trailing 10 sessions), lag 2",39,0.0809977635881314
+N_std_10_lag1,treasury,"std(N, trailing 10 sessions), lag 1",40,0.07948056331185338
+delta_TGA_sum_5_lag1,treasury,"sum(delta_TGA, trailing 5 sessions), lag 1",45,0.07945693265203252
+weighted_0.25_1_abs,weighted_treasury,"abs(sum(0.25*delta_TGA - N, trailing 1))",47,0.07912264267609191
+SOX_vol_4_lag2,market,"SD(past daily SOX log returns, 4 sessions), lag 2",44,0.07897259779569288
+d_abs_sum_5_lag0,treasury,"abs_sum(d, trailing 5 sessions), lag 0",46,-0.07897066070070448
+delta_TGA_std_10_lag3,treasury,"std(delta_TGA, trailing 10 sessions), lag 3",38,-0.07858560167254242
+delta_TGA_max_abs_3_lag2,treasury,"max_abs(delta_TGA, trailing 3 sessions), lag 2",46,0.07790063891913963
+delta_TGA_max_abs_3_lag5,treasury,"max_abs(delta_TGA, trailing 3 sessions), lag 5",43,-0.07723738805719993
+N_sum_abs_2_lag3,treasury,"sum_abs(N, trailing 2 sessions), lag 3",46,-0.0768115419419657
+delta_TGA_std_3_lag1,treasury,"std(delta_TGA, trailing 3 sessions), lag 1",47,0.07664800210781526
+delta_TGA_max_abs_5_lag3,treasury,"max_abs(delta_TGA, trailing 5 sessions), lag 3",43,-0.07608861741791983
+N_std_4_lag1,treasury,"std(N, trailing 4 sessions), lag 1",46,0.07603465833579277
+d_sum_abs_2_lag0,treasury,"sum_abs(d, trailing 2 sessions), lag 0",47,0.07582946363747894
+delta_TGA_sum_6_lag1,treasury,"sum(delta_TGA, trailing 6 sessions), lag 1",44,-0.07570273627396351
+N_log_abs,treasury_transform,log(1+abs(N)),47,0.07566794362583967
+d_std_5_lag3,treasury,"std(d, trailing 5 sessions), lag 3",43,0.0750599491007354
+d_std_6_lag2,treasury,"std(d, trailing 6 sessions), lag 2",43,0.07438702314119514
+calendar_trend,calendar,session index (time-trend control),47,-0.07418476332151888
+d_abs_sum_2_lag0,treasury,"abs_sum(d, trailing 2 sessions), lag 0",47,0.07383649322682576
+d_std_2_lag3,treasury,"std(d, trailing 2 sessions), lag 3",46,-0.07376014827490798
+delta_TGA_sum_abs_5_lag3,treasury,"sum_abs(delta_TGA, trailing 5 sessions), lag 3",43,-0.07335643608051137
+weighted_1.25_4_abs,weighted_treasury,"abs(sum(1.25*delta_TGA - N, trailing 4))",47,0.07232366378682151
+d_std_5_lag1,treasury,"std(d, trailing 5 sessions), lag 1",45,0.0719229077571906
+delta_TGA_std_6_lag1,treasury,"std(delta_TGA, trailing 6 sessions), lag 1",44,0.07060633888012481
+SOX_vol_8_lag2,market,"SD(past daily SOX log returns, 8 sessions), lag 2",40,-0.07018306374780348
+SOX_vol_8_lag1,market,"SD(past daily SOX log returns, 8 sessions), lag 1",41,0.07016546946360716
+d_std_5_lag2,treasury,"std(d, trailing 5 sessions), lag 2",44,0.06980797334400192
+delta_TGA_std_4_lag1,treasury,"std(delta_TGA, trailing 4 sessions), lag 1",46,0.06976240110931135
+TGA_balance,treasury,TGA closing balance,47,0.06883981711206422
+delta_TGA_sum_abs_10_lag5,treasury,"sum_abs(delta_TGA, trailing 10 sessions), lag 5",36,0.06867595842014741
+d_std_3_lag2,treasury,"std(d, trailing 3 sessions), lag 2",46,-0.06852588136077957
+d_abs_sum_3_lag0,treasury,"abs_sum(d, trailing 3 sessions), lag 0",47,0.06759555803204143
+delta_TGA_abs_sum_8_lag0,treasury,"abs_sum(delta_TGA, trailing 8 sessions), lag 0",43,0.06685282097727062
+d_max_abs_3_lag3,treasury,"max_abs(d, trailing 3 sessions), lag 3",45,-0.0664499995564531
+delta_TGA_abs_sum_1_lag3,treasury,"abs_sum(delta_TGA, trailing 1 sessions), lag 3",47,0.06602708414290355
+d_std_10_lag3,treasury,"std(d, trailing 10 sessions), lag 3",38,-0.0659259537244704
+delta_TGA_std_5_lag5,treasury,"std(delta_TGA, trailing 5 sessions), lag 5",41,-0.06575982675462932
+delta_TGA_std_8_lag1,treasury,"std(delta_TGA, trailing 8 sessions), lag 1",42,0.06470867361522391
+delta_TGA_sum_abs_2_lag5,treasury,"sum_abs(delta_TGA, trailing 2 sessions), lag 5",44,-0.06431222991176529
+d_std_6_lag3,treasury,"std(d, trailing 6 sessions), lag 3",42,0.064232835775046
+delta_TGA_std_10_lag2,treasury,"std(delta_TGA, trailing 10 sessions), lag 2",39,0.06345837134880049
+N_sum_4_lag1,treasury,"sum(N, trailing 4 sessions), lag 1",46,-0.06312503829099257
+N_abs_sum_2_lag3,treasury,"abs_sum(N, trailing 2 sessions), lag 3",46,-0.06268658137670219
+d_max_abs_2_lag0,treasury,"max_abs(d, trailing 2 sessions), lag 0",47,0.06228451992958706
+delta_TGA_sum_abs_5_lag2,treasury,"sum_abs(delta_TGA, trailing 5 sessions), lag 2",44,0.061933293257860886
+d_sum_2_lag5,treasury,"sum(d, trailing 2 sessions), lag 5",44,-0.06180249165413328
+d_max_abs_6_lag2,treasury,"max_abs(d, trailing 6 sessions), lag 2",43,-0.061296124020024975
+delta_TGA_std_2_lag2,treasury,"std(delta_TGA, trailing 2 sessions), lag 2",47,-0.0612158595277968
+d_sum_abs_5_lag2,treasury,"sum_abs(d, trailing 5 sessions), lag 2",44,0.060977487015284486
+N_std_6_lag5,treasury,"std(N, trailing 6 sessions), lag 5",40,0.060664241921105824
+d_max_abs_6_lag0,treasury,"max_abs(d, trailing 6 sessions), lag 0",45,0.06011077514518867
+d_sum_abs_3_lag2,treasury,"sum_abs(d, trailing 3 sessions), lag 2",46,-0.05982197197296584
+d_sum_4_lag3,treasury,"sum(d, trailing 4 sessions), lag 3",44,0.05981797624286694
+d_max_abs_10_lag1,treasury,"max_abs(d, trailing 10 sessions), lag 1",40,0.05909309189436122
+delta_TGA_sum_abs_6_lag3,treasury,"sum_abs(delta_TGA, trailing 6 sessions), lag 3",42,-0.05665424399637934
+d_std_3_lag1,treasury,"std(d, trailing 3 sessions), lag 1",47,-0.05663261401221385
+delta_TGA_abs_sum_1_lag2,treasury,"abs_sum(delta_TGA, trailing 1 sessions), lag 2",47,0.05600619078325512
+d_sum_abs_2_lag5,treasury,"sum_abs(d, trailing 2 sessions), lag 5",44,0.05595757591197473
+delta_TGA_sum_abs_3_lag3,treasury,"sum_abs(delta_TGA, trailing 3 sessions), lag 3",45,-0.05575307461689982
+weighted_0.75_4_abs,weighted_treasury,"abs(sum(0.75*delta_TGA - N, trailing 4))",47,-0.055531160251587525
+d_abs_sum_1_lag0,treasury,"abs_sum(d, trailing 1 sessions), lag 0",47,0.05517146866898472
+d_max_abs_2_lag5,treasury,"max_abs(d, trailing 2 sessions), lag 5",44,0.05516042781232676
+d_sum_abs_3_lag0,treasury,"sum_abs(d, trailing 3 sessions), lag 0",47,0.055125817362239864
+weighted_0.25_1_signed,weighted_treasury,"signed(sum(0.25*delta_TGA - N, trailing 1))",47,-0.05399305387063591
+d_sum_abs_3_lag1,treasury,"sum_abs(d, trailing 3 sessions), lag 1",47,-0.0536302036822686
+weekday_1,calendar,weekday = 1 (Monday=0),47,0.053240259612790386
+d_max_abs_5_lag3,treasury,"max_abs(d, trailing 5 sessions), lag 3",43,-0.05295257130933255
+delta_TGA_std_5_lag1,treasury,"std(delta_TGA, trailing 5 sessions), lag 1",45,0.052919762478959305
+weekday_3,calendar,weekday = 3 (Monday=0),47,-0.05268224627264087
+d_std_8_lag5,treasury,"std(d, trailing 8 sessions), lag 5",38,-0.05108014202110966
+d_max_abs_5_lag2,treasury,"max_abs(d, trailing 5 sessions), lag 2",44,-0.05026540906259316
+SOX_vol_10_lag0,market,"SD(past daily SOX log returns, 10 sessions), lag 0",40,0.050081825619698817
+d_max_abs_6_lag3,treasury,"max_abs(d, trailing 6 sessions), lag 3",42,-0.04942047912637085
+d_max_abs_4_lag1,treasury,"max_abs(d, trailing 4 sessions), lag 1",46,-0.04875440608330173
+month_start_3_calendar_days,calendar,first three calendar days of month,47,-0.04829113714596206
+delta_TGA_max_abs_6_lag3,treasury,"max_abs(delta_TGA, trailing 6 sessions), lag 3",42,-0.04780268068128803
+d_sum_abs_5_lag3,treasury,"sum_abs(d, trailing 5 sessions), lag 3",43,0.04671462698590505
+d_sum_3_lag5,treasury,"sum(d, trailing 3 sessions), lag 5",43,-0.04670379998887309
+N_sum_5_lag0,treasury,"sum(N, trailing 5 sessions), lag 0",46,-0.04668166504557835
+d_sum_abs_3_lag5,treasury,"sum_abs(d, trailing 3 sessions), lag 5",43,0.04629217604858947
+d_std_10_lag5,treasury,"std(d, trailing 10 sessions), lag 5",36,-0.046213810346226444
+delta_TGA_max_abs_2_lag5,treasury,"max_abs(delta_TGA, trailing 2 sessions), lag 5",44,-0.045962710770681335
+delta_TGA_max_abs_5_lag5,treasury,"max_abs(delta_TGA, trailing 5 sessions), lag 5",41,0.045937474926830646
+d_sum_abs_5_lag0,treasury,"sum_abs(d, trailing 5 sessions), lag 0",46,0.04545037511961228
+delta_TGA_max_abs_8_lag3,treasury,"max_abs(delta_TGA, trailing 8 sessions), lag 3",40,0.04449289466259715
+d_max_abs_3_lag1,treasury,"max_abs(d, trailing 3 sessions), lag 1",47,-0.044130629881547014
+weighted_0.5_4_abs,weighted_treasury,"abs(sum(0.5*delta_TGA - N, trailing 4))",47,-0.043980175133996366
+d_abs_sum_1_lag1,treasury,"abs_sum(d, trailing 1 sessions), lag 1",47,0.043905690278487314
+d_sum_8_lag2,treasury,"sum(d, trailing 8 sessions), lag 2",41,0.043869328464693914
+weighted_0.75_1_abs,weighted_treasury,"abs(sum(0.75*delta_TGA - N, trailing 1))",47,0.04371893317590684
+d_sum_5_lag3,treasury,"sum(d, trailing 5 sessions), lag 3",43,0.043329483307999635
+d_sum_abs_5_lag1,treasury,"sum_abs(d, trailing 5 sessions), lag 1",45,0.043192279806112926
+d_sum_abs_3_lag3,treasury,"sum_abs(d, trailing 3 sessions), lag 3",45,-0.042585644847035475
+delta_TGA_max_abs_2_lag3,treasury,"max_abs(delta_TGA, trailing 2 sessions), lag 3",46,0.04158486676039261
+delta_TGA_std_8_lag5,treasury,"std(delta_TGA, trailing 8 sessions), lag 5",38,-0.04135042002869492
+d_abs_sum_3_lag5,treasury,"abs_sum(d, trailing 3 sessions), lag 5",43,-0.041061822842947134
+delta_TGA_sum_abs_4_lag2,treasury,"sum_abs(delta_TGA, trailing 4 sessions), lag 2",45,0.04085352640525108
+SOX_vol_5_lag2,market,"SD(past daily SOX log returns, 5 sessions), lag 2",43,0.04082788526980931
+delta_TGA_max_abs_4_lag2,treasury,"max_abs(delta_TGA, trailing 4 sessions), lag 2",45,0.04076560067596928
+d_std_2_lag0,treasury,"std(d, trailing 2 sessions), lag 0",47,0.040491658531897595
+delta_TGA_sum_4_lag2,treasury,"sum(delta_TGA, trailing 4 sessions), lag 2",45,-0.039459780967597606
+d_max_abs_3_lag5,treasury,"max_abs(d, trailing 3 sessions), lag 5",43,0.03888679975666584
+d_sum_6_lag3,treasury,"sum(d, trailing 6 sessions), lag 3",42,0.03884944273890551
+N_sum_abs_3_lag2,treasury,"sum_abs(N, trailing 3 sessions), lag 2",46,-0.03791846968445325
+d_sum_4_lag5,treasury,"sum(d, trailing 4 sessions), lag 5",42,-0.03772849227037957
+d_std_2_lag1,treasury,"std(d, trailing 2 sessions), lag 1",47,-0.03752850350678417
+delta_TGA_max_abs_10_lag2,treasury,"max_abs(delta_TGA, trailing 10 sessions), lag 2",39,0.036867789528695516
+N_sum_2_lag2,treasury,"sum(N, trailing 2 sessions), lag 2",47,0.03639388622252333
+d_abs_sum_2_lag5,treasury,"abs_sum(d, trailing 2 sessions), lag 5",44,-0.036319352677558606
+delta_TGA_std_8_lag2,treasury,"std(delta_TGA, trailing 8 sessions), lag 2",41,0.03628186599345136
+delta_TGA_std_10_lag5,treasury,"std(delta_TGA, trailing 10 sessions), lag 5",36,-0.036255127198687266
+d_max_abs_3_lag0,treasury,"max_abs(d, trailing 3 sessions), lag 0",47,0.03615316625786081
+N_sum_1_lag2,treasury,"sum(N, trailing 1 sessions), lag 2",47,0.03590674059049201
+d_sum_8_lag3,treasury,"sum(d, trailing 8 sessions), lag 3",40,-0.03522100081785898
+SOX_abs_momentum_6,market,abs(SOX_momentum_6),44,0.03499784100542824
+d_max_abs_8_lag3,treasury,"max_abs(d, trailing 8 sessions), lag 3",40,0.03486459814707333
+d_sum_abs_4_lag3,treasury,"sum_abs(d, trailing 4 sessions), lag 3",44,0.03484048160831234
+SOX_vol_10_lag1,market,"SD(past daily SOX log returns, 10 sessions), lag 1",39,-0.0342429796497687
+d_max_abs_8_lag1,treasury,"max_abs(d, trailing 8 sessions), lag 1",42,-0.0336425351647748
+d_max_abs_4_lag3,treasury,"max_abs(d, trailing 4 sessions), lag 3",44,-0.03324598114500764
+N_abs_sum_3_lag2,treasury,"abs_sum(N, trailing 3 sessions), lag 2",46,0.032119904275616305
+delta_TGA_std_2_lag1,treasury,"std(delta_TGA, trailing 2 sessions), lag 1",47,0.031930943356008185
+N_std_6_lag0,treasury,"std(N, trailing 6 sessions), lag 0",45,-0.03116867431473614
+N_max_abs_3_lag2,treasury,"max_abs(N, trailing 3 sessions), lag 2",46,-0.031140698436903386
+d4_times_mom5,interaction,d4 * SOX_mom5,45,0.031140015824414273
+d_std_3_lag0,treasury,"std(d, trailing 3 sessions), lag 0",47,0.030851527567836202
+weighted_0.75_3_abs,weighted_treasury,"abs(sum(0.75*delta_TGA - N, trailing 3))",47,0.030576483923718593
+N_max_abs_6_lag0,treasury,"max_abs(N, trailing 6 sessions), lag 0",45,-0.0303242378976213
+weighted_0.5_3_abs,weighted_treasury,"abs(sum(0.5*delta_TGA - N, trailing 3))",47,0.03030352374948666
+d_max_abs_8_lag2,treasury,"max_abs(d, trailing 8 sessions), lag 2",41,0.029906139626184252
+SOX_momentum_8,market,100*(P_t/P_(t-8) - 1),42,-0.02980298575384232
+d_std_4_lag0,treasury,"std(d, trailing 4 sessions), lag 0",47,0.029037540978014725
+d_max_abs_4_lag5,treasury,"max_abs(d, trailing 4 sessions), lag 5",42,0.028792765260699817
+delta_TGA_max_abs_4_lag5,treasury,"max_abs(delta_TGA, trailing 4 sessions), lag 5",42,-0.028403667335829913
+d_abs_sum_1_lag5,treasury,"abs_sum(d, trailing 1 sessions), lag 5",45,-0.028199924908990506
+d_abs_sum_4_lag0,treasury,"abs_sum(d, trailing 4 sessions), lag 0",47,-0.02802516295264191
+N_abs_sum_1_lag2,treasury,"abs_sum(N, trailing 1 sessions), lag 2",47,0.027305079713392914
+d_max_abs_5_lag1,treasury,"max_abs(d, trailing 5 sessions), lag 1",45,-0.026909726615375218
+d_abs_sum_8_lag2,treasury,"abs_sum(d, trailing 8 sessions), lag 2",41,-0.026132289246728283
+weighted_0.25_4_signed,weighted_treasury,"signed(sum(0.25*delta_TGA - N, trailing 4))",47,0.025607229830626736
+weighted_0.5_1_abs,weighted_treasury,"abs(sum(0.5*delta_TGA - N, trailing 1))",47,0.0255242489380219
+delta_TGA_max_abs_5_lag2,treasury,"max_abs(delta_TGA, trailing 5 sessions), lag 2",44,0.025330610762927773
+delta_TGA_sum_abs_2_lag3,treasury,"sum_abs(delta_TGA, trailing 2 sessions), lag 3",46,0.02500133804396319
+delta_TGA_max_abs_4_lag3,treasury,"max_abs(delta_TGA, trailing 4 sessions), lag 3",44,-0.024894135777193318
+d_max_abs_8_lag5,treasury,"max_abs(d, trailing 8 sessions), lag 5",38,0.024646376347642596
+weekday_4,calendar,weekday = 4 (Monday=0),47,-0.023844845703793756
+N_max_abs_10_lag0,treasury,"max_abs(N, trailing 10 sessions), lag 0",41,0.02365598775338081
+delta_TGA_max_abs_10_lag5,treasury,"max_abs(delta_TGA, trailing 10 sessions), lag 5",36,-0.02364188226562334
+delta_TGA_sum_abs_5_lag5,treasury,"sum_abs(delta_TGA, trailing 5 sessions), lag 5",41,0.023107674698090636
+delta_TGA_sum_10_lag0,treasury,"sum(delta_TGA, trailing 10 sessions), lag 0",41,-0.02239042097556416
+delta_TGA_log_abs,treasury_transform,log(1+abs(delta_TGA)),47,0.021494626712492384
+d_max_abs_10_lag5,treasury,"max_abs(d, trailing 10 sessions), lag 5",36,-0.021034160536627093
+d_max_abs_10_lag2,treasury,"max_abs(d, trailing 10 sessions), lag 2",39,-0.020600363508450528
+d_abs_sum_1_lag2,treasury,"abs_sum(d, trailing 1 sessions), lag 2",47,-0.020461113309151575
+delta_TGA_sum_8_lag0,treasury,"sum(delta_TGA, trailing 8 sessions), lag 0",43,0.019591397745954243
+d_sum_abs_4_lag1,treasury,"sum_abs(d, trailing 4 sessions), lag 1",46,-0.01873847698432528
+delta_TGA_max_abs_3_lag3,treasury,"max_abs(delta_TGA, trailing 3 sessions), lag 3",45,-0.018018451905768874
+weekday_0,calendar,weekday = 0 (Monday=0),47,0.017870345251467926
+d_max_abs_6_lag1,treasury,"max_abs(d, trailing 6 sessions), lag 1",44,0.017847525621425723
+d_sum_abs_2_lag1,treasury,"sum_abs(d, trailing 2 sessions), lag 1",47,0.017649346354050077
+N_std_8_lag3,treasury,"std(N, trailing 8 sessions), lag 3",40,-0.017293817648341963
+delta_TGA_max_abs_6_lag2,treasury,"max_abs(delta_TGA, trailing 6 sessions), lag 2",43,-0.01728292704443004
+d_sum_abs_4_lag2,treasury,"sum_abs(d, trailing 4 sessions), lag 2",45,-0.017027297627826482
+delta_TGA_sum_abs_6_lag2,treasury,"sum_abs(delta_TGA, trailing 6 sessions), lag 2",43,0.016833015314350712
+weighted_1.25_5_abs,weighted_treasury,"abs(sum(1.25*delta_TGA - N, trailing 5))",46,0.01656663099327945
+d_abs_sum_2_lag1,treasury,"abs_sum(d, trailing 2 sessions), lag 1",47,0.016539459858458175
+d_max_abs_5_lag0,treasury,"max_abs(d, trailing 5 sessions), lag 0",46,0.016201340836888248
+d_max_abs_8_lag0,treasury,"max_abs(d, trailing 8 sessions), lag 0",43,-0.01416643357387981
+N_abs_sum_5_lag0,treasury,"abs_sum(N, trailing 5 sessions), lag 0",46,0.01395179905053431
+d_abs_sum_3_lag1,treasury,"abs_sum(d, trailing 3 sessions), lag 1",47,-0.013798142135188374
+N_sum_1_lag3,treasury,"sum(N, trailing 1 sessions), lag 3",47,0.013574169021396
+N_std_10_lag0,treasury,"std(N, trailing 10 sessions), lag 0",41,0.012789036736819992
+d_sum_abs_4_lag0,treasury,"sum_abs(d, trailing 4 sessions), lag 0",47,-0.012070178052351296
+d_sum_10_lag2,treasury,"sum(d, trailing 10 sessions), lag 2",39,0.011828971076584458
+delta_TGA_std_6_lag5,treasury,"std(delta_TGA, trailing 6 sessions), lag 5",40,0.01028626966617251
+SOX_abs_momentum_5,market,abs(SOX_momentum_5),45,-0.009960521584194736
+weighted_0.25_3_abs,weighted_treasury,"abs(sum(0.25*delta_TGA - N, trailing 3))",47,0.009284137235126975
+delta_TGA_sum_abs_4_lag3,treasury,"sum_abs(delta_TGA, trailing 4 sessions), lag 3",44,-0.008384769657590482
+N_max_abs_8_lag3,treasury,"max_abs(N, trailing 8 sessions), lag 3",40,-0.00830234406362722
+d_max_abs_2_lag1,treasury,"max_abs(d, trailing 2 sessions), lag 1",47,-0.007448059751771272
+weighted_0.25_4_abs,weighted_treasury,"abs(sum(0.25*delta_TGA - N, trailing 4))",47,-0.0072171861594454495
+delta_TGA_std_8_lag3,treasury,"std(delta_TGA, trailing 8 sessions), lag 3",40,-0.0068918022033829995
+d_std_3_lag3,treasury,"std(d, trailing 3 sessions), lag 3",45,0.006502971318247933
+weekday_2,calendar,weekday = 2 (Monday=0),47,0.0059568173564541835
+d_std_4_lag1,treasury,"std(d, trailing 4 sessions), lag 1",46,0.0057897699568794595
+d_max_abs_4_lag0,treasury,"max_abs(d, trailing 4 sessions), lag 0",47,0.0056150867616149664
+d_abs_sum_4_lag5,treasury,"abs_sum(d, trailing 4 sessions), lag 5",42,0.0051406612033561274
+d_max_abs_10_lag0,treasury,"max_abs(d, trailing 10 sessions), lag 0",41,-0.003994819333807191
+delta_TGA_max_abs_8_lag5,treasury,"max_abs(delta_TGA, trailing 8 sessions), lag 5",38,-0.003931027244960801
+delta_TGA_sum_2_lag3,treasury,"sum(delta_TGA, trailing 2 sessions), lag 3",46,0.003421068894579639
+weighted_0.25_3_signed,weighted_treasury,"signed(sum(0.25*delta_TGA - N, trailing 3))",47,-0.0025676606523027832
+d_std_4_lag2,treasury,"std(d, trailing 4 sessions), lag 2",45,-0.0017077960778154174
+d_sum_1_lag5,treasury,"sum(d, trailing 1 sessions), lag 5",45,0.0007481167386836553

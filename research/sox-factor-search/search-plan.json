@@ -1,0 +1,32 @@
+{
+  "frozen_at": "2026-10-09T17:09:12.032569+00:00",
+  "task": "User-requested exploratory search for factors capable of overfitting the current SOX sample.",
+  "source": "Existing real local SOX inputs, read-only SQLite; verify chart baseline against production API.",
+  "targets": [
+    "existing forward 4-session drawdown",
+    "existing day-5 rebound"
+  ],
+  "feature_families": [
+    "signed and absolute Treasury residual, issuance, TGA change",
+    "trailing windows and lags",
+    "flow normalization and weighting",
+    "past SOX momentum and volatility",
+    "calendar terms"
+  ],
+  "full_sample_min_n": 30,
+  "chronological_test_start": "2026-09-14",
+  "purge": "Exclude training events whose outcome ends on or after the first test event.",
+  "selection": "Full-sample leaderboard is explicitly exploratory; separate factor search selects using training only.",
+  "demonstrations": [
+    "X-only threshold subgroup search",
+    "Outcome-dependent selection of eight points, explicitly labeled and never deployed",
+    "Flexible nonlinear fit, report fitted and later-period results"
+  ],
+  "operational_changes": false,
+  "limitations": [
+    "About 55 observed sessions, overlapping outcomes",
+    "Existing all-sample correlations already seen; temporal split is diagnostic, not a pristine prospective test",
+    "Treasury inputs are retrospective/revised, not a point-in-time trading backtest",
+    "Historical coupon-adjusted net cash is not present in this local snapshot"
+  ]
+}

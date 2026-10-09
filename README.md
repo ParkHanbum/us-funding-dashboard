@@ -66,6 +66,14 @@ After collecting real sources into the local database in confirmed personal mode
 
 The browser test requires Playwright and its Chromium headless shell. `PLAYWRIGHT_MODULE`, `PLAYWRIGHT_BROWSERS_PATH` and `SOX_SCREENSHOT_DIR` can point to an existing test environment. Runtime fixtures should use a disposable local D1; they contain synthetic prices, and the tests reject production URLs.
 
+## Exploratory factor study
+
+The user-requested overfit experiment is isolated in [research/sox-factor-search/report.html](research/sox-factor-search/report.html). It compares predefined Treasury/market/calendar factor recipes, post-hoc X-only subgroup searches, explicitly outcome-selected eight-point demonstrations, and a flexible nonlinear training fit. It also reports chronological diagnostics with overlapping outcome windows removed at the split boundary. It does not change the collector, chart model, original sample, schedules or production data.
+
+`research/sox-factor-search/analyze.py` reads a real local SOX SQLite snapshot in read-only mode and checks its baseline values against a saved public production API response. It requires numpy/pandas, with matplotlib for `--plots`. Pass `--database <local-sqlite-path>` and `--production-snapshot <matched-api-json-path>`. Results include derived factor/outcome CSVs, factor definitions, selection dates, JSON metrics and PNG/SVG figures; raw SOX closes are excluded. Training-only selection, future-input perturbation and split-boundary checks run before writing results.
+
+High correlations selected after searching the complete sample are exploratory, not validation scores. The later-period split is diagnostic on an already inspected short dataset, not a pristine prospective trading backtest. Treasury inputs are retrospective; the study does not reconstruct historical coupon-adjusted net cash.
+
 ## Production rollout
 
 Production migration, deployment and main changes require the user's approval. After approval, apply `migrations/0033_sox.sql` to the existing D1, deploy this Worker, then publish the verified repository changes to main. The migration creates three SOX tables and does not replace the existing schema or database.

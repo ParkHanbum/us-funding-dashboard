@@ -1,0 +1,2766 @@
+{
+  "d_sum_1_lag0": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 1 sessions), lag 0"
+  },
+  "d_sum_1_lag1": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 1 sessions), lag 1"
+  },
+  "d_sum_1_lag2": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 1 sessions), lag 2"
+  },
+  "d_sum_1_lag3": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 1 sessions), lag 3"
+  },
+  "d_sum_1_lag5": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 1 sessions), lag 5"
+  },
+  "d_abs_sum_1_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 1 sessions), lag 0"
+  },
+  "d_abs_sum_1_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 1 sessions), lag 1"
+  },
+  "d_abs_sum_1_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 1 sessions), lag 2"
+  },
+  "d_abs_sum_1_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 1 sessions), lag 3"
+  },
+  "d_abs_sum_1_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 1 sessions), lag 5"
+  },
+  "d_sum_2_lag0": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 2 sessions), lag 0"
+  },
+  "d_sum_2_lag1": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 2 sessions), lag 1"
+  },
+  "d_sum_2_lag2": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 2 sessions), lag 2"
+  },
+  "d_sum_2_lag3": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 2 sessions), lag 3"
+  },
+  "d_sum_2_lag5": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 2 sessions), lag 5"
+  },
+  "d_abs_sum_2_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 2 sessions), lag 0"
+  },
+  "d_abs_sum_2_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 2 sessions), lag 1"
+  },
+  "d_abs_sum_2_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 2 sessions), lag 2"
+  },
+  "d_abs_sum_2_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 2 sessions), lag 3"
+  },
+  "d_abs_sum_2_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 2 sessions), lag 5"
+  },
+  "d_sum_abs_2_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 2 sessions), lag 0"
+  },
+  "d_sum_abs_2_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 2 sessions), lag 1"
+  },
+  "d_sum_abs_2_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 2 sessions), lag 2"
+  },
+  "d_sum_abs_2_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 2 sessions), lag 3"
+  },
+  "d_sum_abs_2_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 2 sessions), lag 5"
+  },
+  "d_std_2_lag0": {
+    "family": "treasury",
+    "formula": "std(d, trailing 2 sessions), lag 0"
+  },
+  "d_std_2_lag1": {
+    "family": "treasury",
+    "formula": "std(d, trailing 2 sessions), lag 1"
+  },
+  "d_std_2_lag2": {
+    "family": "treasury",
+    "formula": "std(d, trailing 2 sessions), lag 2"
+  },
+  "d_std_2_lag3": {
+    "family": "treasury",
+    "formula": "std(d, trailing 2 sessions), lag 3"
+  },
+  "d_std_2_lag5": {
+    "family": "treasury",
+    "formula": "std(d, trailing 2 sessions), lag 5"
+  },
+  "d_max_abs_2_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 2 sessions), lag 0"
+  },
+  "d_max_abs_2_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 2 sessions), lag 1"
+  },
+  "d_max_abs_2_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 2 sessions), lag 2"
+  },
+  "d_max_abs_2_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 2 sessions), lag 3"
+  },
+  "d_max_abs_2_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 2 sessions), lag 5"
+  },
+  "d_sum_3_lag0": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 3 sessions), lag 0"
+  },
+  "d_sum_3_lag1": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 3 sessions), lag 1"
+  },
+  "d_sum_3_lag2": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 3 sessions), lag 2"
+  },
+  "d_sum_3_lag3": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 3 sessions), lag 3"
+  },
+  "d_sum_3_lag5": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 3 sessions), lag 5"
+  },
+  "d_abs_sum_3_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 3 sessions), lag 0"
+  },
+  "d_abs_sum_3_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 3 sessions), lag 1"
+  },
+  "d_abs_sum_3_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 3 sessions), lag 2"
+  },
+  "d_abs_sum_3_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 3 sessions), lag 3"
+  },
+  "d_abs_sum_3_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 3 sessions), lag 5"
+  },
+  "d_sum_abs_3_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 3 sessions), lag 0"
+  },
+  "d_sum_abs_3_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 3 sessions), lag 1"
+  },
+  "d_sum_abs_3_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 3 sessions), lag 2"
+  },
+  "d_sum_abs_3_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 3 sessions), lag 3"
+  },
+  "d_sum_abs_3_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 3 sessions), lag 5"
+  },
+  "d_std_3_lag0": {
+    "family": "treasury",
+    "formula": "std(d, trailing 3 sessions), lag 0"
+  },
+  "d_std_3_lag1": {
+    "family": "treasury",
+    "formula": "std(d, trailing 3 sessions), lag 1"
+  },
+  "d_std_3_lag2": {
+    "family": "treasury",
+    "formula": "std(d, trailing 3 sessions), lag 2"
+  },
+  "d_std_3_lag3": {
+    "family": "treasury",
+    "formula": "std(d, trailing 3 sessions), lag 3"
+  },
+  "d_std_3_lag5": {
+    "family": "treasury",
+    "formula": "std(d, trailing 3 sessions), lag 5"
+  },
+  "d_max_abs_3_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 3 sessions), lag 0"
+  },
+  "d_max_abs_3_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 3 sessions), lag 1"
+  },
+  "d_max_abs_3_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 3 sessions), lag 2"
+  },
+  "d_max_abs_3_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 3 sessions), lag 3"
+  },
+  "d_max_abs_3_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 3 sessions), lag 5"
+  },
+  "d_sum_4_lag0": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 4 sessions), lag 0"
+  },
+  "d_sum_4_lag1": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 4 sessions), lag 1"
+  },
+  "d_sum_4_lag2": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 4 sessions), lag 2"
+  },
+  "d_sum_4_lag3": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 4 sessions), lag 3"
+  },
+  "d_sum_4_lag5": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 4 sessions), lag 5"
+  },
+  "d_abs_sum_4_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 4 sessions), lag 0"
+  },
+  "d_abs_sum_4_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 4 sessions), lag 1"
+  },
+  "d_abs_sum_4_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 4 sessions), lag 2"
+  },
+  "d_abs_sum_4_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 4 sessions), lag 3"
+  },
+  "d_abs_sum_4_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 4 sessions), lag 5"
+  },
+  "d_sum_abs_4_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 4 sessions), lag 0"
+  },
+  "d_sum_abs_4_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 4 sessions), lag 1"
+  },
+  "d_sum_abs_4_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 4 sessions), lag 2"
+  },
+  "d_sum_abs_4_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 4 sessions), lag 3"
+  },
+  "d_sum_abs_4_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 4 sessions), lag 5"
+  },
+  "d_std_4_lag0": {
+    "family": "treasury",
+    "formula": "std(d, trailing 4 sessions), lag 0"
+  },
+  "d_std_4_lag1": {
+    "family": "treasury",
+    "formula": "std(d, trailing 4 sessions), lag 1"
+  },
+  "d_std_4_lag2": {
+    "family": "treasury",
+    "formula": "std(d, trailing 4 sessions), lag 2"
+  },
+  "d_std_4_lag3": {
+    "family": "treasury",
+    "formula": "std(d, trailing 4 sessions), lag 3"
+  },
+  "d_std_4_lag5": {
+    "family": "treasury",
+    "formula": "std(d, trailing 4 sessions), lag 5"
+  },
+  "d_max_abs_4_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 4 sessions), lag 0"
+  },
+  "d_max_abs_4_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 4 sessions), lag 1"
+  },
+  "d_max_abs_4_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 4 sessions), lag 2"
+  },
+  "d_max_abs_4_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 4 sessions), lag 3"
+  },
+  "d_max_abs_4_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 4 sessions), lag 5"
+  },
+  "d_sum_5_lag0": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 5 sessions), lag 0"
+  },
+  "d_sum_5_lag1": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 5 sessions), lag 1"
+  },
+  "d_sum_5_lag2": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 5 sessions), lag 2"
+  },
+  "d_sum_5_lag3": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 5 sessions), lag 3"
+  },
+  "d_sum_5_lag5": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 5 sessions), lag 5"
+  },
+  "d_abs_sum_5_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 5 sessions), lag 0"
+  },
+  "d_abs_sum_5_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 5 sessions), lag 1"
+  },
+  "d_abs_sum_5_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 5 sessions), lag 2"
+  },
+  "d_abs_sum_5_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 5 sessions), lag 3"
+  },
+  "d_abs_sum_5_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 5 sessions), lag 5"
+  },
+  "d_sum_abs_5_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 5 sessions), lag 0"
+  },
+  "d_sum_abs_5_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 5 sessions), lag 1"
+  },
+  "d_sum_abs_5_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 5 sessions), lag 2"
+  },
+  "d_sum_abs_5_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 5 sessions), lag 3"
+  },
+  "d_sum_abs_5_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 5 sessions), lag 5"
+  },
+  "d_std_5_lag0": {
+    "family": "treasury",
+    "formula": "std(d, trailing 5 sessions), lag 0"
+  },
+  "d_std_5_lag1": {
+    "family": "treasury",
+    "formula": "std(d, trailing 5 sessions), lag 1"
+  },
+  "d_std_5_lag2": {
+    "family": "treasury",
+    "formula": "std(d, trailing 5 sessions), lag 2"
+  },
+  "d_std_5_lag3": {
+    "family": "treasury",
+    "formula": "std(d, trailing 5 sessions), lag 3"
+  },
+  "d_std_5_lag5": {
+    "family": "treasury",
+    "formula": "std(d, trailing 5 sessions), lag 5"
+  },
+  "d_max_abs_5_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 5 sessions), lag 0"
+  },
+  "d_max_abs_5_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 5 sessions), lag 1"
+  },
+  "d_max_abs_5_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 5 sessions), lag 2"
+  },
+  "d_max_abs_5_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 5 sessions), lag 3"
+  },
+  "d_max_abs_5_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 5 sessions), lag 5"
+  },
+  "d_sum_6_lag0": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 6 sessions), lag 0"
+  },
+  "d_sum_6_lag1": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 6 sessions), lag 1"
+  },
+  "d_sum_6_lag2": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 6 sessions), lag 2"
+  },
+  "d_sum_6_lag3": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 6 sessions), lag 3"
+  },
+  "d_sum_6_lag5": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 6 sessions), lag 5"
+  },
+  "d_abs_sum_6_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 6 sessions), lag 0"
+  },
+  "d_abs_sum_6_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 6 sessions), lag 1"
+  },
+  "d_abs_sum_6_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 6 sessions), lag 2"
+  },
+  "d_abs_sum_6_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 6 sessions), lag 3"
+  },
+  "d_abs_sum_6_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 6 sessions), lag 5"
+  },
+  "d_sum_abs_6_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 6 sessions), lag 0"
+  },
+  "d_sum_abs_6_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 6 sessions), lag 1"
+  },
+  "d_sum_abs_6_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 6 sessions), lag 2"
+  },
+  "d_sum_abs_6_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 6 sessions), lag 3"
+  },
+  "d_sum_abs_6_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 6 sessions), lag 5"
+  },
+  "d_std_6_lag0": {
+    "family": "treasury",
+    "formula": "std(d, trailing 6 sessions), lag 0"
+  },
+  "d_std_6_lag1": {
+    "family": "treasury",
+    "formula": "std(d, trailing 6 sessions), lag 1"
+  },
+  "d_std_6_lag2": {
+    "family": "treasury",
+    "formula": "std(d, trailing 6 sessions), lag 2"
+  },
+  "d_std_6_lag3": {
+    "family": "treasury",
+    "formula": "std(d, trailing 6 sessions), lag 3"
+  },
+  "d_std_6_lag5": {
+    "family": "treasury",
+    "formula": "std(d, trailing 6 sessions), lag 5"
+  },
+  "d_max_abs_6_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 6 sessions), lag 0"
+  },
+  "d_max_abs_6_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 6 sessions), lag 1"
+  },
+  "d_max_abs_6_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 6 sessions), lag 2"
+  },
+  "d_max_abs_6_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 6 sessions), lag 3"
+  },
+  "d_max_abs_6_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 6 sessions), lag 5"
+  },
+  "d_sum_8_lag0": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 8 sessions), lag 0"
+  },
+  "d_sum_8_lag1": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 8 sessions), lag 1"
+  },
+  "d_sum_8_lag2": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 8 sessions), lag 2"
+  },
+  "d_sum_8_lag3": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 8 sessions), lag 3"
+  },
+  "d_sum_8_lag5": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 8 sessions), lag 5"
+  },
+  "d_abs_sum_8_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 8 sessions), lag 0"
+  },
+  "d_abs_sum_8_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 8 sessions), lag 1"
+  },
+  "d_abs_sum_8_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 8 sessions), lag 2"
+  },
+  "d_abs_sum_8_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 8 sessions), lag 3"
+  },
+  "d_abs_sum_8_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 8 sessions), lag 5"
+  },
+  "d_sum_abs_8_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 8 sessions), lag 0"
+  },
+  "d_sum_abs_8_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 8 sessions), lag 1"
+  },
+  "d_sum_abs_8_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 8 sessions), lag 2"
+  },
+  "d_sum_abs_8_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 8 sessions), lag 3"
+  },
+  "d_sum_abs_8_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 8 sessions), lag 5"
+  },
+  "d_std_8_lag0": {
+    "family": "treasury",
+    "formula": "std(d, trailing 8 sessions), lag 0"
+  },
+  "d_std_8_lag1": {
+    "family": "treasury",
+    "formula": "std(d, trailing 8 sessions), lag 1"
+  },
+  "d_std_8_lag2": {
+    "family": "treasury",
+    "formula": "std(d, trailing 8 sessions), lag 2"
+  },
+  "d_std_8_lag3": {
+    "family": "treasury",
+    "formula": "std(d, trailing 8 sessions), lag 3"
+  },
+  "d_std_8_lag5": {
+    "family": "treasury",
+    "formula": "std(d, trailing 8 sessions), lag 5"
+  },
+  "d_max_abs_8_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 8 sessions), lag 0"
+  },
+  "d_max_abs_8_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 8 sessions), lag 1"
+  },
+  "d_max_abs_8_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 8 sessions), lag 2"
+  },
+  "d_max_abs_8_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 8 sessions), lag 3"
+  },
+  "d_max_abs_8_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 8 sessions), lag 5"
+  },
+  "d_sum_10_lag0": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 10 sessions), lag 0"
+  },
+  "d_sum_10_lag1": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 10 sessions), lag 1"
+  },
+  "d_sum_10_lag2": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 10 sessions), lag 2"
+  },
+  "d_sum_10_lag3": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 10 sessions), lag 3"
+  },
+  "d_sum_10_lag5": {
+    "family": "treasury",
+    "formula": "sum(d, trailing 10 sessions), lag 5"
+  },
+  "d_abs_sum_10_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 10 sessions), lag 0"
+  },
+  "d_abs_sum_10_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 10 sessions), lag 1"
+  },
+  "d_abs_sum_10_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 10 sessions), lag 2"
+  },
+  "d_abs_sum_10_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 10 sessions), lag 3"
+  },
+  "d_abs_sum_10_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(d, trailing 10 sessions), lag 5"
+  },
+  "d_sum_abs_10_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 10 sessions), lag 0"
+  },
+  "d_sum_abs_10_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 10 sessions), lag 1"
+  },
+  "d_sum_abs_10_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 10 sessions), lag 2"
+  },
+  "d_sum_abs_10_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 10 sessions), lag 3"
+  },
+  "d_sum_abs_10_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(d, trailing 10 sessions), lag 5"
+  },
+  "d_std_10_lag0": {
+    "family": "treasury",
+    "formula": "std(d, trailing 10 sessions), lag 0"
+  },
+  "d_std_10_lag1": {
+    "family": "treasury",
+    "formula": "std(d, trailing 10 sessions), lag 1"
+  },
+  "d_std_10_lag2": {
+    "family": "treasury",
+    "formula": "std(d, trailing 10 sessions), lag 2"
+  },
+  "d_std_10_lag3": {
+    "family": "treasury",
+    "formula": "std(d, trailing 10 sessions), lag 3"
+  },
+  "d_std_10_lag5": {
+    "family": "treasury",
+    "formula": "std(d, trailing 10 sessions), lag 5"
+  },
+  "d_max_abs_10_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 10 sessions), lag 0"
+  },
+  "d_max_abs_10_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 10 sessions), lag 1"
+  },
+  "d_max_abs_10_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 10 sessions), lag 2"
+  },
+  "d_max_abs_10_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 10 sessions), lag 3"
+  },
+  "d_max_abs_10_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(d, trailing 10 sessions), lag 5"
+  },
+  "N_sum_1_lag0": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 1 sessions), lag 0"
+  },
+  "N_sum_1_lag1": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 1 sessions), lag 1"
+  },
+  "N_sum_1_lag2": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 1 sessions), lag 2"
+  },
+  "N_sum_1_lag3": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 1 sessions), lag 3"
+  },
+  "N_sum_1_lag5": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 1 sessions), lag 5"
+  },
+  "N_abs_sum_1_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 1 sessions), lag 0"
+  },
+  "N_abs_sum_1_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 1 sessions), lag 1"
+  },
+  "N_abs_sum_1_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 1 sessions), lag 2"
+  },
+  "N_abs_sum_1_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 1 sessions), lag 3"
+  },
+  "N_abs_sum_1_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 1 sessions), lag 5"
+  },
+  "N_sum_2_lag0": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 2 sessions), lag 0"
+  },
+  "N_sum_2_lag1": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 2 sessions), lag 1"
+  },
+  "N_sum_2_lag2": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 2 sessions), lag 2"
+  },
+  "N_sum_2_lag3": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 2 sessions), lag 3"
+  },
+  "N_sum_2_lag5": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 2 sessions), lag 5"
+  },
+  "N_abs_sum_2_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 2 sessions), lag 0"
+  },
+  "N_abs_sum_2_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 2 sessions), lag 1"
+  },
+  "N_abs_sum_2_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 2 sessions), lag 2"
+  },
+  "N_abs_sum_2_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 2 sessions), lag 3"
+  },
+  "N_abs_sum_2_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 2 sessions), lag 5"
+  },
+  "N_sum_abs_2_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 2 sessions), lag 0"
+  },
+  "N_sum_abs_2_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 2 sessions), lag 1"
+  },
+  "N_sum_abs_2_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 2 sessions), lag 2"
+  },
+  "N_sum_abs_2_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 2 sessions), lag 3"
+  },
+  "N_sum_abs_2_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 2 sessions), lag 5"
+  },
+  "N_std_2_lag0": {
+    "family": "treasury",
+    "formula": "std(N, trailing 2 sessions), lag 0"
+  },
+  "N_std_2_lag1": {
+    "family": "treasury",
+    "formula": "std(N, trailing 2 sessions), lag 1"
+  },
+  "N_std_2_lag2": {
+    "family": "treasury",
+    "formula": "std(N, trailing 2 sessions), lag 2"
+  },
+  "N_std_2_lag3": {
+    "family": "treasury",
+    "formula": "std(N, trailing 2 sessions), lag 3"
+  },
+  "N_std_2_lag5": {
+    "family": "treasury",
+    "formula": "std(N, trailing 2 sessions), lag 5"
+  },
+  "N_max_abs_2_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 2 sessions), lag 0"
+  },
+  "N_max_abs_2_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 2 sessions), lag 1"
+  },
+  "N_max_abs_2_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 2 sessions), lag 2"
+  },
+  "N_max_abs_2_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 2 sessions), lag 3"
+  },
+  "N_max_abs_2_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 2 sessions), lag 5"
+  },
+  "N_sum_3_lag0": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 3 sessions), lag 0"
+  },
+  "N_sum_3_lag1": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 3 sessions), lag 1"
+  },
+  "N_sum_3_lag2": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 3 sessions), lag 2"
+  },
+  "N_sum_3_lag3": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 3 sessions), lag 3"
+  },
+  "N_sum_3_lag5": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 3 sessions), lag 5"
+  },
+  "N_abs_sum_3_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 3 sessions), lag 0"
+  },
+  "N_abs_sum_3_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 3 sessions), lag 1"
+  },
+  "N_abs_sum_3_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 3 sessions), lag 2"
+  },
+  "N_abs_sum_3_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 3 sessions), lag 3"
+  },
+  "N_abs_sum_3_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 3 sessions), lag 5"
+  },
+  "N_sum_abs_3_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 3 sessions), lag 0"
+  },
+  "N_sum_abs_3_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 3 sessions), lag 1"
+  },
+  "N_sum_abs_3_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 3 sessions), lag 2"
+  },
+  "N_sum_abs_3_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 3 sessions), lag 3"
+  },
+  "N_sum_abs_3_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 3 sessions), lag 5"
+  },
+  "N_std_3_lag0": {
+    "family": "treasury",
+    "formula": "std(N, trailing 3 sessions), lag 0"
+  },
+  "N_std_3_lag1": {
+    "family": "treasury",
+    "formula": "std(N, trailing 3 sessions), lag 1"
+  },
+  "N_std_3_lag2": {
+    "family": "treasury",
+    "formula": "std(N, trailing 3 sessions), lag 2"
+  },
+  "N_std_3_lag3": {
+    "family": "treasury",
+    "formula": "std(N, trailing 3 sessions), lag 3"
+  },
+  "N_std_3_lag5": {
+    "family": "treasury",
+    "formula": "std(N, trailing 3 sessions), lag 5"
+  },
+  "N_max_abs_3_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 3 sessions), lag 0"
+  },
+  "N_max_abs_3_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 3 sessions), lag 1"
+  },
+  "N_max_abs_3_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 3 sessions), lag 2"
+  },
+  "N_max_abs_3_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 3 sessions), lag 3"
+  },
+  "N_max_abs_3_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 3 sessions), lag 5"
+  },
+  "N_sum_4_lag0": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 4 sessions), lag 0"
+  },
+  "N_sum_4_lag1": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 4 sessions), lag 1"
+  },
+  "N_sum_4_lag2": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 4 sessions), lag 2"
+  },
+  "N_sum_4_lag3": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 4 sessions), lag 3"
+  },
+  "N_sum_4_lag5": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 4 sessions), lag 5"
+  },
+  "N_abs_sum_4_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 4 sessions), lag 0"
+  },
+  "N_abs_sum_4_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 4 sessions), lag 1"
+  },
+  "N_abs_sum_4_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 4 sessions), lag 2"
+  },
+  "N_abs_sum_4_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 4 sessions), lag 3"
+  },
+  "N_abs_sum_4_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 4 sessions), lag 5"
+  },
+  "N_sum_abs_4_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 4 sessions), lag 0"
+  },
+  "N_sum_abs_4_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 4 sessions), lag 1"
+  },
+  "N_sum_abs_4_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 4 sessions), lag 2"
+  },
+  "N_sum_abs_4_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 4 sessions), lag 3"
+  },
+  "N_sum_abs_4_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 4 sessions), lag 5"
+  },
+  "N_std_4_lag0": {
+    "family": "treasury",
+    "formula": "std(N, trailing 4 sessions), lag 0"
+  },
+  "N_std_4_lag1": {
+    "family": "treasury",
+    "formula": "std(N, trailing 4 sessions), lag 1"
+  },
+  "N_std_4_lag2": {
+    "family": "treasury",
+    "formula": "std(N, trailing 4 sessions), lag 2"
+  },
+  "N_std_4_lag3": {
+    "family": "treasury",
+    "formula": "std(N, trailing 4 sessions), lag 3"
+  },
+  "N_std_4_lag5": {
+    "family": "treasury",
+    "formula": "std(N, trailing 4 sessions), lag 5"
+  },
+  "N_max_abs_4_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 4 sessions), lag 0"
+  },
+  "N_max_abs_4_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 4 sessions), lag 1"
+  },
+  "N_max_abs_4_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 4 sessions), lag 2"
+  },
+  "N_max_abs_4_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 4 sessions), lag 3"
+  },
+  "N_max_abs_4_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 4 sessions), lag 5"
+  },
+  "N_sum_5_lag0": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 5 sessions), lag 0"
+  },
+  "N_sum_5_lag1": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 5 sessions), lag 1"
+  },
+  "N_sum_5_lag2": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 5 sessions), lag 2"
+  },
+  "N_sum_5_lag3": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 5 sessions), lag 3"
+  },
+  "N_sum_5_lag5": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 5 sessions), lag 5"
+  },
+  "N_abs_sum_5_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 5 sessions), lag 0"
+  },
+  "N_abs_sum_5_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 5 sessions), lag 1"
+  },
+  "N_abs_sum_5_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 5 sessions), lag 2"
+  },
+  "N_abs_sum_5_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 5 sessions), lag 3"
+  },
+  "N_abs_sum_5_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 5 sessions), lag 5"
+  },
+  "N_sum_abs_5_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 5 sessions), lag 0"
+  },
+  "N_sum_abs_5_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 5 sessions), lag 1"
+  },
+  "N_sum_abs_5_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 5 sessions), lag 2"
+  },
+  "N_sum_abs_5_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 5 sessions), lag 3"
+  },
+  "N_sum_abs_5_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 5 sessions), lag 5"
+  },
+  "N_std_5_lag0": {
+    "family": "treasury",
+    "formula": "std(N, trailing 5 sessions), lag 0"
+  },
+  "N_std_5_lag1": {
+    "family": "treasury",
+    "formula": "std(N, trailing 5 sessions), lag 1"
+  },
+  "N_std_5_lag2": {
+    "family": "treasury",
+    "formula": "std(N, trailing 5 sessions), lag 2"
+  },
+  "N_std_5_lag3": {
+    "family": "treasury",
+    "formula": "std(N, trailing 5 sessions), lag 3"
+  },
+  "N_std_5_lag5": {
+    "family": "treasury",
+    "formula": "std(N, trailing 5 sessions), lag 5"
+  },
+  "N_max_abs_5_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 5 sessions), lag 0"
+  },
+  "N_max_abs_5_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 5 sessions), lag 1"
+  },
+  "N_max_abs_5_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 5 sessions), lag 2"
+  },
+  "N_max_abs_5_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 5 sessions), lag 3"
+  },
+  "N_max_abs_5_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 5 sessions), lag 5"
+  },
+  "N_sum_6_lag0": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 6 sessions), lag 0"
+  },
+  "N_sum_6_lag1": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 6 sessions), lag 1"
+  },
+  "N_sum_6_lag2": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 6 sessions), lag 2"
+  },
+  "N_sum_6_lag3": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 6 sessions), lag 3"
+  },
+  "N_sum_6_lag5": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 6 sessions), lag 5"
+  },
+  "N_abs_sum_6_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 6 sessions), lag 0"
+  },
+  "N_abs_sum_6_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 6 sessions), lag 1"
+  },
+  "N_abs_sum_6_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 6 sessions), lag 2"
+  },
+  "N_abs_sum_6_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 6 sessions), lag 3"
+  },
+  "N_abs_sum_6_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 6 sessions), lag 5"
+  },
+  "N_sum_abs_6_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 6 sessions), lag 0"
+  },
+  "N_sum_abs_6_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 6 sessions), lag 1"
+  },
+  "N_sum_abs_6_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 6 sessions), lag 2"
+  },
+  "N_sum_abs_6_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 6 sessions), lag 3"
+  },
+  "N_sum_abs_6_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 6 sessions), lag 5"
+  },
+  "N_std_6_lag0": {
+    "family": "treasury",
+    "formula": "std(N, trailing 6 sessions), lag 0"
+  },
+  "N_std_6_lag1": {
+    "family": "treasury",
+    "formula": "std(N, trailing 6 sessions), lag 1"
+  },
+  "N_std_6_lag2": {
+    "family": "treasury",
+    "formula": "std(N, trailing 6 sessions), lag 2"
+  },
+  "N_std_6_lag3": {
+    "family": "treasury",
+    "formula": "std(N, trailing 6 sessions), lag 3"
+  },
+  "N_std_6_lag5": {
+    "family": "treasury",
+    "formula": "std(N, trailing 6 sessions), lag 5"
+  },
+  "N_max_abs_6_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 6 sessions), lag 0"
+  },
+  "N_max_abs_6_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 6 sessions), lag 1"
+  },
+  "N_max_abs_6_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 6 sessions), lag 2"
+  },
+  "N_max_abs_6_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 6 sessions), lag 3"
+  },
+  "N_max_abs_6_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 6 sessions), lag 5"
+  },
+  "N_sum_8_lag0": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 8 sessions), lag 0"
+  },
+  "N_sum_8_lag1": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 8 sessions), lag 1"
+  },
+  "N_sum_8_lag2": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 8 sessions), lag 2"
+  },
+  "N_sum_8_lag3": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 8 sessions), lag 3"
+  },
+  "N_sum_8_lag5": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 8 sessions), lag 5"
+  },
+  "N_abs_sum_8_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 8 sessions), lag 0"
+  },
+  "N_abs_sum_8_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 8 sessions), lag 1"
+  },
+  "N_abs_sum_8_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 8 sessions), lag 2"
+  },
+  "N_abs_sum_8_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 8 sessions), lag 3"
+  },
+  "N_abs_sum_8_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 8 sessions), lag 5"
+  },
+  "N_sum_abs_8_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 8 sessions), lag 0"
+  },
+  "N_sum_abs_8_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 8 sessions), lag 1"
+  },
+  "N_sum_abs_8_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 8 sessions), lag 2"
+  },
+  "N_sum_abs_8_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 8 sessions), lag 3"
+  },
+  "N_sum_abs_8_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 8 sessions), lag 5"
+  },
+  "N_std_8_lag0": {
+    "family": "treasury",
+    "formula": "std(N, trailing 8 sessions), lag 0"
+  },
+  "N_std_8_lag1": {
+    "family": "treasury",
+    "formula": "std(N, trailing 8 sessions), lag 1"
+  },
+  "N_std_8_lag2": {
+    "family": "treasury",
+    "formula": "std(N, trailing 8 sessions), lag 2"
+  },
+  "N_std_8_lag3": {
+    "family": "treasury",
+    "formula": "std(N, trailing 8 sessions), lag 3"
+  },
+  "N_std_8_lag5": {
+    "family": "treasury",
+    "formula": "std(N, trailing 8 sessions), lag 5"
+  },
+  "N_max_abs_8_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 8 sessions), lag 0"
+  },
+  "N_max_abs_8_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 8 sessions), lag 1"
+  },
+  "N_max_abs_8_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 8 sessions), lag 2"
+  },
+  "N_max_abs_8_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 8 sessions), lag 3"
+  },
+  "N_max_abs_8_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 8 sessions), lag 5"
+  },
+  "N_sum_10_lag0": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 10 sessions), lag 0"
+  },
+  "N_sum_10_lag1": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 10 sessions), lag 1"
+  },
+  "N_sum_10_lag2": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 10 sessions), lag 2"
+  },
+  "N_sum_10_lag3": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 10 sessions), lag 3"
+  },
+  "N_sum_10_lag5": {
+    "family": "treasury",
+    "formula": "sum(N, trailing 10 sessions), lag 5"
+  },
+  "N_abs_sum_10_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 10 sessions), lag 0"
+  },
+  "N_abs_sum_10_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 10 sessions), lag 1"
+  },
+  "N_abs_sum_10_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 10 sessions), lag 2"
+  },
+  "N_abs_sum_10_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 10 sessions), lag 3"
+  },
+  "N_abs_sum_10_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(N, trailing 10 sessions), lag 5"
+  },
+  "N_sum_abs_10_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 10 sessions), lag 0"
+  },
+  "N_sum_abs_10_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 10 sessions), lag 1"
+  },
+  "N_sum_abs_10_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 10 sessions), lag 2"
+  },
+  "N_sum_abs_10_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 10 sessions), lag 3"
+  },
+  "N_sum_abs_10_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(N, trailing 10 sessions), lag 5"
+  },
+  "N_std_10_lag0": {
+    "family": "treasury",
+    "formula": "std(N, trailing 10 sessions), lag 0"
+  },
+  "N_std_10_lag1": {
+    "family": "treasury",
+    "formula": "std(N, trailing 10 sessions), lag 1"
+  },
+  "N_std_10_lag2": {
+    "family": "treasury",
+    "formula": "std(N, trailing 10 sessions), lag 2"
+  },
+  "N_std_10_lag3": {
+    "family": "treasury",
+    "formula": "std(N, trailing 10 sessions), lag 3"
+  },
+  "N_std_10_lag5": {
+    "family": "treasury",
+    "formula": "std(N, trailing 10 sessions), lag 5"
+  },
+  "N_max_abs_10_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 10 sessions), lag 0"
+  },
+  "N_max_abs_10_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 10 sessions), lag 1"
+  },
+  "N_max_abs_10_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 10 sessions), lag 2"
+  },
+  "N_max_abs_10_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 10 sessions), lag 3"
+  },
+  "N_max_abs_10_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(N, trailing 10 sessions), lag 5"
+  },
+  "delta_TGA_sum_1_lag0": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 1 sessions), lag 0"
+  },
+  "delta_TGA_sum_1_lag1": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 1 sessions), lag 1"
+  },
+  "delta_TGA_sum_1_lag2": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 1 sessions), lag 2"
+  },
+  "delta_TGA_sum_1_lag3": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 1 sessions), lag 3"
+  },
+  "delta_TGA_sum_1_lag5": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 1 sessions), lag 5"
+  },
+  "delta_TGA_abs_sum_1_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 1 sessions), lag 0"
+  },
+  "delta_TGA_abs_sum_1_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 1 sessions), lag 1"
+  },
+  "delta_TGA_abs_sum_1_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 1 sessions), lag 2"
+  },
+  "delta_TGA_abs_sum_1_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 1 sessions), lag 3"
+  },
+  "delta_TGA_abs_sum_1_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 1 sessions), lag 5"
+  },
+  "delta_TGA_sum_2_lag0": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 2 sessions), lag 0"
+  },
+  "delta_TGA_sum_2_lag1": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 2 sessions), lag 1"
+  },
+  "delta_TGA_sum_2_lag2": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 2 sessions), lag 2"
+  },
+  "delta_TGA_sum_2_lag3": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 2 sessions), lag 3"
+  },
+  "delta_TGA_sum_2_lag5": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 2 sessions), lag 5"
+  },
+  "delta_TGA_abs_sum_2_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 2 sessions), lag 0"
+  },
+  "delta_TGA_abs_sum_2_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 2 sessions), lag 1"
+  },
+  "delta_TGA_abs_sum_2_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 2 sessions), lag 2"
+  },
+  "delta_TGA_abs_sum_2_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 2 sessions), lag 3"
+  },
+  "delta_TGA_abs_sum_2_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 2 sessions), lag 5"
+  },
+  "delta_TGA_sum_abs_2_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 2 sessions), lag 0"
+  },
+  "delta_TGA_sum_abs_2_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 2 sessions), lag 1"
+  },
+  "delta_TGA_sum_abs_2_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 2 sessions), lag 2"
+  },
+  "delta_TGA_sum_abs_2_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 2 sessions), lag 3"
+  },
+  "delta_TGA_sum_abs_2_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 2 sessions), lag 5"
+  },
+  "delta_TGA_std_2_lag0": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 2 sessions), lag 0"
+  },
+  "delta_TGA_std_2_lag1": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 2 sessions), lag 1"
+  },
+  "delta_TGA_std_2_lag2": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 2 sessions), lag 2"
+  },
+  "delta_TGA_std_2_lag3": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 2 sessions), lag 3"
+  },
+  "delta_TGA_std_2_lag5": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 2 sessions), lag 5"
+  },
+  "delta_TGA_max_abs_2_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 2 sessions), lag 0"
+  },
+  "delta_TGA_max_abs_2_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 2 sessions), lag 1"
+  },
+  "delta_TGA_max_abs_2_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 2 sessions), lag 2"
+  },
+  "delta_TGA_max_abs_2_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 2 sessions), lag 3"
+  },
+  "delta_TGA_max_abs_2_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 2 sessions), lag 5"
+  },
+  "delta_TGA_sum_3_lag0": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 3 sessions), lag 0"
+  },
+  "delta_TGA_sum_3_lag1": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 3 sessions), lag 1"
+  },
+  "delta_TGA_sum_3_lag2": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 3 sessions), lag 2"
+  },
+  "delta_TGA_sum_3_lag3": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 3 sessions), lag 3"
+  },
+  "delta_TGA_sum_3_lag5": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 3 sessions), lag 5"
+  },
+  "delta_TGA_abs_sum_3_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 3 sessions), lag 0"
+  },
+  "delta_TGA_abs_sum_3_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 3 sessions), lag 1"
+  },
+  "delta_TGA_abs_sum_3_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 3 sessions), lag 2"
+  },
+  "delta_TGA_abs_sum_3_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 3 sessions), lag 3"
+  },
+  "delta_TGA_abs_sum_3_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 3 sessions), lag 5"
+  },
+  "delta_TGA_sum_abs_3_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 3 sessions), lag 0"
+  },
+  "delta_TGA_sum_abs_3_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 3 sessions), lag 1"
+  },
+  "delta_TGA_sum_abs_3_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 3 sessions), lag 2"
+  },
+  "delta_TGA_sum_abs_3_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 3 sessions), lag 3"
+  },
+  "delta_TGA_sum_abs_3_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 3 sessions), lag 5"
+  },
+  "delta_TGA_std_3_lag0": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 3 sessions), lag 0"
+  },
+  "delta_TGA_std_3_lag1": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 3 sessions), lag 1"
+  },
+  "delta_TGA_std_3_lag2": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 3 sessions), lag 2"
+  },
+  "delta_TGA_std_3_lag3": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 3 sessions), lag 3"
+  },
+  "delta_TGA_std_3_lag5": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 3 sessions), lag 5"
+  },
+  "delta_TGA_max_abs_3_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 3 sessions), lag 0"
+  },
+  "delta_TGA_max_abs_3_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 3 sessions), lag 1"
+  },
+  "delta_TGA_max_abs_3_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 3 sessions), lag 2"
+  },
+  "delta_TGA_max_abs_3_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 3 sessions), lag 3"
+  },
+  "delta_TGA_max_abs_3_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 3 sessions), lag 5"
+  },
+  "delta_TGA_sum_4_lag0": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 4 sessions), lag 0"
+  },
+  "delta_TGA_sum_4_lag1": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 4 sessions), lag 1"
+  },
+  "delta_TGA_sum_4_lag2": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 4 sessions), lag 2"
+  },
+  "delta_TGA_sum_4_lag3": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 4 sessions), lag 3"
+  },
+  "delta_TGA_sum_4_lag5": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 4 sessions), lag 5"
+  },
+  "delta_TGA_abs_sum_4_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 4 sessions), lag 0"
+  },
+  "delta_TGA_abs_sum_4_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 4 sessions), lag 1"
+  },
+  "delta_TGA_abs_sum_4_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 4 sessions), lag 2"
+  },
+  "delta_TGA_abs_sum_4_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 4 sessions), lag 3"
+  },
+  "delta_TGA_abs_sum_4_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 4 sessions), lag 5"
+  },
+  "delta_TGA_sum_abs_4_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 4 sessions), lag 0"
+  },
+  "delta_TGA_sum_abs_4_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 4 sessions), lag 1"
+  },
+  "delta_TGA_sum_abs_4_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 4 sessions), lag 2"
+  },
+  "delta_TGA_sum_abs_4_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 4 sessions), lag 3"
+  },
+  "delta_TGA_sum_abs_4_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 4 sessions), lag 5"
+  },
+  "delta_TGA_std_4_lag0": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 4 sessions), lag 0"
+  },
+  "delta_TGA_std_4_lag1": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 4 sessions), lag 1"
+  },
+  "delta_TGA_std_4_lag2": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 4 sessions), lag 2"
+  },
+  "delta_TGA_std_4_lag3": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 4 sessions), lag 3"
+  },
+  "delta_TGA_std_4_lag5": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 4 sessions), lag 5"
+  },
+  "delta_TGA_max_abs_4_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 4 sessions), lag 0"
+  },
+  "delta_TGA_max_abs_4_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 4 sessions), lag 1"
+  },
+  "delta_TGA_max_abs_4_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 4 sessions), lag 2"
+  },
+  "delta_TGA_max_abs_4_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 4 sessions), lag 3"
+  },
+  "delta_TGA_max_abs_4_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 4 sessions), lag 5"
+  },
+  "delta_TGA_sum_5_lag0": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 5 sessions), lag 0"
+  },
+  "delta_TGA_sum_5_lag1": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 5 sessions), lag 1"
+  },
+  "delta_TGA_sum_5_lag2": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 5 sessions), lag 2"
+  },
+  "delta_TGA_sum_5_lag3": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 5 sessions), lag 3"
+  },
+  "delta_TGA_sum_5_lag5": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 5 sessions), lag 5"
+  },
+  "delta_TGA_abs_sum_5_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 5 sessions), lag 0"
+  },
+  "delta_TGA_abs_sum_5_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 5 sessions), lag 1"
+  },
+  "delta_TGA_abs_sum_5_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 5 sessions), lag 2"
+  },
+  "delta_TGA_abs_sum_5_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 5 sessions), lag 3"
+  },
+  "delta_TGA_abs_sum_5_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 5 sessions), lag 5"
+  },
+  "delta_TGA_sum_abs_5_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 5 sessions), lag 0"
+  },
+  "delta_TGA_sum_abs_5_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 5 sessions), lag 1"
+  },
+  "delta_TGA_sum_abs_5_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 5 sessions), lag 2"
+  },
+  "delta_TGA_sum_abs_5_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 5 sessions), lag 3"
+  },
+  "delta_TGA_sum_abs_5_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 5 sessions), lag 5"
+  },
+  "delta_TGA_std_5_lag0": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 5 sessions), lag 0"
+  },
+  "delta_TGA_std_5_lag1": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 5 sessions), lag 1"
+  },
+  "delta_TGA_std_5_lag2": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 5 sessions), lag 2"
+  },
+  "delta_TGA_std_5_lag3": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 5 sessions), lag 3"
+  },
+  "delta_TGA_std_5_lag5": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 5 sessions), lag 5"
+  },
+  "delta_TGA_max_abs_5_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 5 sessions), lag 0"
+  },
+  "delta_TGA_max_abs_5_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 5 sessions), lag 1"
+  },
+  "delta_TGA_max_abs_5_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 5 sessions), lag 2"
+  },
+  "delta_TGA_max_abs_5_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 5 sessions), lag 3"
+  },
+  "delta_TGA_max_abs_5_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 5 sessions), lag 5"
+  },
+  "delta_TGA_sum_6_lag0": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 6 sessions), lag 0"
+  },
+  "delta_TGA_sum_6_lag1": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 6 sessions), lag 1"
+  },
+  "delta_TGA_sum_6_lag2": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 6 sessions), lag 2"
+  },
+  "delta_TGA_sum_6_lag3": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 6 sessions), lag 3"
+  },
+  "delta_TGA_sum_6_lag5": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 6 sessions), lag 5"
+  },
+  "delta_TGA_abs_sum_6_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 6 sessions), lag 0"
+  },
+  "delta_TGA_abs_sum_6_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 6 sessions), lag 1"
+  },
+  "delta_TGA_abs_sum_6_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 6 sessions), lag 2"
+  },
+  "delta_TGA_abs_sum_6_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 6 sessions), lag 3"
+  },
+  "delta_TGA_abs_sum_6_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 6 sessions), lag 5"
+  },
+  "delta_TGA_sum_abs_6_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 6 sessions), lag 0"
+  },
+  "delta_TGA_sum_abs_6_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 6 sessions), lag 1"
+  },
+  "delta_TGA_sum_abs_6_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 6 sessions), lag 2"
+  },
+  "delta_TGA_sum_abs_6_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 6 sessions), lag 3"
+  },
+  "delta_TGA_sum_abs_6_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 6 sessions), lag 5"
+  },
+  "delta_TGA_std_6_lag0": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 6 sessions), lag 0"
+  },
+  "delta_TGA_std_6_lag1": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 6 sessions), lag 1"
+  },
+  "delta_TGA_std_6_lag2": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 6 sessions), lag 2"
+  },
+  "delta_TGA_std_6_lag3": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 6 sessions), lag 3"
+  },
+  "delta_TGA_std_6_lag5": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 6 sessions), lag 5"
+  },
+  "delta_TGA_max_abs_6_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 6 sessions), lag 0"
+  },
+  "delta_TGA_max_abs_6_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 6 sessions), lag 1"
+  },
+  "delta_TGA_max_abs_6_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 6 sessions), lag 2"
+  },
+  "delta_TGA_max_abs_6_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 6 sessions), lag 3"
+  },
+  "delta_TGA_max_abs_6_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 6 sessions), lag 5"
+  },
+  "delta_TGA_sum_8_lag0": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 8 sessions), lag 0"
+  },
+  "delta_TGA_sum_8_lag1": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 8 sessions), lag 1"
+  },
+  "delta_TGA_sum_8_lag2": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 8 sessions), lag 2"
+  },
+  "delta_TGA_sum_8_lag3": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 8 sessions), lag 3"
+  },
+  "delta_TGA_sum_8_lag5": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 8 sessions), lag 5"
+  },
+  "delta_TGA_abs_sum_8_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 8 sessions), lag 0"
+  },
+  "delta_TGA_abs_sum_8_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 8 sessions), lag 1"
+  },
+  "delta_TGA_abs_sum_8_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 8 sessions), lag 2"
+  },
+  "delta_TGA_abs_sum_8_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 8 sessions), lag 3"
+  },
+  "delta_TGA_abs_sum_8_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 8 sessions), lag 5"
+  },
+  "delta_TGA_sum_abs_8_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 8 sessions), lag 0"
+  },
+  "delta_TGA_sum_abs_8_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 8 sessions), lag 1"
+  },
+  "delta_TGA_sum_abs_8_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 8 sessions), lag 2"
+  },
+  "delta_TGA_sum_abs_8_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 8 sessions), lag 3"
+  },
+  "delta_TGA_sum_abs_8_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 8 sessions), lag 5"
+  },
+  "delta_TGA_std_8_lag0": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 8 sessions), lag 0"
+  },
+  "delta_TGA_std_8_lag1": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 8 sessions), lag 1"
+  },
+  "delta_TGA_std_8_lag2": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 8 sessions), lag 2"
+  },
+  "delta_TGA_std_8_lag3": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 8 sessions), lag 3"
+  },
+  "delta_TGA_std_8_lag5": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 8 sessions), lag 5"
+  },
+  "delta_TGA_max_abs_8_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 8 sessions), lag 0"
+  },
+  "delta_TGA_max_abs_8_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 8 sessions), lag 1"
+  },
+  "delta_TGA_max_abs_8_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 8 sessions), lag 2"
+  },
+  "delta_TGA_max_abs_8_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 8 sessions), lag 3"
+  },
+  "delta_TGA_max_abs_8_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 8 sessions), lag 5"
+  },
+  "delta_TGA_sum_10_lag0": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 10 sessions), lag 0"
+  },
+  "delta_TGA_sum_10_lag1": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 10 sessions), lag 1"
+  },
+  "delta_TGA_sum_10_lag2": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 10 sessions), lag 2"
+  },
+  "delta_TGA_sum_10_lag3": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 10 sessions), lag 3"
+  },
+  "delta_TGA_sum_10_lag5": {
+    "family": "treasury",
+    "formula": "sum(delta_TGA, trailing 10 sessions), lag 5"
+  },
+  "delta_TGA_abs_sum_10_lag0": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 10 sessions), lag 0"
+  },
+  "delta_TGA_abs_sum_10_lag1": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 10 sessions), lag 1"
+  },
+  "delta_TGA_abs_sum_10_lag2": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 10 sessions), lag 2"
+  },
+  "delta_TGA_abs_sum_10_lag3": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 10 sessions), lag 3"
+  },
+  "delta_TGA_abs_sum_10_lag5": {
+    "family": "treasury",
+    "formula": "abs_sum(delta_TGA, trailing 10 sessions), lag 5"
+  },
+  "delta_TGA_sum_abs_10_lag0": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 10 sessions), lag 0"
+  },
+  "delta_TGA_sum_abs_10_lag1": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 10 sessions), lag 1"
+  },
+  "delta_TGA_sum_abs_10_lag2": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 10 sessions), lag 2"
+  },
+  "delta_TGA_sum_abs_10_lag3": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 10 sessions), lag 3"
+  },
+  "delta_TGA_sum_abs_10_lag5": {
+    "family": "treasury",
+    "formula": "sum_abs(delta_TGA, trailing 10 sessions), lag 5"
+  },
+  "delta_TGA_std_10_lag0": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 10 sessions), lag 0"
+  },
+  "delta_TGA_std_10_lag1": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 10 sessions), lag 1"
+  },
+  "delta_TGA_std_10_lag2": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 10 sessions), lag 2"
+  },
+  "delta_TGA_std_10_lag3": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 10 sessions), lag 3"
+  },
+  "delta_TGA_std_10_lag5": {
+    "family": "treasury",
+    "formula": "std(delta_TGA, trailing 10 sessions), lag 5"
+  },
+  "delta_TGA_max_abs_10_lag0": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 10 sessions), lag 0"
+  },
+  "delta_TGA_max_abs_10_lag1": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 10 sessions), lag 1"
+  },
+  "delta_TGA_max_abs_10_lag2": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 10 sessions), lag 2"
+  },
+  "delta_TGA_max_abs_10_lag3": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 10 sessions), lag 3"
+  },
+  "delta_TGA_max_abs_10_lag5": {
+    "family": "treasury",
+    "formula": "max_abs(delta_TGA, trailing 10 sessions), lag 5"
+  },
+  "weighted_0.25_1_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.25*delta_TGA - N, trailing 1))"
+  },
+  "weighted_0.25_1_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.25*delta_TGA - N, trailing 1))"
+  },
+  "weighted_0.25_3_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.25*delta_TGA - N, trailing 3))"
+  },
+  "weighted_0.25_3_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.25*delta_TGA - N, trailing 3))"
+  },
+  "weighted_0.25_4_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.25*delta_TGA - N, trailing 4))"
+  },
+  "weighted_0.25_4_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.25*delta_TGA - N, trailing 4))"
+  },
+  "weighted_0.25_5_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.25*delta_TGA - N, trailing 5))"
+  },
+  "weighted_0.25_5_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.25*delta_TGA - N, trailing 5))"
+  },
+  "weighted_0.5_1_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.5*delta_TGA - N, trailing 1))"
+  },
+  "weighted_0.5_1_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.5*delta_TGA - N, trailing 1))"
+  },
+  "weighted_0.5_3_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.5*delta_TGA - N, trailing 3))"
+  },
+  "weighted_0.5_3_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.5*delta_TGA - N, trailing 3))"
+  },
+  "weighted_0.5_4_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.5*delta_TGA - N, trailing 4))"
+  },
+  "weighted_0.5_4_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.5*delta_TGA - N, trailing 4))"
+  },
+  "weighted_0.5_5_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.5*delta_TGA - N, trailing 5))"
+  },
+  "weighted_0.5_5_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.5*delta_TGA - N, trailing 5))"
+  },
+  "weighted_0.75_1_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.75*delta_TGA - N, trailing 1))"
+  },
+  "weighted_0.75_1_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.75*delta_TGA - N, trailing 1))"
+  },
+  "weighted_0.75_3_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.75*delta_TGA - N, trailing 3))"
+  },
+  "weighted_0.75_3_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.75*delta_TGA - N, trailing 3))"
+  },
+  "weighted_0.75_4_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.75*delta_TGA - N, trailing 4))"
+  },
+  "weighted_0.75_4_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.75*delta_TGA - N, trailing 4))"
+  },
+  "weighted_0.75_5_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(0.75*delta_TGA - N, trailing 5))"
+  },
+  "weighted_0.75_5_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(0.75*delta_TGA - N, trailing 5))"
+  },
+  "weighted_1.25_1_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(1.25*delta_TGA - N, trailing 1))"
+  },
+  "weighted_1.25_1_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(1.25*delta_TGA - N, trailing 1))"
+  },
+  "weighted_1.25_3_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(1.25*delta_TGA - N, trailing 3))"
+  },
+  "weighted_1.25_3_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(1.25*delta_TGA - N, trailing 3))"
+  },
+  "weighted_1.25_4_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(1.25*delta_TGA - N, trailing 4))"
+  },
+  "weighted_1.25_4_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(1.25*delta_TGA - N, trailing 4))"
+  },
+  "weighted_1.25_5_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(1.25*delta_TGA - N, trailing 5))"
+  },
+  "weighted_1.25_5_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(1.25*delta_TGA - N, trailing 5))"
+  },
+  "weighted_1.5_1_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(1.5*delta_TGA - N, trailing 1))"
+  },
+  "weighted_1.5_1_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(1.5*delta_TGA - N, trailing 1))"
+  },
+  "weighted_1.5_3_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(1.5*delta_TGA - N, trailing 3))"
+  },
+  "weighted_1.5_3_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(1.5*delta_TGA - N, trailing 3))"
+  },
+  "weighted_1.5_4_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(1.5*delta_TGA - N, trailing 4))"
+  },
+  "weighted_1.5_4_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(1.5*delta_TGA - N, trailing 4))"
+  },
+  "weighted_1.5_5_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(1.5*delta_TGA - N, trailing 5))"
+  },
+  "weighted_1.5_5_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(1.5*delta_TGA - N, trailing 5))"
+  },
+  "weighted_2_1_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(2*delta_TGA - N, trailing 1))"
+  },
+  "weighted_2_1_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(2*delta_TGA - N, trailing 1))"
+  },
+  "weighted_2_3_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(2*delta_TGA - N, trailing 3))"
+  },
+  "weighted_2_3_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(2*delta_TGA - N, trailing 3))"
+  },
+  "weighted_2_4_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(2*delta_TGA - N, trailing 4))"
+  },
+  "weighted_2_4_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(2*delta_TGA - N, trailing 4))"
+  },
+  "weighted_2_5_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(2*delta_TGA - N, trailing 5))"
+  },
+  "weighted_2_5_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(2*delta_TGA - N, trailing 5))"
+  },
+  "weighted_3_1_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(3*delta_TGA - N, trailing 1))"
+  },
+  "weighted_3_1_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(3*delta_TGA - N, trailing 1))"
+  },
+  "weighted_3_3_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(3*delta_TGA - N, trailing 3))"
+  },
+  "weighted_3_3_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(3*delta_TGA - N, trailing 3))"
+  },
+  "weighted_3_4_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(3*delta_TGA - N, trailing 4))"
+  },
+  "weighted_3_4_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(3*delta_TGA - N, trailing 4))"
+  },
+  "weighted_3_5_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(3*delta_TGA - N, trailing 5))"
+  },
+  "weighted_3_5_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(3*delta_TGA - N, trailing 5))"
+  },
+  "weighted_4_1_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(4*delta_TGA - N, trailing 1))"
+  },
+  "weighted_4_1_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(4*delta_TGA - N, trailing 1))"
+  },
+  "weighted_4_3_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(4*delta_TGA - N, trailing 3))"
+  },
+  "weighted_4_3_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(4*delta_TGA - N, trailing 3))"
+  },
+  "weighted_4_4_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(4*delta_TGA - N, trailing 4))"
+  },
+  "weighted_4_4_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(4*delta_TGA - N, trailing 4))"
+  },
+  "weighted_4_5_signed": {
+    "family": "weighted_treasury",
+    "formula": "signed(sum(4*delta_TGA - N, trailing 5))"
+  },
+  "weighted_4_5_abs": {
+    "family": "weighted_treasury",
+    "formula": "abs(sum(4*delta_TGA - N, trailing 5))"
+  },
+  "d_pct_prior_TGA": {
+    "family": "treasury_normalized",
+    "formula": "100*d/prior_TGA"
+  },
+  "d_signed_sqrt": {
+    "family": "treasury_transform",
+    "formula": "sign(d)*sqrt(abs(d))"
+  },
+  "d_log_abs": {
+    "family": "treasury_transform",
+    "formula": "log(1+abs(d))"
+  },
+  "N_pct_prior_TGA": {
+    "family": "treasury_normalized",
+    "formula": "100*N/prior_TGA"
+  },
+  "N_signed_sqrt": {
+    "family": "treasury_transform",
+    "formula": "sign(N)*sqrt(abs(N))"
+  },
+  "N_log_abs": {
+    "family": "treasury_transform",
+    "formula": "log(1+abs(N))"
+  },
+  "delta_TGA_pct_prior_TGA": {
+    "family": "treasury_normalized",
+    "formula": "100*delta_TGA/prior_TGA"
+  },
+  "delta_TGA_signed_sqrt": {
+    "family": "treasury_transform",
+    "formula": "sign(delta_TGA)*sqrt(abs(delta_TGA))"
+  },
+  "delta_TGA_log_abs": {
+    "family": "treasury_transform",
+    "formula": "log(1+abs(delta_TGA))"
+  },
+  "TGA_balance": {
+    "family": "treasury",
+    "formula": "TGA closing balance"
+  },
+  "SOX_momentum_1": {
+    "family": "market",
+    "formula": "100*(P_t/P_(t-1) - 1)"
+  },
+  "SOX_abs_momentum_1": {
+    "family": "market",
+    "formula": "abs(SOX_momentum_1)"
+  },
+  "SOX_momentum_2": {
+    "family": "market",
+    "formula": "100*(P_t/P_(t-2) - 1)"
+  },
+  "SOX_abs_momentum_2": {
+    "family": "market",
+    "formula": "abs(SOX_momentum_2)"
+  },
+  "SOX_momentum_3": {
+    "family": "market",
+    "formula": "100*(P_t/P_(t-3) - 1)"
+  },
+  "SOX_abs_momentum_3": {
+    "family": "market",
+    "formula": "abs(SOX_momentum_3)"
+  },
+  "SOX_momentum_4": {
+    "family": "market",
+    "formula": "100*(P_t/P_(t-4) - 1)"
+  },
+  "SOX_abs_momentum_4": {
+    "family": "market",
+    "formula": "abs(SOX_momentum_4)"
+  },
+  "SOX_momentum_5": {
+    "family": "market",
+    "formula": "100*(P_t/P_(t-5) - 1)"
+  },
+  "SOX_abs_momentum_5": {
+    "family": "market",
+    "formula": "abs(SOX_momentum_5)"
+  },
+  "SOX_momentum_6": {
+    "family": "market",
+    "formula": "100*(P_t/P_(t-6) - 1)"
+  },
+  "SOX_abs_momentum_6": {
+    "family": "market",
+    "formula": "abs(SOX_momentum_6)"
+  },
+  "SOX_momentum_8": {
+    "family": "market",
+    "formula": "100*(P_t/P_(t-8) - 1)"
+  },
+  "SOX_abs_momentum_8": {
+    "family": "market",
+    "formula": "abs(SOX_momentum_8)"
+  },
+  "SOX_momentum_10": {
+    "family": "market",
+    "formula": "100*(P_t/P_(t-10) - 1)"
+  },
+  "SOX_abs_momentum_10": {
+    "family": "market",
+    "formula": "abs(SOX_momentum_10)"
+  },
+  "SOX_vol_3_lag0": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 3 sessions), lag 0"
+  },
+  "SOX_vol_3_lag1": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 3 sessions), lag 1"
+  },
+  "SOX_vol_3_lag2": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 3 sessions), lag 2"
+  },
+  "SOX_vol_3_lag3": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 3 sessions), lag 3"
+  },
+  "SOX_past_drawdown_3": {
+    "family": "market",
+    "formula": "100*(1-P_t/max(P_(t-2)..P_t))"
+  },
+  "SOX_ma_deviation_3": {
+    "family": "market",
+    "formula": "100*(P_t/mean(last 3 closes)-1)"
+  },
+  "SOX_vol_4_lag0": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 4 sessions), lag 0"
+  },
+  "SOX_vol_4_lag1": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 4 sessions), lag 1"
+  },
+  "SOX_vol_4_lag2": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 4 sessions), lag 2"
+  },
+  "SOX_vol_4_lag3": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 4 sessions), lag 3"
+  },
+  "SOX_past_drawdown_4": {
+    "family": "market",
+    "formula": "100*(1-P_t/max(P_(t-3)..P_t))"
+  },
+  "SOX_ma_deviation_4": {
+    "family": "market",
+    "formula": "100*(P_t/mean(last 4 closes)-1)"
+  },
+  "SOX_vol_5_lag0": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 5 sessions), lag 0"
+  },
+  "SOX_vol_5_lag1": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 5 sessions), lag 1"
+  },
+  "SOX_vol_5_lag2": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 5 sessions), lag 2"
+  },
+  "SOX_vol_5_lag3": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 5 sessions), lag 3"
+  },
+  "SOX_past_drawdown_5": {
+    "family": "market",
+    "formula": "100*(1-P_t/max(P_(t-4)..P_t))"
+  },
+  "SOX_ma_deviation_5": {
+    "family": "market",
+    "formula": "100*(P_t/mean(last 5 closes)-1)"
+  },
+  "SOX_vol_8_lag0": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 8 sessions), lag 0"
+  },
+  "SOX_vol_8_lag1": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 8 sessions), lag 1"
+  },
+  "SOX_vol_8_lag2": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 8 sessions), lag 2"
+  },
+  "SOX_vol_8_lag3": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 8 sessions), lag 3"
+  },
+  "SOX_past_drawdown_8": {
+    "family": "market",
+    "formula": "100*(1-P_t/max(P_(t-7)..P_t))"
+  },
+  "SOX_ma_deviation_8": {
+    "family": "market",
+    "formula": "100*(P_t/mean(last 8 closes)-1)"
+  },
+  "SOX_vol_10_lag0": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 10 sessions), lag 0"
+  },
+  "SOX_vol_10_lag1": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 10 sessions), lag 1"
+  },
+  "SOX_vol_10_lag2": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 10 sessions), lag 2"
+  },
+  "SOX_vol_10_lag3": {
+    "family": "market",
+    "formula": "SD(past daily SOX log returns, 10 sessions), lag 3"
+  },
+  "SOX_past_drawdown_10": {
+    "family": "market",
+    "formula": "100*(1-P_t/max(P_(t-9)..P_t))"
+  },
+  "SOX_ma_deviation_10": {
+    "family": "market",
+    "formula": "100*(P_t/mean(last 10 closes)-1)"
+  },
+  "abs_d_times_vol5": {
+    "family": "interaction",
+    "formula": "abs_d * SOX_vol5"
+  },
+  "abs_d_times_mom5": {
+    "family": "interaction",
+    "formula": "abs_d * SOX_mom5"
+  },
+  "d4_times_vol5": {
+    "family": "interaction",
+    "formula": "d4 * SOX_vol5"
+  },
+  "d4_times_mom5": {
+    "family": "interaction",
+    "formula": "d4 * SOX_mom5"
+  },
+  "N4_times_vol5": {
+    "family": "interaction",
+    "formula": "N4 * SOX_vol5"
+  },
+  "N4_times_mom5": {
+    "family": "interaction",
+    "formula": "N4 * SOX_mom5"
+  },
+  "TGA4_times_vol5": {
+    "family": "interaction",
+    "formula": "TGA4 * SOX_vol5"
+  },
+  "TGA4_times_mom5": {
+    "family": "interaction",
+    "formula": "TGA4 * SOX_mom5"
+  },
+  "calendar_trend": {
+    "family": "calendar",
+    "formula": "session index (time-trend control)"
+  },
+  "weekday_0": {
+    "family": "calendar",
+    "formula": "weekday = 0 (Monday=0)"
+  },
+  "weekday_1": {
+    "family": "calendar",
+    "formula": "weekday = 1 (Monday=0)"
+  },
+  "weekday_2": {
+    "family": "calendar",
+    "formula": "weekday = 2 (Monday=0)"
+  },
+  "weekday_3": {
+    "family": "calendar",
+    "formula": "weekday = 3 (Monday=0)"
+  },
+  "weekday_4": {
+    "family": "calendar",
+    "formula": "weekday = 4 (Monday=0)"
+  },
+  "month_end_4_calendar_days": {
+    "family": "calendar",
+    "formula": "last four calendar days of month"
+  },
+  "month_start_3_calendar_days": {
+    "family": "calendar",
+    "formula": "first three calendar days of month"
+  }
+}

@@ -1,0 +1,669 @@
+{
+  "generated_at": "2026-10-09T17:42:23.585040+00:00",
+  "source_hash": "c7ac906a5c873bdf9462cfcf9ba16e920caf0a0131d9b3596abbd030ed125967",
+  "source_dates": [
+    "2026-07-23",
+    "2026-10-08"
+  ],
+  "input_days": 55,
+  "baseline_verified_against_production": true,
+  "raw_prices_exported": false,
+  "feature_count": 691,
+  "test_start": "2026-09-14",
+  "feature_audit": {
+    "future_input_perturbation": "passed",
+    "feature_vectors_checked": 691,
+    "training_feature_cutoff": "2026-09-14"
+  },
+  "search_settings": {
+    "windows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10
+    ],
+    "lags": [
+      0,
+      1,
+      2,
+      3,
+      5
+    ],
+    "weights": [
+      0.25,
+      0.5,
+      0.75,
+      1,
+      1.25,
+      1.5,
+      2,
+      3,
+      4
+    ],
+    "weight_one_aliases_removed_by_definition": true,
+    "full_sample_min_n": 30,
+    "train_min_n": 15,
+    "threshold_quantiles": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ]
+  },
+  "limitations": [
+    "About 55 observed sessions, overlapping outcomes",
+    "Existing all-sample correlations already seen; temporal split is diagnostic, not a pristine prospective test",
+    "Treasury inputs are retrospective/revised, not a point-in-time trading backtest",
+    "Historical coupon-adjusted net cash is not present in this local snapshot"
+  ],
+  "targets": {
+    "drawdown": {
+      "baseline": {
+        "n": 51,
+        "r": -0.16520702033219783,
+        "slope": -0.020522152539321527,
+        "intercept": 2.9177895594137393
+      },
+      "full_sample_leader": {
+        "feature": "N_sum_abs_10_lag5",
+        "family": "treasury",
+        "formula": "sum_abs(N, trailing 10 sessions), lag 5",
+        "n": 37,
+        "r": 0.6211533051496722
+      },
+      "full_sample_treasury_leader": {
+        "feature": "N_sum_abs_10_lag5",
+        "family": "treasury",
+        "formula": "sum_abs(N, trailing 10 sessions), lag 5",
+        "n": 37,
+        "r": 0.6211533051496722
+      },
+      "top_10_full_sample": [
+        {
+          "feature": "N_sum_abs_10_lag5",
+          "family": "treasury",
+          "formula": "sum_abs(N, trailing 10 sessions), lag 5",
+          "n": 37,
+          "r": 0.6211533051496722
+        },
+        {
+          "feature": "N_abs_sum_10_lag5",
+          "family": "treasury",
+          "formula": "abs_sum(N, trailing 10 sessions), lag 5",
+          "n": 37,
+          "r": 0.6008626149761594
+        },
+        {
+          "feature": "N_sum_10_lag5",
+          "family": "treasury",
+          "formula": "sum(N, trailing 10 sessions), lag 5",
+          "n": 37,
+          "r": 0.6004579435444166
+        },
+        {
+          "feature": "N_sum_abs_5_lag5",
+          "family": "treasury",
+          "formula": "sum_abs(N, trailing 5 sessions), lag 5",
+          "n": 42,
+          "r": 0.5781567679068034
+        },
+        {
+          "feature": "N_std_4_lag5",
+          "family": "treasury",
+          "formula": "std(N, trailing 4 sessions), lag 5",
+          "n": 43,
+          "r": 0.5661927706484824
+        },
+        {
+          "feature": "N_max_abs_4_lag5",
+          "family": "treasury",
+          "formula": "max_abs(N, trailing 4 sessions), lag 5",
+          "n": 43,
+          "r": 0.5569919114183692
+        },
+        {
+          "feature": "N_sum_4_lag5",
+          "family": "treasury",
+          "formula": "sum(N, trailing 4 sessions), lag 5",
+          "n": 43,
+          "r": 0.551113416814488
+        },
+        {
+          "feature": "N_abs_sum_8_lag5",
+          "family": "treasury",
+          "formula": "abs_sum(N, trailing 8 sessions), lag 5",
+          "n": 39,
+          "r": 0.5506322231443761
+        },
+        {
+          "feature": "N_abs_sum_5_lag5",
+          "family": "treasury",
+          "formula": "abs_sum(N, trailing 5 sessions), lag 5",
+          "n": 42,
+          "r": 0.5496352299681283
+        },
+        {
+          "feature": "N_sum_abs_4_lag5",
+          "family": "treasury",
+          "formula": "sum_abs(N, trailing 4 sessions), lag 5",
+          "n": 43,
+          "r": 0.5471208400428318
+        }
+      ],
+      "full_leader_period_diagnostic": {
+        "train_raw_r": 0.6929459909901793,
+        "test_raw_r": -0.10145093050562473,
+        "train": {
+          "n": 18,
+          "r": 0.6929459909901793,
+          "r2": 0.48017414642936185,
+          "rmse": 1.537514603901003
+        },
+        "test": {
+          "n": 15,
+          "r": -0.10145093050562476,
+          "r2": -1.1401791425294636,
+          "rmse": 1.556912764461374
+        },
+        "intercept": -4.416062963060643,
+        "slope": 0.04036460358099127,
+        "selected_using_all_outcomes": true
+      },
+      "treasury_leader_period_diagnostic": {
+        "train_raw_r": 0.6929459909901793,
+        "test_raw_r": -0.10145093050562473,
+        "train": {
+          "n": 18,
+          "r": 0.6929459909901793,
+          "r2": 0.48017414642936185,
+          "rmse": 1.537514603901003
+        },
+        "test": {
+          "n": 15,
+          "r": -0.10145093050562476,
+          "r2": -1.1401791425294636,
+          "rmse": 1.556912764461374
+        },
+        "intercept": -4.416062963060643,
+        "slope": 0.04036460358099127,
+        "selected_using_all_outcomes": true
+      },
+      "eligible_full_sample_candidates": 691,
+      "training_selected_factor": {
+        "feature": "N_std_10_lag5",
+        "family": "treasury",
+        "formula": "std(N, trailing 10 sessions), lag 5",
+        "n": 18,
+        "r": 0.7164628660853165,
+        "train_raw_r": 0.7164628660853165,
+        "test_raw_r": -0.29581986408751243,
+        "train": {
+          "n": 18,
+          "r": 0.7164628660853162,
+          "r2": 0.5133190384791857,
+          "rmse": 1.4876901603658303
+        },
+        "test": {
+          "n": 15,
+          "r": -0.2958198640875124,
+          "r2": -7.196565020603577,
+          "rmse": 3.04687866511592
+        },
+        "intercept": -4.025142116966282,
+        "slope": 0.33735142880655394
+      },
+      "full_sample_best_gate": {
+        "feature": "weekday_1",
+        "family": "calendar",
+        "formula": "weekday = 1 (Monday=0)",
+        "gate": "SOX_vol5",
+        "direction": ">=",
+        "quantile": 0.8,
+        "threshold": 2.8449871039873895,
+        "n": 10,
+        "r": 0.9966217398841535,
+        "period_counts": {
+          "train": 6,
+          "later_period": 4,
+          "purged": 0
+        }
+      },
+      "full_sample_gate_trials": 43527,
+      "full_sample_best_noncalendar_gate": {
+        "feature": "N_abs_sum_6_lag2",
+        "family": "treasury",
+        "formula": "abs_sum(N, trailing 6 sessions), lag 2",
+        "gate": "SOX_vol5",
+        "direction": "<=",
+        "quantile": 0.2,
+        "threshold": 1.4704419604775212,
+        "n": 10,
+        "r": 0.9212287475065536,
+        "period_counts": {
+          "train": 2,
+          "later_period": 7,
+          "purged": 1
+        }
+      },
+      "best_gate_diagnostic": {
+        "n": 10,
+        "unique_x_values": 2,
+        "value_counts_if_binary": {
+          "0.0": 9,
+          "1.0": 1
+        },
+        "leave_one_out_r_min": 0.9966251704461339,
+        "leave_one_out_r_max": 0.9999999999999998,
+        "leave_one_out_undefined_dates": [
+          "2026-08-04"
+        ]
+      },
+      "best_noncalendar_gate_diagnostic": {
+        "n": 10,
+        "unique_x_values": 10,
+        "value_counts_if_binary": null,
+        "leave_one_out_r_min": 0.8845074343131898,
+        "leave_one_out_r_max": 0.9429631111919231,
+        "leave_one_out_undefined_dates": []
+      },
+      "training_selected_gate": {
+        "feature": "N_max_abs_6_lag5",
+        "family": "treasury",
+        "formula": "max_abs(N, trailing 6 sessions), lag 5",
+        "gate": "abs_d4",
+        "direction": ">=",
+        "quantile": 0.5,
+        "threshold": 62.96002620000008,
+        "n": 11,
+        "r": 0.9459381280709316,
+        "train_raw_r": 0.9459381280709316,
+        "test_raw_r": -0.13266188883193497,
+        "train": {
+          "n": 11,
+          "r": 0.9459381280709319,
+          "r2": 0.8947989421383382,
+          "rmse": 0.7347164862060712
+        },
+        "test": {
+          "n": 6,
+          "r": -0.13266188883193497,
+          "r2": -6.574486971440378,
+          "rmse": 4.005055821654576
+        },
+        "intercept": -5.905120315383714,
+        "slope": 0.19165999451527352
+      },
+      "training_gate_trials": 28830,
+      "outcome_selected_eight_points": {
+        "n": 8,
+        "r": 0.9991491239487683,
+        "indices": [
+          7,
+          17,
+          19,
+          27,
+          31,
+          42,
+          43,
+          44
+        ],
+        "pair_indices": [
+          7,
+          17
+        ],
+        "dates": [
+          "2026-08-03",
+          "2026-08-17",
+          "2026-08-19",
+          "2026-08-31",
+          "2026-09-04",
+          "2026-09-22",
+          "2026-09-23",
+          "2026-09-24"
+        ],
+        "feature": "d_abs_sum_1_lag0",
+        "selection_uses_future_outcome": true
+      },
+      "nonlinear_training_fit": {
+        "gamma": 20,
+        "penalty": 1e-06,
+        "train": {
+          "n": 27,
+          "r": 0.9999999999999432,
+          "r2": 0.9999999999987547,
+          "rmse": 2.3266267882713187e-06
+        },
+        "test": {
+          "n": 15,
+          "r": -0.7093342266411391,
+          "r2": -2.374126211627285,
+          "rmse": 1.9548789827125546
+        },
+        "train_dates_n": 27,
+        "hyperparameter_trials": 36,
+        "inputs": [
+          "N",
+          "delta_TGA",
+          "SOX_past_momentum_5",
+          "SOX_past_volatility_5"
+        ],
+        "warning": "Fitted nonlinear score, intentionally chosen for maximal training fit; not an independently observed factor."
+      },
+      "split": {
+        "train_events": 32,
+        "test_events": 15,
+        "purged_events": 4,
+        "last_train_event": "2026-09-04",
+        "first_test_event": "2026-09-14",
+        "last_test_event": "2026-10-02",
+        "last_train_outcome": "2026-09-11"
+      },
+      "training_selection_future_outcome_audit": "passed"
+    },
+    "rebound": {
+      "baseline": {
+        "n": 47,
+        "r": -0.028025162952641992,
+        "slope": -0.0024496524183581212,
+        "intercept": 3.89795621986793
+      },
+      "full_sample_leader": {
+        "feature": "SOX_past_drawdown_4",
+        "family": "market",
+        "formula": "100*(1-P_t/max(P_(t-3)..P_t))",
+        "n": 47,
+        "r": 0.6435903993284713
+      },
+      "full_sample_treasury_leader": {
+        "feature": "N_sum_5_lag3",
+        "family": "treasury",
+        "formula": "sum(N, trailing 5 sessions), lag 3",
+        "n": 43,
+        "r": -0.5819414371938997
+      },
+      "top_10_full_sample": [
+        {
+          "feature": "SOX_past_drawdown_4",
+          "family": "market",
+          "formula": "100*(1-P_t/max(P_(t-3)..P_t))",
+          "n": 47,
+          "r": 0.6435903993284713
+        },
+        {
+          "feature": "N_sum_5_lag3",
+          "family": "treasury",
+          "formula": "sum(N, trailing 5 sessions), lag 3",
+          "n": 43,
+          "r": -0.5819414371938997
+        },
+        {
+          "feature": "N_sum_6_lag3",
+          "family": "treasury",
+          "formula": "sum(N, trailing 6 sessions), lag 3",
+          "n": 42,
+          "r": -0.5816526973149975
+        },
+        {
+          "feature": "delta_TGA_abs_sum_10_lag3",
+          "family": "treasury",
+          "formula": "abs_sum(delta_TGA, trailing 10 sessions), lag 3",
+          "n": 38,
+          "r": 0.5812845540321061
+        },
+        {
+          "feature": "abs_d_times_mom5",
+          "family": "interaction",
+          "formula": "abs_d * SOX_mom5",
+          "n": 45,
+          "r": -0.5739098876309136
+        },
+        {
+          "feature": "SOX_past_drawdown_5",
+          "family": "market",
+          "formula": "100*(1-P_t/max(P_(t-4)..P_t))",
+          "n": 46,
+          "r": 0.5684115345754831
+        },
+        {
+          "feature": "delta_TGA_sum_10_lag5",
+          "family": "treasury",
+          "formula": "sum(delta_TGA, trailing 10 sessions), lag 5",
+          "n": 36,
+          "r": -0.5476956043672312
+        },
+        {
+          "feature": "delta_TGA_abs_sum_10_lag2",
+          "family": "treasury",
+          "formula": "abs_sum(delta_TGA, trailing 10 sessions), lag 2",
+          "n": 39,
+          "r": 0.545074090675038
+        },
+        {
+          "feature": "SOX_past_drawdown_3",
+          "family": "market",
+          "formula": "100*(1-P_t/max(P_(t-2)..P_t))",
+          "n": 47,
+          "r": 0.5373028921851232
+        },
+        {
+          "feature": "delta_TGA_abs_sum_8_lag3",
+          "family": "treasury",
+          "formula": "abs_sum(delta_TGA, trailing 8 sessions), lag 3",
+          "n": 40,
+          "r": 0.5372425453176563
+        }
+      ],
+      "full_leader_period_diagnostic": {
+        "train_raw_r": 0.6779487803385144,
+        "test_raw_r": 0.7993185213996896,
+        "train": {
+          "n": 28,
+          "r": 0.6779487803385144,
+          "r2": 0.4596145487624793,
+          "rmse": 3.2381980596255437
+        },
+        "test": {
+          "n": 14,
+          "r": 0.7993185213996895,
+          "r2": 0.09060596307048752,
+          "rmse": 4.171984837788016
+        },
+        "intercept": 0.769032163172144,
+        "slope": 0.9785119198508153,
+        "selected_using_all_outcomes": true
+      },
+      "treasury_leader_period_diagnostic": {
+        "train_raw_r": -0.04102293515144887,
+        "test_raw_r": -0.6105235197361629,
+        "train": {
+          "n": 24,
+          "r": 0.041022935151448586,
+          "r2": 0.001682881208440068,
+          "rmse": 2.410711945606028
+        },
+        "test": {
+          "n": 14,
+          "r": 0.6105235197361634,
+          "r2": -0.45048286360902834,
+          "rmse": 5.268936583738474
+        },
+        "intercept": 2.2406593731366935,
+        "slope": -0.0035561716040327044,
+        "selected_using_all_outcomes": true
+      },
+      "eligible_full_sample_candidates": 691,
+      "training_selected_factor": {
+        "feature": "month_end_4_calendar_days",
+        "family": "calendar",
+        "formula": "last four calendar days of month",
+        "n": 28,
+        "r": 0.7230831783635341,
+        "train_raw_r": 0.7230831783635341,
+        "test_raw_r": -0.08213572107993065,
+        "train": {
+          "n": 28,
+          "r": 0.723083178363534,
+          "r2": 0.5228492828323101,
+          "rmse": 3.042841807451339
+        },
+        "test": {
+          "n": 14,
+          "r": -0.08213572107993067,
+          "r2": -0.8486026393481263,
+          "rmse": 5.948239610707947
+        },
+        "intercept": 1.6754369834081255,
+        "slope": 7.762666140380911
+      },
+      "full_sample_best_gate": {
+        "feature": "delta_TGA_abs_sum_5_lag0",
+        "family": "treasury",
+        "formula": "abs_sum(delta_TGA, trailing 5 sessions), lag 0",
+        "gate": "abs_delta_TGA",
+        "direction": "<=",
+        "quantile": 0.2,
+        "threshold": 7.445000000000005,
+        "n": 10,
+        "r": 0.950533548908593,
+        "period_counts": {
+          "train": 8,
+          "later_period": 1,
+          "purged": 1
+        }
+      },
+      "full_sample_gate_trials": 43524,
+      "full_sample_best_noncalendar_gate": {
+        "feature": "delta_TGA_abs_sum_5_lag0",
+        "family": "treasury",
+        "formula": "abs_sum(delta_TGA, trailing 5 sessions), lag 0",
+        "gate": "abs_delta_TGA",
+        "direction": "<=",
+        "quantile": 0.2,
+        "threshold": 7.445000000000005,
+        "n": 10,
+        "r": 0.950533548908593,
+        "period_counts": {
+          "train": 8,
+          "later_period": 1,
+          "purged": 1
+        }
+      },
+      "best_gate_diagnostic": {
+        "n": 10,
+        "unique_x_values": 10,
+        "value_counts_if_binary": null,
+        "leave_one_out_r_min": 0.9449339480678959,
+        "leave_one_out_r_max": 0.963329590796631,
+        "leave_one_out_undefined_dates": []
+      },
+      "best_noncalendar_gate_diagnostic": {
+        "n": 10,
+        "unique_x_values": 10,
+        "value_counts_if_binary": null,
+        "leave_one_out_r_min": 0.9449339480678959,
+        "leave_one_out_r_max": 0.963329590796631,
+        "leave_one_out_undefined_dates": []
+      },
+      "training_selected_gate": {
+        "feature": "N_abs_sum_5_lag5",
+        "family": "treasury",
+        "formula": "abs_sum(N, trailing 5 sessions), lag 5",
+        "gate": "abs_d",
+        "direction": ">=",
+        "quantile": 0.6,
+        "threshold": 14.03876503999998,
+        "n": 10,
+        "r": -0.951867027311986,
+        "train_raw_r": -0.951867027311986,
+        "test_raw_r": 0.2643758844829381,
+        "train": {
+          "n": 10,
+          "r": 0.951867027311986,
+          "r2": 0.9060508376837568,
+          "rmse": 0.8531226297901481
+        },
+        "test": {
+          "n": 6,
+          "r": -0.26437588448293803,
+          "r2": -0.4333981078572007,
+          "rmse": 6.875669675176788
+        },
+        "intercept": 10.46850757158357,
+        "slope": -0.1139116014446879
+      },
+      "training_gate_trials": 27181,
+      "outcome_selected_eight_points": {
+        "n": 8,
+        "r": -0.9963471955408396,
+        "indices": [
+          10,
+          11,
+          12,
+          16,
+          17,
+          31,
+          47,
+          49
+        ],
+        "pair_indices": [
+          10,
+          17
+        ],
+        "dates": [
+          "2026-08-06",
+          "2026-08-07",
+          "2026-08-10",
+          "2026-08-14",
+          "2026-08-17",
+          "2026-09-04",
+          "2026-09-29",
+          "2026-10-01"
+        ],
+        "feature": "d_abs_sum_4_lag0",
+        "selection_uses_future_outcome": true
+      },
+      "nonlinear_training_fit": {
+        "gamma": 20,
+        "penalty": 1e-06,
+        "train": {
+          "n": 26,
+          "r": 0.9999999999999948,
+          "r2": 0.9999999999990221,
+          "rmse": 2.8081939882696176e-06
+        },
+        "test": {
+          "n": 14,
+          "r": -0.39309454876857297,
+          "r2": -0.5023331604547774,
+          "rmse": 5.362283820332635
+        },
+        "train_dates_n": 26,
+        "hyperparameter_trials": 36,
+        "inputs": [
+          "N",
+          "delta_TGA",
+          "SOX_past_momentum_5",
+          "SOX_past_volatility_5"
+        ],
+        "warning": "Fitted nonlinear score, intentionally chosen for maximal training fit; not an independently observed factor."
+      },
+      "split": {
+        "train_events": 28,
+        "test_events": 14,
+        "purged_events": 5,
+        "last_train_event": "2026-09-03",
+        "first_test_event": "2026-09-14",
+        "last_test_event": "2026-10-01",
+        "last_train_outcome": "2026-09-11"
+      },
+      "training_selection_future_outcome_audit": "passed"
+    }
+  }
+}
