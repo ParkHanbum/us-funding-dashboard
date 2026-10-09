@@ -98,9 +98,15 @@ FRED의 [공식 이용 조건](https://fred.stlouisfed.org/legal/)에서 `Copyri
 
 실제 Treasury/FRED 조회와 로컬 D1 저장 결과는 `READY`였다. 2026-07-23~2026-10-08 55거래일, 최신 자금 입력은 2026-10-07, 최신 SOX 종가는 2026-10-08이었다. 낙폭 51점, 반등 47점이 계산됐다. 10월 8일의 아직 없는 자금 입력은 null로 남았고 최근 이벤트의 이후 4~5거래일 결과는 관측 중으로 표시됐다. 일반 재실행은 `WAITING_DAILY_WINDOW`로 중복 조회를 하지 않았다. [실제 로컬 수집 기록](research/sox-validation/2026-10-10-personal-local.json)에 원시 가격 없이 결과를 저장했다.
 
-산식/누락값 검사 26개, 수집기 검사 6개, Worker 인증/분석 범위/원시 종가 보호 검사가 통과했다. 개인 분석 확인 취소 후 다운로드가 추가로 발생하지 않고 결과가 다시 숨겨지는 회귀 검사도 통과했다. 실제 수집 자료를 사용하는 Chromium 검사에서 51+47점과 통계·기준일·출처·모바일 표시·원본 14점 분리를 확인했고 JavaScript 오류는 0건이었다. 기존 5분 확인으로 점과 통계가 바뀌는 회귀 검사도 통과했다. Worker dry run 빌드는 성공했다.
+산식/누락값 검사 26개, 수집기 검사 8개, Worker 인증/분석 범위/원시 종가 보호 검사가 통과했다. 개인 분석 확인 취소 후 다운로드가 추가로 발생하지 않고 결과가 다시 숨겨지는 회귀 검사도 통과했다. 실제 수집 자료를 사용하는 Chromium 검사에서 51+47점과 통계·기준일·출처·모바일 표시·원본 14점 분리를 확인했고 JavaScript 오류는 0건이었다. 기존 5분 확인으로 점과 통계가 바뀌는 회귀 검사도 통과했다. Worker dry run 빌드는 성공했다.
+
+FRED는 장 마감 뒤 늦게 종가를 발표할 수 있다. 새 설정으로 처음 실행하거나 뉴욕 18시 이후 실행해도 최신 완료 거래일의 종가가 아직 없으면 `WAITING_SOURCE_UPDATE`로 남기고 그날의 갱신 완료 처리에서 제외하도록 보완했다. 기존 확인된 점을 유지하면서 같은 날이나 자정 이후의 기존 예약 실행에서 재조회할 수 있다. 주말·시장 휴일은 실제 직전 거래일을 기대 날짜로 삼는다. 발표 지연 후 동일 설정으로 새 가격이 도착했을 때 점이 추가되는 검사와 토요일에 존재하지 않는 종가를 기다리지 않는 검사를 추가했다.
 
 `wrangler.jsonc`, 기존 workflow, Treasury collector, 기존 app.js, schema.sql, package.json/package-lock.json은 이전 운영 검증 커밋과 동일하다. 이번 후속 변경에 DB migration은 필요하지 않다.
+
+개인용 모드를 운영 Worker와 main에 반영했고 첫 실제 운영 수집을 기존 Cloudflare 계정의 D1 CLI 연결로 수행했다. 기존 ingest secret을 조회·변경하지 않았으며 원래 수집기와 같은 계산·SOX 테이블 upsert를 사용했다. 운영 D1에는 입력 55일, 완전한 자금 입력 54일, 실제 SOX 종가 55일과 수정 이력 109건이 저장됐다. 운영 `/api/sox`에서도 `READY`, 낙폭 51점, 반등 47점, `personal_use_confirmed=true`/`public_use_confirmed=false`와 원시 종가 제외를 확인했다. [운영 개인용 수집 기록](research/sox-validation/2026-10-10-personal-production.json)에 원시 가격 없이 검증 결과를 보관했다.
+
+기존 GitHub workflow는 `active`이고 main의 개인용 설정 및 배포된 JavaScript가 검증한 파일과 일치했다. 새 모드로의 첫 GitHub runner 실행은 아직 확인하지 않았으며, 위 실제 운영 수집 성공은 기존 계정의 CLI를 통한 첫 수집이다. 이후 정규 수집은 기존 workflow와 기존 ingest secret을 사용한다.
 
 ## 운영 반영에 사용한 순서
 

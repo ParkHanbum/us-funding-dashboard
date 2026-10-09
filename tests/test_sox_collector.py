@@ -90,6 +90,48 @@ class CollectorTests(unittest.TestCase):
                 self.assertEqual(MockHttp.report['latest_macro']['date'],'2026-10-07')
                 self.assertIsNone(MockHttp.report['recent'][0]['u1_bn'])
 
+    def test_late_source_publication_retries_same_day_until_close_arrives(self):
+        class DelayedPrice(MockHttp):
+            through='2026-10-07'
+            def request(self,url,**kwargs):
+                type(self).price_calls+=1
+                return ('date,close\n'+'\n'.join(f'{d},{1000+i*3}' for i,d in enumerate(sessions('2026-09-30',self.through)))).encode()
+        with tempfile.TemporaryDirectory() as tmp,patch.dict('os.environ',{'TREASURY_INGEST_URL':'https://fixture.invalid/api/treasury-ingest','TREASURY_INGEST_TOKEN':'fake'}),patch.object(sox_daily,'HttpClient',MockHttp),patch.object(sox_daily,'datetime',Clock):
+            root=self.config_dir(tmp,False)
+            with patch.object(sox_daily,'ROOT',root):
+                sox_daily.collect()
+                self.assertEqual(MockHttp.state['status']['last_success_day'],'2026-10-08')
+                self.config_dir(tmp,False,personal=True)
+                with patch.object(sox_daily,'HttpClient',DelayedPrice):
+                    waiting=sox_daily.collect()
+                    self.assertEqual(waiting['status'],'WAITING_SOURCE_UPDATE')
+                    self.assertEqual(waiting['sources']['sox']['observed_through'],'2026-10-07')
+                    self.assertEqual(waiting['sources']['sox']['expected_through'],'2026-10-08')
+                    self.assertGreater(waiting['drawdown_points'],0)
+                    DelayedPrice.through='2026-10-08'
+                    ready=sox_daily.collect()
+                    self.assertEqual(ready['status'],'READY')
+                    self.assertEqual(ready['drawdown_points'],waiting['drawdown_points']+1)
+                    self.assertEqual(DelayedPrice.price_calls,2)
+                    self.assertEqual(sox_daily.collect()['status'],'SKIPPED_ALREADY_UPDATED')
+                    self.assertEqual(DelayedPrice.price_calls,2)
+
+    def test_weekend_does_not_wait_for_nonexistent_saturday_close(self):
+        class Saturday(Clock):
+            @classmethod
+            def now(cls,tz=None):
+                d=cls(2026,10,10,22,tzinfo=timezone.utc)
+                return d.astimezone(tz) if tz else d
+        class FridayPrices(MockHttp):
+            def request(self,url,**kwargs):
+                return ('date,close\n'+'\n'.join(f'{d},{1000+i*3}' for i,d in enumerate(sessions('2026-09-30','2026-10-09')))).encode()
+        with tempfile.TemporaryDirectory() as tmp,patch.dict('os.environ',{'TREASURY_INGEST_URL':'https://fixture.invalid/api/treasury-ingest','TREASURY_INGEST_TOKEN':'fake'}),patch.object(sox_daily,'HttpClient',FridayPrices),patch.object(sox_daily,'datetime',Saturday):
+            with patch.object(sox_daily,'ROOT',self.config_dir(tmp,False,personal=True)):
+                result=sox_daily.collect()
+                self.assertEqual(result['status'],'READY')
+                self.assertEqual(result['sources']['sox']['expected_through'],'2026-10-09')
+                self.assertEqual(result['sources']['sox']['observed_through'],'2026-10-09')
+
     def test_tga_failure_after_config_change_is_retried(self):
         class FailedTGA(MockHttp):
             def fiscal(self,path,params,**kwargs):

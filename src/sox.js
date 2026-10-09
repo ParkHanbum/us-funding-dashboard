@@ -34,7 +34,7 @@ const selectFields = (value, keys) => value && typeof value === 'object' && !Arr
 const DAILY_PUBLIC_KEYS = ['date','u1_bn','u4_bn','u3_bn','u5_bn','signed_residual_bn','delta_tga_bn',
   'net_issuance_bn','drawdown_pct','rebound_pct','observed_sessions','macro_ready','first_complete_seen_at',
   'net_status','tga_source_date','issues','status4','status5'];
-const SOURCE_PUBLIC_KEYS = ['status','observed_through','fetched_at','source','inventory_asof','auction_rows',
+const SOURCE_PUBLIC_KEYS = ['status','observed_through','expected_through','fetched_at','source','inventory_asof','auction_rows',
   'inventory_from','inventory_snapshots','known_days','detail','provider','series'];
 const withoutOutcomes = row => row && ({...row,drawdown_pct:null,rebound_pct:null,status4:'pending',status5:'pending'});
 

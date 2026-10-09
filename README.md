@@ -31,6 +31,8 @@ session-5 rebound = 100 × [P_(t+5) / min(P_t,…,P_(t+4)) − 1]
 
 The existing `Treasury collector` workflow has one additional SOX step. Both original schedules stay unchanged. After the initial/configuration-change run, the daily gate opens at 18:00 America/New_York. Failed attempts remain eligible for retry; successful snapshots are not repeated that day.
 
+If FRED has not yet published the latest closed market session, the collector keeps prior points and reports `WAITING_SOURCE_UPDATE`. That attempt does not complete the daily gate: the next existing workflow run retries, including across midnight when publication arrives late. Weekends and market holidays use the latest actual trading session rather than wait for a nonexistent close.
+
 ## Local checks
 
 From the repository root:

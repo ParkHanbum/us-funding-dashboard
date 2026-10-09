@@ -81,11 +81,21 @@ try {
   assert.equal(await host.locator('[data-sx="stat-blue"]').innerText(),'r=0.456, n=4');
   assert.match(await host.locator('[data-sx="current-view"]').innerText(),/2026-10-06/);
   assert.match(await host.locator('[data-sx="freshness"]').innerText(),/최신 확정 이벤트 2026-10-06/);
+  fixture.status.state='WAITING_SOURCE_UPDATE';
+  fixture.live.public_use_confirmed=false;
+  fixture.live.personal_use_confirmed=true;
+  fixture.live.analysis_use='personal_noncommercial';
+  fixture.live.sources={sox:{status:'awaiting_update',observed_through:'2026-10-08',expected_through:'2026-10-09'}};
+  await page.clock.runFor(300001);
+  await page.waitForFunction(()=>document.querySelector('#sox-research [data-sx="badge"]').textContent==='SOX 종가 발표 대기');
+  assert.equal(await host.locator('[data-tip]').count(),4);
+  assert.equal(await host.locator('[data-sx="stat-blue"]').innerText(),'r=0.456, n=4');
+  assert.ok(!(await host.locator('[data-sx="freshness"]').innerText()).includes('이용 확인 대기'));
   await host.locator('[data-mode="reference"]').click();
   assert.equal(await host.locator('[data-tip]').count(),14);
   assert.equal(await host.locator('[data-sx="stat-blue"]').innerText(),'r=0.961, n=6');
   assert.deepEqual(errors,[]);
-  console.log('Chromium: latest default view, automatic point/stat refresh, original 14 points, separate live sample, toggles, keyboard tooltip, missing values, mobile width and zero page errors passed.');
+  console.log('Chromium: latest default view, automatic point/stat refresh, source-publication wait retaining personal results, original 14 points, separate live sample, toggles, keyboard tooltip, missing values, mobile width and zero page errors passed.');
   console.log('Screenshots:',output);
 } finally {
   await browser.close();

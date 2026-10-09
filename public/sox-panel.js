@@ -118,7 +118,7 @@
     const latestResult=permissionPending?'공개 이용 확인 대기':liveEventDates.length?`최신 확정 이벤트 ${liveEventDates.at(-1)}`:'확정 결과 대기';
     const latestClose=live?.sources?.sox?.observed_through;
     $('freshness').textContent=`최근 TGA·순발행 입력: ${latestInput || '수집 대기'} · SOX 종가 기준: ${latestClose || '수집 대기'} · 자동 SOX 차트: ${latestResult}`;
-    const stateLabels={READY:'일별 갱신',LICENSE_REQUIRED:'SOX 이용 확인 필요',PARTIAL:'일부 입력 대기',SOURCE_ERROR:'수집 오류',WAITING_FIRST_RUN:'첫 수집 대기',MIGRATION_REQUIRED:'DB 초기화 필요'};
+    const stateLabels={READY:'일별 갱신',WAITING_SOURCE_UPDATE:'SOX 종가 발표 대기',LICENSE_REQUIRED:'SOX 이용 확인 필요',PARTIAL:'일부 입력 대기',SOURCE_ERROR:'수집 오류',WAITING_FIRST_RUN:'첫 수집 대기',MIGRATION_REQUIRED:'DB 초기화 필요'};
     $('badge').textContent=stateLabels[state]||state;$('badge').dataset.state=state;
     $('sample').textContent=mode==='reference'?'2026-05-15~2026-07-22 · 원본 이벤트 14개 · 선택된 탐색 표본':
       (live?.analysis_use==='personal_noncommercial'?'개인·비상업 연구용 · ':'')+'자동 모델 · 결과로 선별하지 않은 전체 유효 일별 표본 · 관측창 중첩 있음';
@@ -142,8 +142,9 @@
         ?'<div>개인·비상업 연구용 분석입니다. SOX 원시 종가는 제공하지 않습니다.</div>'
         :permissionPending?'<div>SOX 데이터 이용 확인 대기. TGA·순발행 입력은 별도로 갱신됩니다.</div>':'') +
       (live?.warnings?.length?`<div>현재 상태 · ${esc(live.warnings.join(' · '))}</div>`:'');
-    const last=payload.status?.last_success_at;
-    $('updated').textContent=last?`최근 수집 ${new Date(last).toLocaleString('ko-KR')} · 데이터 기준 ${live?.analysis_through||'—'}`:'원본 차트 로드 완료 · 자동 수집은 기존 Treasury workflow에서 실행';
+    const waitingSource=state==='WAITING_SOURCE_UPDATE';
+    const last=waitingSource?payload.status?.last_attempt:payload.status?.last_success_at;
+    $('updated').textContent=last?`${waitingSource?'최근 확인':'최근 수집'} ${new Date(last).toLocaleString('ko-KR')} · 데이터 기준 ${live?.analysis_through||'—'}`:'원본 차트 로드 완료 · 자동 수집은 기존 Treasury workflow에서 실행';
   }
 
   async function load(){

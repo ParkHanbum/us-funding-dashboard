@@ -15,7 +15,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from sox_model import (MODEL_ID, MODEL_VERSION, REFERENCE_END, analyse, asof_fed, input_hash,
+from sox_model import (MODEL_ID, MODEL_VERSION, REFERENCE_END, analyse, asof_fed, business_day, input_hash,
                        iso_date, numeric, previous_day, sessions)
 from sox_sources import (HttpClient, DataError, TGA_PATH, AUCTIONS_PATH, MSPD_PATH,
                          tga_values, merge_auctions, inventory_maturities, net_public_face, parse_sox_csv)
@@ -175,10 +175,14 @@ def collect(*, force: bool = False) -> dict:
                     raise DataError("authorized SOX CSV must use HTTPS")
             else:
                 raise DataError("unknown SOX provider")
-            last_closed_session = day if ny.hour >= 16 else previous_day(day, extra_closed=config.get("extra_market_closures", []))
+            last_closed_session = day if ny.hour >= 16 and business_day(ny.date(), extra_closed=config.get("extra_market_closures", [])) else previous_day(day, extra_closed=config.get("extra_market_closures", []))
             prices = parse_sox_csv(http.request(url).decode("utf-8-sig"), allowed_start=lookback_start, allowed_end=last_closed_session)
-            sources["sox"] = {"status": "ok", "observed_through": max(prices), "fetched_at": stamp,
+            waiting_close = max(prices) < last_closed_session
+            sources["sox"] = {"status": "awaiting_update" if waiting_close else "ok", "observed_through": max(prices),
+                               "expected_through": last_closed_session, "fetched_at": stamp,
                                "provider": provider, "series": "NASDAQSOX"}
+            if waiting_close:
+                warnings.append("SOX_CLOSE_NOT_PUBLISHED: " + last_closed_session)
         except (DataError, UnicodeError) as exc:
             warnings.append("SOX_SOURCE_ERROR: " + str(exc))
             sources["sox"] = {"status": "error", "detail": str(exc)}
@@ -213,9 +217,14 @@ def collect(*, force: bool = False) -> dict:
               "selection": "ALL_ELIGIBLE_SESSIONS_NO_OUTCOME_FILTER", "sources": sources,
               "warnings": warnings, "data_days": len(rows), **analysis}
     had_source_error = any(s.get("status") == "error" for s in sources.values())
-    status = {"last_attempt": stamp, "last_success_day": day if not had_source_error and ny.hour >= config["update_after_ny_hour"] else last.get("last_success_day"),
-              "last_success_at": stamp if not had_source_error else last.get("last_success_at"),
+    waiting_close = sources.get("sox", {}).get("status") == "awaiting_update"
+    complete_snapshot = not had_source_error and not waiting_close
+    # A successful download of yesterday's prices cannot finish today's
+    # snapshot. FRED may publish after the 18:00 gate; keep hourly retries open.
+    status = {"last_attempt": stamp, "last_success_day": day if complete_snapshot and ny.hour >= config["update_after_ny_hour"] else last.get("last_success_day"),
+              "last_success_at": stamp if complete_snapshot else last.get("last_success_at"),
               "config_hash": version, "state": "PARTIAL" if had_source_error else
+                    "WAITING_SOURCE_UPDATE" if waiting_close else
                     "LICENSE_REQUIRED" if not analysis_allowed else "READY",
               "warnings": warnings, "source_dates": {k: v.get("observed_through", v.get("inventory_asof")) for k,v in sources.items()}}
     # Small idempotent D1 batches. Do not publish a new report until all rows succeeded.
@@ -242,6 +251,8 @@ def main() -> int:
             print("::notice::SOX collection/analysis is disabled until personal noncommercial use or public data use is confirmed; Treasury inputs still update.")
         if result.get("status") == "PARTIAL":
             print("::warning::Some SOX research inputs are unavailable; inspect source status, never treat missing inputs as zero.")
+        if result.get("status") == "WAITING_SOURCE_UPDATE":
+            print("::notice::The latest closed-session SOX value is not published; prior points remain available and the next existing run will retry.")
         # Partial data remain visible as partial; a source error must not masquerade as a full green success.
         return 1 if result.get("status") == "PARTIAL" else 0
     except (DataError, OSError, ValueError) as exc:
