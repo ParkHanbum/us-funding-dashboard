@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-10-09T14:34:24.692427+00:00",
+  "worker_url": "https://us-funding-dashboard.nb2sy.workers.dev",
+  "deployed_version_id": "7cd1fc88-7e6a-42b9-a52a-0fd589c2620b",
+  "feature_commit": "4413548a173e777e7ba43b7917453f7a6946d415",
+  "migration": {
+    "status": "success",
+    "new_tables": [
+      "sox_daily_inputs",
+      "sox_input_revisions",
+      "sox_reports"
+    ],
+    "existing_rows_before": {
+      "metrics": 247,
+      "auctions": 375
+    },
+    "existing_rows_after": {
+      "metrics": 247,
+      "auctions": 375
+    }
+  },
+  "production_checks": {
+    "health_http": 200,
+    "sox_http": 200,
+    "summary_http": 200,
+    "settlements_http": 200,
+    "liquidity_http": 200,
+    "sox_state_without_auth_http": 401,
+    "assets_match_local": [
+      "sox-panel.js",
+      "sox-panel.css",
+      "app.js"
+    ]
+  },
+  "workflow": {
+    "name": "Treasury collector",
+    "count": 1,
+    "state": "active",
+    "cron": "17 * * * *",
+    "main_file_matches_local": true,
+    "first_new_collection_verified": false
+  },
+  "worker_cron": "0 * * * *",
+  "sox_public_use_confirmed": false,
+  "initial_sox_state": "WAITING_FIRST_RUN",
+  "scope": "Production D1 additive migration, Worker deploy, main push and public/unauthenticated checks. First new collector run awaits GitHub login or scheduled execution. No SOX price download and no secret value changes."
+}

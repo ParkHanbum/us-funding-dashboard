@@ -78,6 +78,10 @@ SOX 원자료 자동 조회·공개는 이용 확인을 기다린다. 로컬 공
 
 사용자의 “그럼 반영해봐” 승인 후 기존 운영 D1에 `0033_sox.sql`을 적용했다. 기존 metrics 247행과 auctions 375행은 추가 전후 그대로였고 SOX 테이블 3개만 추가됐다. 기존 Worker URL과 `0 * * * *` 예약 실행을 유지하며 배포했다. 배포 버전은 `7cd1fc88-7e6a-42b9-a52a-0fd589c2620b`이다. 운영 `/api/health`와 `/api/sox`가 HTTP 200으로 응답했으며, 최초 수집 전 상태는 `WAITING_FIRST_RUN`이었다. SOX 공개 이용은 계속 `false`다.
 
+기능 커밋 `4413548a173e777e7ba43b7917453f7a6946d415`를 GitHub main에 강제 push 없이 반영했다. main의 workflow 파일이 검증한 파일과 일치하고 기존 workflow가 `active`임을 공개 GitHub API로 확인했다. 운영 summary/settlements/liquidity는 HTTP 200, 인증 없는 SOX state 접근은 HTTP 401이었다. 배포된 SOX JavaScript/CSS와 기존 app.js의 SHA-256이 작업 파일과 일치했다.
+
+새 main으로의 첫 수집 실행은 아직 확인하지 않았다. 즉시 수동 실행하려면 GitHub 웹 로그인이 필요하며, 현재는 로그인 또는 기존 예약 실행을 기다린다. 따라서 운영 자금 입력 수집과 운영 SOX 수집의 성공을 주장하지 않는다. [운영 배포 검증 기록](research/sox-validation/2026-10-09-production-deploy.json)에 현재 확인 범위를 기록했다. 원본 작업 폴더의 기존 미커밋 변경은 유지했다.
+
 ## 승인 후 반영 순서
 
 1. 작업 브랜치 변경을 확인하고 커밋한다.
