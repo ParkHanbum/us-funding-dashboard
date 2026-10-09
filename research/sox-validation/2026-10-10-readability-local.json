@@ -32,5 +32,23 @@
   "production_changes": false,
   "migration_required": false,
   "collector_model_config_workflow_unchanged": true,
-  "awaiting": "user approval before production deployment and main update"
+  "awaiting": "user approval before production deployment and main update",
+  "formula_review": {
+    "checked_at": "2026-10-09T16:57:59.808502+00:00",
+    "residual": "delta_tga_bn - net_issuance_bn",
+    "horizontal_axis": "absolute magnitude, not signed net cash",
+    "production_drawdown_points_checked": 51,
+    "production_formula_mismatches": 0,
+    "example": {
+      "date": "2026-07-24",
+      "delta_tga_bn": 9.098999999999933,
+      "net_issuance_bn": 13.0000085,
+      "signed_residual_bn": -3.901008500000067,
+      "u1_bn": 3.901008500000067
+    },
+    "display_fix": "Use mismatch magnitude labels, a visible formula and signed calculation breakdown for selected dates.",
+    "model_tests": 26,
+    "actual_browser": "passed",
+    "calculation_or_production_changed": false
+  }
 }

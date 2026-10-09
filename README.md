@@ -10,6 +10,7 @@ The v3.3 SOX module adds a fixed original research scatterplot and a separate da
 - Daily sample: every eligible session under `tga-public-face-residual-v1`, with no outcome-based event selection.
 - The daily chart is the default view. The fixed original sample stays in a separate tab; fresh results update the displayed points and regressions on the existing five-minute refresh.
 - Drawdown and rebound are displayed in separate panels by default, each with its own labeled axes and event coverage. A combined view remains available. Trend lines are optional. Clicking, tapping or pressing Enter on a point selects that date across both panels and shows its input/outcome values without changing the sample.
+- The horizontal axis measures absolute mismatch magnitude, not a signed net cash drain: `U1 = |ΔTGA − N|`; `ΔTGA` is a balance change. Reversing the subtraction gives the same magnitude. The formula is displayed above the chart, and selected events show the signed one-day subtraction before the absolute value. U4 sums the signed residuals first.
 - Missing inputs and prices remain unavailable. A verified no-principal day may be a genuine zero; an unverified maturity cannot.
 - The model uses face-value issuance less SOMA and verified public maturity estimates. It is separate from the existing coupon-adjusted cash-flow heatmap.
 - Input revisions retain hashes and the first complete observation time. Outcomes require the following four/five market sessions.

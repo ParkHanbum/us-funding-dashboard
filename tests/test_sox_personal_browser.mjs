@@ -61,6 +61,9 @@ try {
   assert.ok(detail.includes(rebound.x.toFixed(2)+' 십억 달러'));
   assert.ok(detail.includes(selected.y.toFixed(2)+'%'));
   assert.ok(detail.includes(rebound.y.toFixed(2)+'%'));
+  const calculation=await host.locator('[data-sx="selection-formula"]').innerText();
+  assert.ok(calculation.includes(`ΔTGA (${selected.delta_tga_bn.toFixed(3)}) − 순발행 (${selected.net_issuance_bn.toFixed(3)})`));
+  assert.ok(calculation.includes(`= ${(selected.delta_tga_bn-selected.net_issuance_bn).toFixed(3)} → 절댓값 ${selected.x.toFixed(3)}`));
   await host.locator('[data-layout="overlay"]').click();
   assert.equal(await host.locator('[data-chart="overlay"]').isVisible(),true);
   assert.equal(await host.locator('[data-tip]').count(),count);
