@@ -9,30 +9,43 @@
   const analysisAllowed = live => live?.public_use_confirmed === true ||
     (live?.personal_use_confirmed === true && live?.analysis_use === 'personal_noncommercial');
   const $ = id => host.querySelector('[data-sx="'+id+'"]');
-  let payload = null, mode = 'live', layout = 'split', showTrend = false, selectedDate = null;
+  let payload = null, mode = 'overfit', layout = 'split', showTrend = true, showAll = true, selectedDate = null;
   const visible = {drawdown:true,rebound:true};
-  const series = {
+  const baselineSeries = {
     drawdown:{title:'1일 불일치와 이후 낙폭',label:'4일 낙폭 크기',short:'낙폭',color:'#80bfff',x:'1일 불일치 크기 U1 (십억 달러)',y:'SOX 낙폭 (%)',stat:'stat-blue',description:'이벤트일부터 4거래일 뒤까지의 최대 낙폭',reading:'오른쪽일수록 불일치의 크기가 크고, 위쪽일수록 낙폭이 큽니다.'},
     rebound:{title:'4일 누적 불일치와 반등',label:'5일째 반등률',short:'반등',color:'#ffbc83',x:'4일 불일치 크기 U4 (십억 달러)',y:'SOX 반등 (%)',stat:'stat-orange',description:'관측 저점 대비 5거래일째의 가격 변화',reading:'위쪽일수록 반등이 큽니다. 0% 아래는 관측 저점보다 낮습니다.'}
   };
+  const overfitSeries = {
+    drawdown:{...baselineSeries.drawdown,title:'순발행 팩터와 이후 낙폭',x:'6일 순발행 합의 크기 (USD bn)',valueLabel:'6일 순발행 합의 크기',
+      description:'2거래일 전까지의 6일 순발행 합에 절댓값을 적용합니다.',
+      reading:'최근 5일 SOX 변동성 ≤ 1.47044%인 날을 선택합니다. 탐색 당시 하위 20% 경계입니다.'},
+    rebound:{...baselineSeries.rebound,title:'TGA 팩터와 이후 반등',x:'5일 TGA 증감 합의 크기 (USD bn)',valueLabel:'5일 TGA 증감 합의 크기',
+      description:'당일까지의 5일 TGA 증감 합에 절댓값을 적용합니다.',
+      reading:'당일 TGA 증감의 크기 ≤ 7.445bn인 날을 선택합니다. 탐색 당시 하위 20% 경계입니다.'}
+  };
+  let series = overfitSeries;
+  const pointsFor = (data,kind) => mode==='overfit'&&showAll ? data?.context_points?.[kind]||[] : data?.points?.[kind]||[];
   host.innerHTML = `
     <div class="sx-header"><div><div class="sx-eyebrow">LIQUIDITY RESEARCH · DAILY OBSERVATIONS</div>
-      <h2>TGA·순발행 불일치와 SOX 반응</h2><p>TGA 증감과 순발행의 차이가 큰 날, 이후 낙폭·반등이 어땠는지 살펴봅니다.</p></div>
+      <h2 data-sx="title">과적합 탐색 · 자금 팩터와 SOX</h2><p data-sx="subtitle">전체 결과를 보고 찾은 두 조건을 고정해, 이후 자료에도 같은 기준을 적용합니다.</p></div>
       <span class="sx-badge" data-sx="badge">불러오는 중</span></div>
     <div class="sx-tabs" role="tablist" aria-label="분석 표본">
-      <button role="tab" aria-selected="true" data-mode="live">최신 자동 차트</button>
+      <button role="tab" aria-selected="true" data-mode="overfit">과적합 탐색 차트</button>
+      <button role="tab" aria-selected="false" data-mode="live">전체 자동 표본</button>
       <button role="tab" aria-selected="false" data-mode="reference">원본 탐색 표본</button>
     </div>
     <div class="sx-coverage" aria-live="polite"><strong data-sx="current-view">차트 표시 기간 확인 중</strong><span data-sx="freshness"></span></div>
+    <div class="sx-experiment" data-sx="experiment"><strong>2026-10-08까지의 결과를 보고 선택한 조건</strong><span>선정 조건은 고정합니다. 새 자료로 조건과 임곗값을 다시 최적화하지 않습니다.</span><span>색 있는 점: 조건에 해당 · 회색 점: 조건 밖 · 상관계수와 추세선은 색 있는 점 기준</span></div>
     <div class="sx-formula" data-sx="formula"><strong>가로축은 불일치의 크기(절댓값)입니다.</strong><span>U1 = |ΔTGA − 순발행| · ΔTGA는 직전 관측일 대비 TGA 잔액 증감입니다.</span><span>U4는 최근 4거래일의 부호 있는 차이를 더한 뒤 절댓값을 취합니다. 유출·유입 방향은 이 축에서 구분되지 않습니다.</span><span>자동 표본의 순발행은 SOMA를 제외한 액면 기준 대용치이며, 쿠폰을 차감한 기존 순유출액과 별도입니다.</span></div>
     <div class="sx-toolbar">
-      <div class="sx-view-switch" role="group" aria-label="차트 배치">
+      <div class="sx-view-switch" data-sx="view-switch" role="group" aria-label="차트 배치">
         <button data-layout="split" aria-pressed="true">나눠 보기</button><button data-layout="overlay" aria-pressed="false">겹쳐 보기</button>
       </div>
       <div class="sx-controls">
         <label><input type="checkbox" data-series="drawdown" checked><i class="sx-circle" aria-hidden="true"></i>낙폭</label>
         <label><input type="checkbox" data-series="rebound" checked><i class="sx-square" aria-hidden="true"></i>반등</label>
         <label class="sx-trend-toggle"><input type="checkbox" data-sx="trend">추세선</label>
+        <label data-sx="all-toggle"><input type="checkbox" data-sx="all-points" checked><i class="sx-context-dot" aria-hidden="true"></i>전체 표본 함께 보기</label>
       </div>
     </div>
     <div class="sx-chart"><div data-sx="plot" class="sx-plot-grid"></div><div class="sx-tooltip" data-sx="tooltip" role="tooltip"></div><div class="sx-empty" data-sx="empty">자료를 불러오는 중입니다.</div></div>
@@ -48,11 +61,12 @@
     <h3>최근 이벤트 · 결과 확정까지의 진행 상황</h3>
     <div class="sx-scroll"><table><thead><tr><th>이벤트 날짜</th><th>U1</th><th>U4</th><th>4일 낙폭</th><th>5일째 반등</th><th>관측 상태</th></tr></thead><tbody data-sx="recent"></tbody></table></div>
     <details><summary>산식 · 표본 선정 · 데이터 출처</summary><div class="sx-methods" data-sx="methods"></div></details>
-    <details><summary>현재 차트의 점 데이터</summary><div class="sx-scroll"><table><thead><tr><th>날짜</th><th>계열</th><th>불일치 크기 (USD bn)</th><th>SOX 반응 (%)</th></tr></thead><tbody data-sx="point-table"></tbody></table></div></details>
+    <details><summary>현재 차트의 점 데이터</summary><div class="sx-scroll"><table><thead><tr><th>날짜</th><th>계열</th><th data-sx="point-x-title">팩터값 (USD bn)</th><th>SOX 반응 (%)</th><th>표본</th></tr></thead><tbody data-sx="point-table"></tbody></table></div></details>
     <div class="sx-bottom"><span class="sx-small" data-sx="updated">일별 스냅샷 · 화면은 5분마다 확인</span><span class="sx-small">탐색적 연관 분석 · 예측·매매 신호가 아닙니다.</span></div>`;
 
   for (const button of host.querySelectorAll('[data-mode]')) button.addEventListener('click', () => {
     mode = button.dataset.mode;
+    showTrend=mode==='overfit';
     selectedDate = null;
     for (const b of host.querySelectorAll('[data-mode]')) b.setAttribute('aria-selected',String(b===button));
     render();
@@ -66,6 +80,7 @@
     render();
   });
   $('trend').addEventListener('change', e => {showTrend=e.target.checked;render();});
+  $('all-points').addEventListener('change', e => {showAll=e.target.checked;render();});
 
   function stepFor(range) {
     const rough=Math.max(range,1)/5, power=10**Math.floor(Math.log10(rough)), fraction=rough/power;
@@ -73,7 +88,7 @@
   }
 
   function chartSvg(data, kinds, width) {
-    const points=kinds.flatMap(kind=>(data?.points?.[kind]||[])
+    const points=kinds.flatMap(kind=>pointsFor(data,kind)
       .filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)).map(p=>({...p,kind})));
     const W=Math.max(320,Math.round(width)), H=W>700?380:340;
     const pad={l:56,r:20,t:22,b:62}, pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
@@ -94,7 +109,7 @@
     for(let y=ymin;y<=ymax+ystep/2;y+=ystep){
       svg+=`<line x1="${pad.l}" x2="${W-pad.r}" y1="${sy(y)}" y2="${sy(y)}" stroke="${Math.abs(y)<1e-8?'#6b8098':'#26364a'}" stroke-opacity="${Math.abs(y)<1e-8?'.9':'.55'}" ${Math.abs(y)<1e-8?'stroke-dasharray="4 5"':''}/><text x="${pad.l-12}" y="${sy(y)+4}" fill="#a1b2c6" text-anchor="end" font-size="13">${tick(y,ystep)}</text>`;
     }
-    svg+=`<text x="${pad.l+pw/2}" y="${H-12}" fill="#b5c5d8" text-anchor="middle" font-size="13">${esc(solo?.x||'불일치 크기 (십억 달러)')}</text><text transform="translate(15 ${pad.t+ph/2}) rotate(-90)" fill="#b5c5d8" text-anchor="middle" font-size="13">${esc(solo?.y||'SOX 반응 (%)')}</text><g clip-path="url(#${clip})">`;
+    svg+=`<text x="${pad.l+pw/2}" y="${H-12}" fill="#b5c5d8" text-anchor="middle" font-size="${W<420?11:13}">${esc(solo?.x||'불일치 크기 (십억 달러)')}</text><text transform="translate(15 ${pad.t+ph/2}) rotate(-90)" fill="#b5c5d8" text-anchor="middle" font-size="13">${esc(solo?.y||'SOX 반응 (%)')}</text><g clip-path="url(#${clip})">`;
     for(const kind of kinds){
       const info=series[kind], fit=data?.stats?.[kind], ps=points.filter(p=>p.kind===kind);
       if(showTrend && Number.isFinite(fit?.slope) && Number.isFinite(fit?.intercept) && ps.length>=3){
@@ -102,12 +117,14 @@
         svg+=`<line data-trend="${kind}" x1="${sx(a)}" x2="${sx(b)}" y1="${sy(a*fit.slope+fit.intercept)}" y2="${sy(b*fit.slope+fit.intercept)}" stroke="${info.color}" stroke-width="2" stroke-dasharray="6 4" opacity=".8"/>`;
       }
       // Draw the selected event last so dense near-zero points cannot cover it.
-      ps.sort((a,b)=>Number(a.date===selectedDate)-Number(b.date===selectedDate)).forEach(p=>{
+      ps.sort((a,b)=>(Number(a.date===selectedDate)*2+Number(a.selected!==false))-(Number(b.date===selectedDate)*2+Number(b.selected!==false))).forEach(p=>{
         const selected=p.date===selectedDate;
-        const title=`${p.date} · ${info.label}\n불일치 크기 ${fmt(p.x,3)} 십억 달러\nSOX 반응 ${fmt(p.y,3)}%` +
+        const context=mode==='overfit'&&p.selected===false;
+        const title=`${p.date} · ${info.label}\n${info.valueLabel||'불일치 크기'} ${fmt(p.x,3)} 십억 달러\nSOX 반응 ${fmt(p.y,3)}%` +
+          (mode==='overfit'?`\n${context?'조건 밖 전체 표본':'고정 조건에 해당'} · ${p.period==='after_selection'?'선정 후 확정':'탐색 구간'}\n선정 기준값 ${fmt(p.gate_value,5)}${kind==='drawdown'?'%':'bn'}`:'') +
           (p.delta_tga_bn!=null?`\nΔTGA ${money(p.delta_tga_bn)} · 순발행 ${money(p.net_issuance_bn)}`:'') +
           (p.first_complete_seen_at?`\n입력 최초 확보 ${p.first_complete_seen_at}`:'');
-        const attr=`fill="${info.color}" fill-opacity="${selected?1:.78}" stroke="${selected?'#f5f9ff':'#0b121b'}" stroke-width="${selected?2.5:1.3}" class="sx-point${selected?' sx-point-selected':''}" data-kind="${kind}" data-date="${esc(p.date)}" data-tip="${esc(title)}" tabindex="0" role="button" aria-pressed="${selected}" aria-label="${esc(title+' · 이 날짜 선택')}"`;
+        const attr=`fill="${context?'#778393':info.color}" fill-opacity="${selected?1:context ? .36 : .9}" stroke="${selected?'#f5f9ff':'#0b121b'}" stroke-width="${selected?2.5:1.3}" class="sx-point${selected?' sx-point-selected':''}${context?' sx-point-context':''}" data-in-rule="${!context}" data-kind="${kind}" data-date="${esc(p.date)}" data-tip="${esc(title)}" tabindex="0" role="button" aria-pressed="${selected}" aria-label="${esc(title+' · 이 날짜 선택')}"`;
         svg+=kind==='drawdown'?`<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="${selected?7:5.5}" ${attr}/>`:`<rect x="${sx(p.x)-(selected?6.5:5)}" y="${sy(p.y)-(selected?6.5:5)}" width="${selected?13:10}" height="${selected?13:10}" rx="1.5" ${attr}/>`;
       });
     }
@@ -115,13 +132,14 @@
   }
 
   function pointSelection(data) {
-    const ps=Object.values(data?.points||{}).flat();
+    const all=mode==='overfit'?data?.context_points:data?.points;
+    const ps=Object.values(all||{}).flat();
     if(selectedDate && !ps.some(p=>p.date===selectedDate)) selectedDate=null;
     const selection=$('selection');
     selection.hidden=!selectedDate;
     if(!selectedDate) {selection.innerHTML='';return;}
-    const dd=data?.points?.drawdown?.find(p=>p.date===selectedDate);
-    const rb=data?.points?.rebound?.find(p=>p.date===selectedDate);
+    const dd=all?.drawdown?.find(p=>p.date===selectedDate);
+    const rb=all?.rebound?.find(p=>p.date===selectedDate);
     const recent=mode==='live'?data?.recent?.find(p=>p.date===selectedDate):null;
     const outcome=(point,status)=>point?`${fmt(point.y,2)}%`:status==='pending'?'관측 중':'해당 표본 없음';
     const value=(point,macro)=>Number.isFinite(point?.x)?`${fmt(point.x,2)} 십억 달러`:Number.isFinite(macro)?`${fmt(macro,2)} 십억 달러`:'—';
@@ -130,30 +148,37 @@
     const calculation=Number.isFinite(delta)&&Number.isFinite(net)
       ?`1일 계산 · ΔTGA (${fmt(delta,3)}) − 순발행 (${fmt(net,3)}) = ${fmt(delta-net,3)} → 절댓값 ${fmt(Math.abs(delta-net),3)} 십억 달러`
       :'이 표본은 TGA 증감·순발행 분해값이 제공되지 않습니다.';
-    selection.innerHTML=`<div class="sx-selection-heading"><strong>선택한 이벤트 · ${esc(selectedDate)}</strong><button data-sx="clear-selection" aria-label="선택한 날짜 해제">선택 해제</button></div><div class="sx-selection-values"><div><span>1일 불일치 크기 U1</span><strong>${value(dd,recent?.u1_bn)}</strong></div><div><span>4일 누적 불일치 크기 U4</span><strong>${value(rb,recent?.u4_bn)}</strong></div><div><span>4일 낙폭</span><strong>${outcome(dd,recent?.status4)}</strong></div><div><span>5일째 반등</span><strong>${outcome(rb,recent?.status5)}</strong></div></div><div class="sx-selection-formula" data-sx="selection-formula">${esc(calculation)}</div>`;
+    const condition=kind=>{
+      const p=kind==='drawdown'?dd:rb;
+      return `${kind==='drawdown'?'낙폭':'반등'} 조건: ${p?`${p.selected?'해당':'조건 밖'} · 기준값 ${fmt(p.gate_value,5)}${kind==='drawdown'?'%':'bn'}`:'자료 없음'}`;
+    };
+    selection.innerHTML=`<div class="sx-selection-heading"><strong>선택한 이벤트 · ${esc(selectedDate)}</strong><button data-sx="clear-selection" aria-label="선택한 날짜 해제">선택 해제</button></div><div class="sx-selection-values"><div><span>${mode==='overfit'?'6일 순발행 합 · 2일 시차':'1일 불일치 크기 U1'}</span><strong>${value(dd,recent?.u1_bn)}</strong></div><div><span>${mode==='overfit'?'5일 TGA 증감 합':'4일 누적 불일치 크기 U4'}</span><strong>${value(rb,recent?.u4_bn)}</strong></div><div><span>4일 낙폭</span><strong>${outcome(dd,recent?.status4)}</strong></div><div><span>5일째 반등</span><strong>${outcome(rb,recent?.status5)}</strong></div></div><div class="sx-selection-formula" data-sx="selection-formula">${esc(mode==='overfit'?condition('drawdown')+' · '+condition('rebound'):calculation)}</div>`;
     $('clear-selection').addEventListener('click',()=>{selectedDate=null;render();});
   }
 
   function plot(data) {
-    const points=Object.keys(series).flatMap(kind=>visible[kind]?(data?.points?.[kind]||[])
+    const points=Object.keys(series).flatMap(kind=>visible[kind]?pointsFor(data,kind)
       .filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)).map(p=>({...p,kind})):[]);
     const active=Object.keys(series).filter(kind=>visible[kind]);
     const width=$('plot').clientWidth||host.clientWidth-48;
     const stacked=window.matchMedia('(max-width:900px)').matches || active.length<2;
     const cardWidth=(stacked?width:(width-18)/2)-36;
     const stats=kind=>`<span class="sx-stat" data-sx="${series[kind].stat}"></span>`;
-    $('plot').className=`sx-plot-grid${layout==='overlay'?' sx-overlay':''}${active.length<2?' sx-single':''}`;
-    if(layout==='split'){
+    const viewLayout=mode==='overfit'?'split':layout;
+    $('plot').className=`sx-plot-grid${viewLayout==='overlay'?' sx-overlay':''}${active.length<2?' sx-single':''}`;
+    if(viewLayout==='split'){
       $('plot').innerHTML=Object.entries(series).map(([kind,info])=>{
         const dates=(data?.points?.[kind]||[]).map(p=>p.date).sort();
-        return `<section class="sx-plot-card sx-${kind}" data-chart="${kind}" ${visible[kind]?'':'hidden'}><div class="sx-plot-heading"><h3><i class="${kind==='drawdown'?'sx-circle':'sx-square'}" aria-hidden="true"></i>${info.title}</h3>${stats(kind)}</div><p class="sx-plot-description">${info.description}</p><div class="sx-svg-wrap">${visible[kind]?chartSvg(data,[kind],cardWidth):''}${visible[kind]&&!dates.length?'<div class="sx-card-empty">확정된 표본 대기</div>':''}</div><div class="sx-reading">${info.reading}</div><div class="sx-series-date">${dates.length?`확정 이벤트 ${esc(dates[0])} ~ ${esc(dates.at(-1))}`:'이후 거래일 자료가 쌓이면 점이 추가됩니다.'}</div></section>`;
+        const full=data?.full_stats?.[kind],after=data?.post_selection_stats?.[kind],rule=data?.rules?.[kind];
+        const comparison=mode==='overfit'?`<div class="sx-comparison"><span>전체 유효 표본 r=${fmt(full?.r,3)} · n=${full?.n??0}</span><span>탐색 당시 r=${fmt(rule?.discovery_r,3)} · n=${rule?.discovery_n??0}</span><span data-after="${kind}">선정 후 확정 r=${fmt(after?.r,3)} · n=${after?.n??0}</span></div>`:'';
+        return `<section class="sx-plot-card sx-${kind}" data-chart="${kind}" ${visible[kind]?'':'hidden'}><div class="sx-plot-heading"><h3><i class="${kind==='drawdown'?'sx-circle':'sx-square'}" aria-hidden="true"></i>${info.title}</h3>${stats(kind)}</div><p class="sx-plot-description">${info.description}</p><div class="sx-svg-wrap">${visible[kind]?chartSvg(data,[kind],cardWidth):''}${visible[kind]&&!pointsFor(data,kind).length?'<div class="sx-card-empty">확정된 표본 대기</div>':''}</div><div class="sx-reading">${info.reading}</div>${comparison}<div class="sx-series-date">${dates.length?`${mode==='overfit'?'조건에 해당하는':'확정'} 이벤트 ${esc(dates[0])} ~ ${esc(dates.at(-1))}`:'이후 거래일 자료가 쌓이면 점이 추가됩니다.'}</div></section>`;
       }).join('');
     }else{
       $('plot').innerHTML=`<section class="sx-plot-card" data-chart="overlay"><div class="sx-plot-heading"><h3>낙폭과 반등 비교</h3><div class="sx-overlay-stats">${Object.entries(series).map(([kind,info])=>`<span ${visible[kind]?'':'hidden'}><i class="${kind==='drawdown'?'sx-circle':'sx-square'}" aria-hidden="true"></i>${info.short} ${stats(kind)}</span>`).join('')}</div></div><p class="sx-plot-description">두 관측 기간을 같은 축에서 비교합니다. 불일치 크기는 각각 U1·U4입니다.</p>${chartSvg(data,active,width-36)}<div class="sx-reading">파란 원: 4일 낙폭 · 주황 네모: 5일째 반등 · 추세선은 선택해서 볼 수 있습니다.</div></section>`;
     }
     $('empty').style.display=points.length?'none':'flex';
     const license=(payload?.live && !analysisAllowed(payload.live)) || payload?.status?.state==='LICENSE_REQUIRED';
-    $('empty').textContent=!active.length?'표시할 계열을 선택하세요.':mode==='live'?(license?'SOX 공개 이용 확인 대기 · TGA·순발행 입력은 별도로 자동 수집됩니다.':'확정된 자동 표본이 아직 없습니다. 입력과 이후 4~5거래일 관측이 필요합니다.'):'확정된 탐색 표본이 없습니다.';
+    $('empty').textContent=!active.length?'표시할 계열을 선택하세요.':mode!=='reference'?(license?'SOX 공개 이용 확인 대기 · TGA·순발행 입력은 별도로 자동 수집됩니다.':'확정된 자동 표본이 아직 없습니다. 입력과 이후 4~5거래일 관측이 필요합니다.'):'확정된 탐색 표본이 없습니다.';
     const tooltip=$('tooltip');
     tooltip.style.display='none';
     const show=elem=>{
@@ -182,21 +207,34 @@
       });
     }
     pointSelection(data);
-    $('point-table').innerHTML=points.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(series[p.kind].label)}</td><td>${fmt(p.x,3)}</td><td>${fmt(p.y,3)}</td></tr>`).join('') || '<tr><td colspan="4">확정 표본 없음</td></tr>';
+    $('point-table').innerHTML=points.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(series[p.kind].label)}</td><td>${fmt(p.x,3)}</td><td>${fmt(p.y,3)}</td><td>${mode==='overfit'?(p.selected?'조건 해당':'조건 밖'):'전체'}${mode==='overfit'&&p.period==='after_selection'?' · 선정 후 확정':''}</td></tr>`).join('') || '<tr><td colspan="5">확정 표본 없음</td></tr>';
   }
 
   function render(){
     if(!payload) return;
-    const data=mode==='reference'?payload.reference:payload.live;
+    const permissionAllowed=analysisAllowed(payload.live);
+    const data=mode==='reference'?payload.reference:mode==='overfit'?(permissionAllowed?payload.overfit:null):payload.live;
+    series=mode==='overfit'?overfitSeries:baselineSeries;
+    $('title').textContent=mode==='overfit'?'과적합 탐색 · 자금 팩터와 SOX':'TGA·순발행 불일치와 SOX 반응';
+    $('subtitle').textContent=mode==='overfit'?'전체 결과를 보고 찾은 두 조건을 고정해, 이후 자료에도 같은 기준을 적용합니다.':'TGA 증감과 순발행의 차이가 큰 날, 이후 낙폭·반등이 어땠는지 살펴봅니다.';
+    $('experiment').hidden=mode!=='overfit';$('view-switch').hidden=mode==='overfit';$('all-toggle').hidden=mode!=='overfit';
+    $('trend').checked=showTrend;
+    $('point-x-title').textContent=mode==='overfit'?'팩터값 (USD bn)':'불일치 크기 (USD bn)';
+    $('formula').innerHTML=mode==='overfit'
+      ?'<strong>합산한 뒤 절댓값을 취한 두 자금 팩터입니다.</strong><span>낙폭 가로축 = |N_(t−7) + … + N_(t−2)| · 반등 가로축 = |ΔTGA_(t−4) + … + ΔTGA_t|</span><span>N은 SOMA를 제외한 액면 기준 순발행 대용치입니다. 선정 후 확정은 결과 관측 종료일이 2026-10-08 이후인 표본입니다.</span>'
+      :'<strong>가로축은 불일치의 크기(절댓값)입니다.</strong><span>U1 = |ΔTGA − 순발행| · ΔTGA는 직전 관측일 대비 TGA 잔액 증감입니다.</span><span>U4는 최근 4거래일의 부호 있는 차이를 더한 뒤 절댓값을 취합니다. 유출·유입 방향은 이 축에서 구분되지 않습니다.</span><span>자동 표본의 순발행은 SOMA를 제외한 액면 기준 대용치이며, 쿠폰을 차감한 기존 순유출액과 별도입니다.</span>';
     plot(data);
     for(const [kind,id] of [['drawdown','stat-blue'],['rebound','stat-orange']]){
-      const s=data?.stats?.[kind];$(id).textContent=`r=${fmt(s?.r,3)}, n=${s?.n ?? 0}`;
+      const s=data?.stats?.[kind];$(id).textContent=`${mode==='overfit'?'조건 ':''}r=${fmt(s?.r,3)}, n=${s?.n ?? 0}`;
     }
     const live=payload.live, state=payload.status?.state||'WAITING_FIRST_RUN';
     const permissionPending=(live && !analysisAllowed(live)) || state==='LICENSE_REQUIRED';
     const liveEventDates=Object.values(live?.points||{}).flat().map(p=>p.date).sort();
     const referencePeriod=[payload.reference?.from,payload.reference?.to].filter(Boolean).join(' ~ ');
-    $('current-view').textContent=mode==='reference'
+    const selectedDates=Object.values(data?.points||{}).flat().map(p=>p.date).sort();
+    $('current-view').textContent=mode==='overfit'
+      ?`현재 차트: 과적합 탐색 · 조건 고정 2026-10-08${selectedDates.length?' · 이벤트 '+selectedDates[0]+' ~ '+selectedDates.at(-1):' · 확정 결과 대기'}`
+      :mode==='reference'
       ?`현재 차트: 원본 고정 표본 · ${referencePeriod || '기간 미확인'}`
       :liveEventDates.length
         ?`현재 차트: 자동 일별 표본 · 이벤트 ${liveEventDates[0]} ~ ${liveEventDates.at(-1)}`
@@ -207,9 +245,9 @@
     $('freshness').textContent=`최근 TGA·순발행 입력: ${latestInput || '수집 대기'} · SOX 종가 기준: ${latestClose || '수집 대기'} · 자동 SOX 차트: ${latestResult}`;
     const stateLabels={READY:'일별 갱신',WAITING_SOURCE_UPDATE:'SOX 종가 발표 대기',LICENSE_REQUIRED:'SOX 이용 확인 필요',PARTIAL:'일부 입력 대기',SOURCE_ERROR:'수집 오류',WAITING_FIRST_RUN:'첫 수집 대기',MIGRATION_REQUIRED:'DB 초기화 필요'};
     $('badge').textContent=stateLabels[state]||state;$('badge').dataset.state=state;
-    $('sample').textContent=mode==='reference'?'2026-05-15~2026-07-22 · 원본 이벤트 14개 · 선택된 탐색 표본':
+    $('sample').textContent=mode==='overfit'?'개인·비상업 연구용 · 결과를 보고 찾은 조건부 표본 · 원본 14점과 별도 · 새 자료는 고정 조건으로 자동 갱신':mode==='reference'?'2026-05-15~2026-07-22 · 원본 이벤트 14개 · 선택된 탐색 표본':
       (live?.analysis_use==='personal_noncommercial'?'개인·비상업 연구용 · ':'')+'자동 모델 · 결과로 선별하지 않은 전체 유효 일별 표본 · 관측창 중첩 있음';
-    $('notice').textContent=mode==='reference'?'원본 상관계수는 과거 탐색 표본의 기술통계입니다. 선정 규칙을 복원한 예측모델이 아니며, 아래 자동 입력과 회귀선을 합치지 않습니다.':'TGA·순발행 자료가 실제로 알려진 시각은 이벤트 날짜보다 늦을 수 있습니다. 이 차트는 사건 이후의 연관 분석이며, 이벤트 당일 실행 가능한 매매 전략의 성과가 아닙니다.';
+    $('notice').textContent=mode==='overfit'?'691개 팩터와 약 8.7만 조건 조합을 탐색해 찾은 관계입니다. 표본 내 높은 r은 독립 검증 성적이 아닙니다. 새 결과는 선정 후 확정 수치로 함께 표시합니다.':mode==='reference'?'원본 상관계수는 과거 탐색 표본의 기술통계입니다. 선정 규칙을 복원한 예측모델이 아니며, 아래 자동 입력과 회귀선을 합치지 않습니다.':'TGA·순발행 자료가 실제로 알려진 시각은 이벤트 날짜보다 늦을 수 있습니다. 이 차트는 사건 이후의 연관 분석이며, 이벤트 당일 실행 가능한 매매 전략의 성과가 아닙니다.';
     const lm=live?.latest_macro;
     $('u1').textContent=money(lm?.u1_bn);$('u4').textContent=money(lm?.u4_bn);
     $('macro-date').textContent=lm?`${lm.date} · TGA 기준 ${lm.tga_source_date}`:'자동 입력 대기';

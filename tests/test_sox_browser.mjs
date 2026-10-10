@@ -25,7 +25,8 @@ try {
   await page.goto(base,{waitUntil:'domcontentloaded'});
   const host=page.locator('#sox-research');
   await page.waitForFunction(()=>document.querySelector('#sox-research [data-sx="badge"]').textContent==='SOX 이용 확인 필요');
-  assert.equal(await host.locator('[data-mode="live"]').getAttribute('aria-selected'),'true');
+  assert.equal(await host.locator('[data-mode="overfit"]').getAttribute('aria-selected'),'true');
+  await host.locator('[data-mode="live"]').click();
   assert.equal(await host.locator('[data-tip]').count(),0);
   assert.match(await host.locator('[data-sx="freshness"]').innerText(),/자동 SOX 차트: 공개 이용 확인 대기/);
   await host.screenshot({path:join(output,'sox-latest-pending.png')});
@@ -64,6 +65,7 @@ try {
   await page.clock.install();
   await page.route('**/api/sox',route=>route.fulfill({contentType:'application/json',body:JSON.stringify(fixture)}));
   await page.goto(base,{waitUntil:'domcontentloaded'});
+  await host.locator('[data-mode="live"]').click();
   await page.waitForFunction(()=>document.querySelectorAll('#sox-research [data-tip]').length===3);
   assert.equal(await host.locator('[data-mode="live"]').getAttribute('aria-selected'),'true');
   assert.equal(await host.locator('[data-tip]').count(),3);
@@ -95,7 +97,7 @@ try {
   assert.equal(await host.locator('[data-tip]').count(),14);
   assert.equal(await host.locator('[data-sx="stat-blue"]').innerText(),'r=0.961, n=6');
   assert.deepEqual(errors,[]);
-  console.log('Chromium: latest default view, automatic point/stat refresh, source-publication wait retaining personal results, original 14 points, separate live sample, toggles, keyboard tooltip, missing values, mobile width and zero page errors passed.');
+  console.log('Chromium: overfit default, separate live sample, automatic point/stat refresh, source-publication wait retaining personal results, original 14 points, toggles, keyboard tooltip, missing values, mobile width and zero page errors passed.');
   console.log('Screenshots:',output);
 } finally {
   await browser.close();

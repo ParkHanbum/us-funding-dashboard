@@ -30,7 +30,8 @@ try {
   await page.goto(base+'/#sox-research',{waitUntil:'domcontentloaded'});
   const host=page.locator('#sox-research');
   await page.waitForFunction(()=>document.querySelector('#sox-research [data-sx="badge"]').textContent==='일별 갱신');
-  assert.equal(await host.locator('[data-mode="live"]').getAttribute('aria-selected'),'true');
+  assert.equal(await host.locator('[data-mode="overfit"]').getAttribute('aria-selected'),'true');
+  await host.locator('[data-mode="live"]').click();
   const count=live.points.drawdown.length+live.points.rebound.length;
   assert.equal(await host.locator('[data-tip]').count(),count);
   assert.equal(await host.locator('[data-sx="stat-blue"]').innerText(),`r=${live.stats.drawdown.r.toFixed(3)}, n=${live.stats.drawdown.n}`);

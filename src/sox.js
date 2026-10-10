@@ -1,4 +1,6 @@
 import { SOX_REFERENCE } from './sox_reference.js';
+import { buildOverfitReport } from './sox_overfit.js';
+import soxConfig from '../config/sox-model.json' with {type:'json'};
 
 const MODEL = 'tga-public-face-residual-v1';
 const MAX_BYTES = 700_000;
@@ -105,7 +107,15 @@ export async function handleSox(request, env) {
       }
       if (!status) status = {state:'WAITING_FIRST_RUN', warnings:['기존 Treasury collector의 다음 실행을 기다리는 중입니다.']};
       if (url.pathname === '/api/sox/status') return reply(sanitizeStatus(status));
-      return reply({module_version:'3.3.0',reference:SOX_REFERENCE,live:sanitizePublicReport(live),status:sanitizeStatus(status),
+      const publicLive=sanitizePublicReport(live);
+      let overfit=null;
+      const allowed=publicLive?.public_use_confirmed===true ||
+        (publicLive?.personal_use_confirmed===true&&publicLive?.analysis_use==='personal_noncommercial');
+      if(allowed) {
+        const saved=await env.DB.prepare('SELECT payload_json FROM sox_daily_inputs ORDER BY date DESC LIMIT 500').all();
+        overfit=buildOverfitReport((saved.results||[]).map(r=>JSON.parse(r.payload_json)),publicLive,soxConfig.extra_market_closures||[]);
+      }
+      return reply({module_version:'3.3.0',reference:SOX_REFERENCE,live:publicLive,overfit,status:sanitizeStatus(status),
         server_time:new Date().toISOString(),methods:METHODS});
     }
     if (url.pathname === '/api/sox/state' && request.method === 'GET') {

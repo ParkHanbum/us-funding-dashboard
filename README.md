@@ -21,6 +21,10 @@ The two confirmations are separate. Turning both off stops SOX collection and hi
 
 The original CSV estimates and selected events are preserved. The original selection algorithm is not reconstructed, and these regressions are descriptive associations.
 
+The default SOX view is the user-requested overfit exploration chart. Two X-only rules found on data through 2026-10-08 are frozen: absolute six-session issuance sum ending two sessions earlier with past five-session SOX volatility ≤ 1.4704419604775212%, and absolute five-session TGA-change sum with the current absolute TGA change ≤ $7.445bn. Selected points and their descriptive trends are colored; other valid observations are gray. The whole daily sample and original 14 points remain separate tabs.
+
+`src/sox_overfit.js` derives these charts during `/api/sox` reads from existing private D1 inputs. New source collection therefore updates them without changing the collector, workflow, schedule or schema. Thresholds are never recomputed from new outcomes. The UI reports current selected/full-sample statistics, the discovery scores, and separately the selected observations whose outcome window ends after 2026-10-08. These new confirmations can overlap; they are not an independent trading backtest. The same analysis-scope guard applies, and raw closes are excluded.
+
 The separate daily sample now backfills the available source window with historical monthly MSPD inventories. Each day uses the latest inventory strictly before that date. Auctions include issues after the oldest inventory, so bills issued before the chart's start cannot disappear from its maturity schedule. Weekend/holiday maturity announcements use the actual Fed business payment day. Dates with missing inputs remain pending.
 
 ```text
@@ -44,6 +48,7 @@ npm ci
 python3 scripts/sox_selftest.py
 python3 -m unittest discover -s tests -p test_sox_collector.py -v
 node tests/test_sox_worker.mjs
+node tests/test_sox_overfit.mjs
 npx wrangler deploy --dry-run
 ```
 
@@ -63,6 +68,8 @@ node tests/test_sox_browser.mjs
 ```
 
 After collecting real sources into the local database in confirmed personal mode, `node tests/test_sox_personal_browser.mjs` checks the actual points, statistics, source dates, original-sample separation, attribution, linked date selection, optional trends, keyboard/touch interaction and mobile display. The runtime fixture test should use a separate disposable database rather than overwrite those real inputs.
+
+With the matched 2026-10-08 real snapshot, `node tests/test_sox_overfit_browser.mjs` also checks the research scores/selected dates, default view, gray context points, fixed rules, linked selections and original separation. Its refresh/revocation fixtures are intercepted only in the browser and never written to D1.
 
 The browser test requires Playwright and its Chromium headless shell. `PLAYWRIGHT_MODULE`, `PLAYWRIGHT_BROWSERS_PATH` and `SOX_SCREENSHOT_DIR` can point to an existing test environment. Runtime fixtures should use a disposable local D1; they contain synthetic prices, and the tests reject production URLs.
 

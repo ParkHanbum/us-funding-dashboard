@@ -1,0 +1,57 @@
+{
+  "checked_at": "2026-10-10T08:58:33.305419+00:00",
+  "client_date": "2026-10-10",
+  "base_commit": "7a2d059",
+  "scope": "Local implementation of the user-requested overfit chart using existing real inputs; production deployment/main pending approval.",
+  "fixed_rule_source": "research/sox-factor-search/results.json",
+  "search_through": "2026-10-08",
+  "actual_data": {
+    "drawdown": {
+      "selected_n": 10,
+      "selected_r": 0.9212287475065535,
+      "full_n": 44,
+      "full_r": 0.16646941193533416,
+      "new_confirmation_n": 0
+    },
+    "rebound": {
+      "selected_n": 10,
+      "selected_r": 0.9505335489085931,
+      "full_n": 46,
+      "full_r": 0.3778948526042364,
+      "new_confirmation_n": 0
+    },
+    "baseline_drawdown_n": 51,
+    "baseline_rebound_n": 47,
+    "original_n": 14,
+    "local_table_counts": {
+      "sox_daily_inputs": 55,
+      "sox_input_revisions": 110
+    }
+  },
+  "checks": {
+    "research_point_dates_and_values": "passed",
+    "calendar_parity_sessions": 1505,
+    "fixed_factor_tests": "passed",
+    "worker_api_protection": "passed",
+    "overfit_actual_browser": "passed",
+    "existing_actual_browser": "passed",
+    "permission_missing_refresh_browser": "passed",
+    "new_points_stats_and_confirmation_refresh": "passed",
+    "mobile_horizontal_overflow": false,
+    "browser_js_errors": 0,
+    "wrangler_version": "4.136.3",
+    "dry_run": "passed"
+  },
+  "operational_changes": {
+    "production_changed": false,
+    "main_updated": false,
+    "migration_required": false,
+    "collector_config_workflow_schedules_unchanged": true,
+    "raw_prices_exported": false
+  },
+  "preview": {
+    "url": "http://127.0.0.1:8787/#sox-research",
+    "desktop": "/Users/b2sy/.codex/visualizations/2026/10/09/01a11eb3-336c-7e22-b133-136285eb4717/overfit-chart-preview/sox-overfit-charts.png",
+    "mobile": "/Users/b2sy/.codex/visualizations/2026/10/09/01a11eb3-336c-7e22-b133-136285eb4717/overfit-chart-preview/sox-overfit-mobile.png"
+  }
+}
