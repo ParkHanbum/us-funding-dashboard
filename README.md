@@ -81,6 +81,8 @@ The user-requested overfit experiment is isolated in [research/sox-factor-search
 
 High correlations selected after searching the complete sample are exploratory, not validation scores. The later-period split is diagnostic on an already inspected short dataset, not a pristine prospective trading backtest. Treasury inputs are retrospective; the study does not reconstruct historical coupon-adjusted net cash.
 
+After the user clarified that the intended scope was every valid date since 2026-07-20 and single factors only, [the corrected full-period study](research/sox-full-period/report.html) independently fetched July 20–22 and prior context from official sources. Every candidate uses the same 55 drawdown or 54 rebound dates through the available 2026-10-09 closes; no date gates or fitted factor combinations are used. The 4,635 recipes include up to 60-session windows and 40-session lags. Maximum absolute full-sample correlations are about 0.66. This research does not replace the deployed 11/10-point subgroup chart or write production inputs.
+
 ## Production rollout
 
 Production migration, deployment and main changes require the user's approval. For the initial installation, apply `migrations/0033_sox.sql` to the existing D1 before deploying; the migration creates three SOX tables and does not replace the existing schema or database. The frozen overfit chart uses those existing inputs and needs no additional migration. Deploy the verified Worker, check the live results, then publish the repository changes to main.

@@ -1,0 +1,13 @@
+{
+  "client_date": "2026-10-13",
+  "user_scope": "Single-factor correlation over every valid event since 2026-07-20, not a selected 11/10-date subset.",
+  "warmup_from": "2026-05-15",
+  "start": "2026-07-20",
+  "end": "latest available official close, not a fabricated current-date value",
+  "targets": ["existing forward 4-session drawdown", "existing session-5 rebound"],
+  "windows": [1, 2, 3, 4, 5, 6, 8, 10, 15, 20],
+  "lags": [0, 1, 2, 3, 4, 5, 6, 8, 10],
+  "candidate_eligibility": "Every candidate must cover exactly the same complete-outcome dates for its target. Missing X rejects the candidate, never trims dates.",
+  "excluded": ["threshold subgroups", "outcome-dependent date selection", "weighted multi-factor combinations", "multi-factor fitted scores", "nonlinear fitted scores", "fitting pre-July-20 events", "merging original selected events", "missing values as zero"],
+  "production_writes": false
+}

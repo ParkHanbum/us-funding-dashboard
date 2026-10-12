@@ -1,0 +1,12 @@
+{
+  "client_date": "2026-10-13",
+  "reason": "Initial full-sample drawdown leader reached both search boundaries (20-session SD, lag 10); extend historical windows once while preserving all target dates.",
+  "initial_result_file": "initial-results.json",
+  "start": "2026-07-20",
+  "warmup_from": "2026-02-02",
+  "windows": [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60],
+  "lags": [0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40],
+  "fit_dates_and_targets_unchanged": true,
+  "subgroup_or_multi_factor_fit": false,
+  "production_writes": false
+}

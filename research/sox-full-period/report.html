@@ -1,0 +1,30 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>SOX 7월 20일 이후 전체 기간 · 단일 팩터 탐색</title><style>body{margin:0;font:15px/1.75 system-ui,sans-serif;background:#f2f5f8;color:#182b3d}main{max-width:1100px;padding:30px 24px 60px;margin:auto}h1{font-size:28px;letter-spacing:-.04em}h2{font-size:22px}section{background:white;padding:24px;border:1px solid #dce3eb;border-radius:12px;margin:20px 0}.scope{padding:16px;background:#e7eef7;border-radius:10px}img{width:100%;height:auto;display:block}table{width:100%;border-collapse:collapse;min-width:600px}th,td{padding:9px 12px;text-align:left;border-bottom:1px solid #dde3eb;font-size:13px}th{background:#edf2f8}.scroll{overflow-x:auto}a{color:#1964a7}@media(max-width:700px){main{padding:20px 12px}section{padding:15px}}</style>
+    <main><h1>7월 20일 이후 전체 기간 · 단일 팩터 탐색</h1>
+    <div class="scope"><b>2026-07-20~2026-10-09 · 59거래일</b><br>모든 결과가 확정된 날짜를 동일하게 사용했습니다. 날짜 조건·부분 표본·다중 팩터 회귀·비선형 합성 점수는 사용하지 않았습니다.</div>
+    <p>기존 11점/10점 조건부 차트와 다른 실험입니다. 최신 SOX는 2026-10-09, TGA는 2026-10-08까지 발표됐습니다. 누적·시차 팩터 때문에 시작 날짜를 잃지 않도록 2026-02-02부터의 자료는 이전 입력 계산에만 사용했습니다. 7월 20일 이전 이벤트는 상관 계산에 넣지 않았습니다.</p>
+    <p>미래 4거래일 낙폭과 5거래일째 반등이라는 기존 결과 산식은 유지했습니다. 아직 이후 종가가 없는 마지막 날짜는 관측 중으로 남기며 0으로 채우지 않습니다. N은 SOMA 제외 액면 순발행 대용치이고 d는 기존 ΔTGA−N입니다.</p>
+    <p>후보 산식 4,635개: 단일 입력의 누적·절댓값·표준편차·최대 크기, 과거 SOX 수익률·변동성·낙폭·평균 대비 괴리입니다. 구간 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60거래일, 시차 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40거래일을 같은 전체 표본에서 비교했습니다. 결과를 보고 고른 탐색 성적이며 미래 성능을 검증한 값은 아닙니다.</p>
+    <p>처음에는 20일 구간·10일 시차까지 비교했으나 낙폭 최고 후보가 두 경계에 걸려, 60일 구간·40일 시차까지 한 번 확장했습니다. 전체 이벤트 날짜는 그대로입니다. <a href="initial-results.json">첫 탐색 결과</a>와 <a href="extended-plan.json">확장 범위</a>를 함께 보관했습니다.</p>
+    <img src="full-period-single-factors.png" alt="전체 날짜를 모두 포함한 재무부와 SOX 단일 팩터 산점도">
+    <section><h2>4일 낙폭 · 전체 55점</h2>
+        <p>확정 이벤트 2026-07-20~2026-10-05 · 관측 중 4일: 2026-10-06, 2026-10-07, 2026-10-08, 2026-10-09</p>
+        <p><b>재무부 단일 팩터 최상위:</b> 순발행 · 최근 25거래일 일별 크기의 최댓값 · 0거래일 시차 · r=-0.656<br>
+        <b>과거 SOX 단일 팩터 최상위:</b> SOX 최근 8개 종가 최고점 대비 낙폭 · 12거래일 시차 · r=0.578<br>
+        기존 불일치 크기의 전체 표본 r=-0.128</p>
+        <p>재무부 최고 팩터의 X 값은 4종입니다. 이동 최댓값처럼 같은 값이 반복되는 팩터도 모든 날짜를 그대로 포함했으며, 겹친 점을 임의로 흩뜨리지 않았습니다.</p>
+        <p>비교 가능한 단일 팩터 4,633개가 모두 같은 55개 날짜를 사용했습니다. 입력이 부족한 팩터는 날짜를 줄이는 대신 후보에서 제외했습니다.</p>
+        <div class="scroll"><table><thead><tr><th>전체 표본 상관 상위 10개 단일 팩터</th><th>r</th><th>n</th></tr></thead><tbody><tr><td>순발행 · 최근 25거래일 일별 크기의 최댓값 · 0거래일 시차</td><td>-0.656</td><td>55</td></tr><tr><td>TGA 증감 · 최근 25거래일 일별 크기의 최댓값 · 5거래일 시차</td><td>0.655</td><td>55</td></tr><tr><td>TGA 증감 · 최근 30거래일 일별 크기의 최댓값 · 0거래일 시차</td><td>0.640</td><td>55</td></tr><tr><td>TGA 증감 · 최근 50거래일 일별 크기의 최댓값 · 30거래일 시차</td><td>-0.640</td><td>55</td></tr><tr><td>TGA 증감 · 최근 60거래일 일별 크기의 최댓값 · 30거래일 시차</td><td>-0.640</td><td>55</td></tr><tr><td>순발행 · 최근 50거래일 일별 크기의 최댓값 · 30거래일 시차</td><td>-0.640</td><td>55</td></tr><tr><td>순발행 · 최근 25거래일 표준편차 · 5거래일 시차</td><td>0.640</td><td>55</td></tr><tr><td>TGA 증감 · 최근 5거래일 일별 크기의 최댓값 · 25거래일 시차</td><td>0.616</td><td>55</td></tr><tr><td>순발행 · 최근 25거래일 표준편차 · 4거래일 시차</td><td>0.607</td><td>55</td></tr><tr><td>TGA 증감 · 최근 4거래일 일별 크기의 최댓값 · 25거래일 시차</td><td>0.599</td><td>55</td></tr></tbody></table></div>
+        <p><a href="drawdown-ranking.csv">전체 순위 CSV</a></p></section><section><h2>5일째 반등 · 전체 54점</h2>
+        <p>확정 이벤트 2026-07-20~2026-10-02 · 관측 중 5일: 2026-10-05, 2026-10-06, 2026-10-07, 2026-10-08, 2026-10-09</p>
+        <p><b>재무부 단일 팩터 최상위:</b> TGA 증감 · 최근 10거래일 합의 절댓값 · 2거래일 시차 · r=0.646<br>
+        <b>과거 SOX 단일 팩터 최상위:</b> SOX 과거 8거래일 수익률 · 25거래일 시차 · r=0.658<br>
+        기존 불일치 크기의 전체 표본 r=-0.018</p>
+        <p>재무부 최고 팩터의 X 값은 54종입니다. 이동 최댓값처럼 같은 값이 반복되는 팩터도 모든 날짜를 그대로 포함했으며, 겹친 점을 임의로 흩뜨리지 않았습니다.</p>
+        <p>비교 가능한 단일 팩터 4,633개가 모두 같은 54개 날짜를 사용했습니다. 입력이 부족한 팩터는 날짜를 줄이는 대신 후보에서 제외했습니다.</p>
+        <div class="scroll"><table><thead><tr><th>전체 표본 상관 상위 10개 단일 팩터</th><th>r</th><th>n</th></tr></thead><tbody><tr><td>SOX 과거 8거래일 수익률 · 25거래일 시차</td><td>0.658</td><td>54</td></tr><tr><td>TGA 증감 · 최근 10거래일 합의 절댓값 · 2거래일 시차</td><td>0.646</td><td>54</td></tr><tr><td>SOX 최근 4개 종가 최고점 대비 낙폭 · 0거래일 시차</td><td>0.615</td><td>54</td></tr><tr><td>SOX 최근 5개 종가 최고점 대비 낙폭 · 0거래일 시차</td><td>0.594</td><td>54</td></tr><tr><td>순발행 · 최근 5거래일 표준편차 · 12거래일 시차</td><td>-0.585</td><td>54</td></tr><tr><td>SOX 과거 12거래일 수익률 · 20거래일 시차</td><td>0.572</td><td>54</td></tr><tr><td>순발행 · 최근 6거래일 표준편차 · 12거래일 시차</td><td>-0.565</td><td>54</td></tr><tr><td>SOX 최근 3개 종가 최고점 대비 낙폭 · 0거래일 시차</td><td>0.564</td><td>54</td></tr><tr><td>순발행 · 최근 8거래일 표준편차 · 25거래일 시차</td><td>0.562</td><td>54</td></tr><tr><td>SOX 최근 6개 종가 최고점 대비 낙폭 · 0거래일 시차</td><td>0.560</td><td>54</td></tr></tbody></table></div>
+        <p><a href="rebound-ranking.csv">전체 순위 CSV</a></p></section>
+    <section><h2>자료와 확인</h2><p>7월 20~22일 자료를 원본 14개 탐색 이벤트에서 복사하지 않고 공식 출처에서 독립 조회했습니다. 운영 자료와 겹치는 56일을 대조했으며 값 차이는 0건입니다. 미래 입력을 바꿔도 이전 팩터 값이 동일한지 확인했습니다. 원시 SOX 종가는 내보내지 않았습니다.</p>
+    <p>자료: <a href="https://fiscaldata.treasury.gov/datasets/daily-treasury-statement/operating-cash-balance">Treasury DTS</a> · <a href="https://fiscaldata.treasury.gov/datasets/monthly-statement-public-debt/">MSPD</a> · <a href="https://fred.stlouisfed.org/series/NASDAQSOX">FRED/Nasdaq SOX</a></p>
+    <p><a href="all-dates.csv">전체 날짜와 상태 CSV</a> · <a href="all-single-factors.csv">전체 단일 팩터 행렬</a> · <a href="factor-definitions.json">팩터 정의</a> · <a href="results.json">결과 JSON</a></p>
+    <p>2026-10-13 개인·비상업 연구 · 운영 DB와 배포된 차트는 이 분석으로 변경하지 않았습니다.</p></section></main></html>

@@ -1,0 +1,405 @@
+{
+  "source": {
+    "fetched_at": "2026-10-12T16:18:45.061875+00:00",
+    "requested_from": "2026-07-20",
+    "requested_through": "2026-10-09",
+    "warmup_from": "2026-05-15",
+    "latest_tga": "2026-10-08",
+    "latest_sox": "2026-10-09",
+    "inventory_snapshots": [
+      "2026-04-30",
+      "2026-05-31",
+      "2026-06-30",
+      "2026-07-31",
+      "2026-08-31",
+      "2026-09-30"
+    ],
+    "auction_rows": 199,
+    "private_rows": 102,
+    "event_sessions": 59,
+    "missing_macro_event_dates": [
+      "2026-10-09"
+    ],
+    "source_urls": [
+      "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/operating_cash_balance",
+      "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_3_market",
+      "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query",
+      "https://fred.stlouisfed.org/series/NASDAQSOX"
+    ]
+  },
+  "start": "2026-07-20",
+  "candidate_recipes": 1701,
+  "windows": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    10,
+    15,
+    20
+  ],
+  "lags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    10
+  ],
+  "rules": {
+    "same_complete_outcome_dates_for_every_candidate": true,
+    "each_candidate_must_cover_every_date": true,
+    "date_threshold_or_subgroup_selection": false,
+    "multi_factor_regression": false,
+    "nonlinear_fitted_score": false,
+    "target_horizons_changed": false,
+    "warmup_is_context_only_not_fitted_sample": true
+  },
+  "checks": {
+    "future_input_independence": "passed",
+    "calendar_continuity": "passed",
+    "production_overlap_dates": 56,
+    "production_overlap_differences": [],
+    "raw_prices_exported": false
+  },
+  "targets": {
+    "drawdown": {
+      "n": 55,
+      "complete_dates": [
+        "2026-07-20",
+        "2026-07-21",
+        "2026-07-22",
+        "2026-07-23",
+        "2026-07-24",
+        "2026-07-27",
+        "2026-07-28",
+        "2026-07-29",
+        "2026-07-30",
+        "2026-07-31",
+        "2026-08-03",
+        "2026-08-04",
+        "2026-08-05",
+        "2026-08-06",
+        "2026-08-07",
+        "2026-08-10",
+        "2026-08-11",
+        "2026-08-12",
+        "2026-08-13",
+        "2026-08-14",
+        "2026-08-17",
+        "2026-08-18",
+        "2026-08-19",
+        "2026-08-20",
+        "2026-08-21",
+        "2026-08-24",
+        "2026-08-25",
+        "2026-08-26",
+        "2026-08-27",
+        "2026-08-28",
+        "2026-08-31",
+        "2026-09-01",
+        "2026-09-02",
+        "2026-09-03",
+        "2026-09-04",
+        "2026-09-08",
+        "2026-09-09",
+        "2026-09-10",
+        "2026-09-11",
+        "2026-09-14",
+        "2026-09-15",
+        "2026-09-16",
+        "2026-09-17",
+        "2026-09-18",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23",
+        "2026-09-24",
+        "2026-09-25",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-05"
+      ],
+      "pending_dates": [
+        "2026-10-06",
+        "2026-10-07",
+        "2026-10-08",
+        "2026-10-09"
+      ],
+      "baseline": {
+        "feature": "d_abs_sum_1_lag0",
+        "n": 55,
+        "r": -0.1282231094189567
+      },
+      "best_overall": {
+        "feature": "delta_TGA_std_20_lag10",
+        "family": "treasury",
+        "description": "TGA 증감 · 최근 20거래일 표준편차 · 10거래일 시차",
+        "n": 55,
+        "r": 0.5897089532910562
+      },
+      "best_treasury": {
+        "feature": "delta_TGA_std_20_lag10",
+        "family": "treasury",
+        "description": "TGA 증감 · 최근 20거래일 표준편차 · 10거래일 시차",
+        "n": 55,
+        "r": 0.5897089532910562
+      },
+      "best_market": {
+        "feature": "SOX_vol_8_lag10",
+        "family": "market",
+        "description": "SOX 과거 8거래일 일간 로그수익률의 표준편차 · 10거래일 시차",
+        "n": 55,
+        "r": 0.5139479977730089
+      },
+      "eligible_nonconstant_candidates": 1701,
+      "incomplete_candidates": [],
+      "top_10": [
+        {
+          "feature": "delta_TGA_std_20_lag10",
+          "family": "treasury",
+          "description": "TGA 증감 · 최근 20거래일 표준편차 · 10거래일 시차",
+          "n": 55,
+          "r": 0.5897089532910562
+        },
+        {
+          "feature": "delta_TGA_max_abs_20_lag10",
+          "family": "treasury",
+          "description": "TGA 증감 · 최근 20거래일 일별 크기의 최댓값 · 10거래일 시차",
+          "n": 55,
+          "r": 0.5846871023171463
+        },
+        {
+          "feature": "delta_TGA_abs_sum_15_lag10",
+          "family": "treasury",
+          "description": "TGA 증감 · 최근 15거래일 합의 절댓값 · 10거래일 시차",
+          "n": 55,
+          "r": 0.5574040970525356
+        },
+        {
+          "feature": "SOX_vol_8_lag10",
+          "family": "market",
+          "description": "SOX 과거 8거래일 일간 로그수익률의 표준편차 · 10거래일 시차",
+          "n": 55,
+          "r": 0.5139479977730089
+        },
+        {
+          "feature": "SOX_vol_10_lag8",
+          "family": "market",
+          "description": "SOX 과거 10거래일 일간 로그수익률의 표준편차 · 8거래일 시차",
+          "n": 55,
+          "r": 0.4883491626872785
+        },
+        {
+          "feature": "delta_TGA_sum_abs_20_lag10",
+          "family": "treasury",
+          "description": "TGA 증감 · 최근 20거래일 일별 절댓값의 합 · 10거래일 시차",
+          "n": 55,
+          "r": 0.48046550373742286
+        },
+        {
+          "feature": "SOX_vol_10_lag10",
+          "family": "market",
+          "description": "SOX 과거 10거래일 일간 로그수익률의 표준편차 · 10거래일 시차",
+          "n": 55,
+          "r": 0.4803951975858113
+        },
+        {
+          "feature": "d_std_20_lag10",
+          "family": "treasury",
+          "description": "기존 잔차 ΔTGA−N · 최근 20거래일 표준편차 · 10거래일 시차",
+          "n": 55,
+          "r": 0.4784047205742707
+        },
+        {
+          "feature": "N_sum_abs_4_lag5",
+          "family": "treasury",
+          "description": "순발행 · 최근 4거래일 일별 절댓값의 합 · 5거래일 시차",
+          "n": 55,
+          "r": 0.4727071648207695
+        },
+        {
+          "feature": "N_sum_4_lag5",
+          "family": "treasury",
+          "description": "순발행 · 최근 4거래일 부호 있는 합 · 5거래일 시차",
+          "n": 55,
+          "r": 0.4723272847091422
+        }
+      ]
+    },
+    "rebound": {
+      "n": 54,
+      "complete_dates": [
+        "2026-07-20",
+        "2026-07-21",
+        "2026-07-22",
+        "2026-07-23",
+        "2026-07-24",
+        "2026-07-27",
+        "2026-07-28",
+        "2026-07-29",
+        "2026-07-30",
+        "2026-07-31",
+        "2026-08-03",
+        "2026-08-04",
+        "2026-08-05",
+        "2026-08-06",
+        "2026-08-07",
+        "2026-08-10",
+        "2026-08-11",
+        "2026-08-12",
+        "2026-08-13",
+        "2026-08-14",
+        "2026-08-17",
+        "2026-08-18",
+        "2026-08-19",
+        "2026-08-20",
+        "2026-08-21",
+        "2026-08-24",
+        "2026-08-25",
+        "2026-08-26",
+        "2026-08-27",
+        "2026-08-28",
+        "2026-08-31",
+        "2026-09-01",
+        "2026-09-02",
+        "2026-09-03",
+        "2026-09-04",
+        "2026-09-08",
+        "2026-09-09",
+        "2026-09-10",
+        "2026-09-11",
+        "2026-09-14",
+        "2026-09-15",
+        "2026-09-16",
+        "2026-09-17",
+        "2026-09-18",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23",
+        "2026-09-24",
+        "2026-09-25",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02"
+      ],
+      "pending_dates": [
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07",
+        "2026-10-08",
+        "2026-10-09"
+      ],
+      "baseline": {
+        "feature": "d_abs_sum_4_lag0",
+        "n": 54,
+        "r": -0.018443525680160177
+      },
+      "best_overall": {
+        "feature": "delta_TGA_abs_sum_10_lag2",
+        "family": "treasury",
+        "description": "TGA 증감 · 최근 10거래일 합의 절댓값 · 2거래일 시차",
+        "n": 54,
+        "r": 0.6462287643509562
+      },
+      "best_treasury": {
+        "feature": "delta_TGA_abs_sum_10_lag2",
+        "family": "treasury",
+        "description": "TGA 증감 · 최근 10거래일 합의 절댓값 · 2거래일 시차",
+        "n": 54,
+        "r": 0.6462287643509562
+      },
+      "best_market": {
+        "feature": "SOX_past_drawdown_4_lag0",
+        "family": "market",
+        "description": "SOX 최근 4개 종가 최고점 대비 낙폭 · 0거래일 시차",
+        "n": 54,
+        "r": 0.6151721964916795
+      },
+      "eligible_nonconstant_candidates": 1701,
+      "incomplete_candidates": [],
+      "top_10": [
+        {
+          "feature": "delta_TGA_abs_sum_10_lag2",
+          "family": "treasury",
+          "description": "TGA 증감 · 최근 10거래일 합의 절댓값 · 2거래일 시차",
+          "n": 54,
+          "r": 0.6462287643509562
+        },
+        {
+          "feature": "SOX_past_drawdown_4_lag0",
+          "family": "market",
+          "description": "SOX 최근 4개 종가 최고점 대비 낙폭 · 0거래일 시차",
+          "n": 54,
+          "r": 0.6151721964916795
+        },
+        {
+          "feature": "SOX_past_drawdown_5_lag0",
+          "family": "market",
+          "description": "SOX 최근 5개 종가 최고점 대비 낙폭 · 0거래일 시차",
+          "n": 54,
+          "r": 0.5942115533412744
+        },
+        {
+          "feature": "SOX_past_drawdown_3_lag0",
+          "family": "market",
+          "description": "SOX 최근 3개 종가 최고점 대비 낙폭 · 0거래일 시차",
+          "n": 54,
+          "r": 0.5643463489826736
+        },
+        {
+          "feature": "SOX_past_drawdown_6_lag0",
+          "family": "market",
+          "description": "SOX 최근 6개 종가 최고점 대비 낙폭 · 0거래일 시차",
+          "n": 54,
+          "r": 0.5604893441023241
+        },
+        {
+          "feature": "delta_TGA_abs_sum_10_lag1",
+          "family": "treasury",
+          "description": "TGA 증감 · 최근 10거래일 합의 절댓값 · 1거래일 시차",
+          "n": 54,
+          "r": 0.5554846966739188
+        },
+        {
+          "feature": "SOX_ma_deviation_4_lag0",
+          "family": "market",
+          "description": "SOX 최근 4개 종가 평균 대비 괴리율 · 0거래일 시차",
+          "n": 54,
+          "r": -0.5475815431527138
+        },
+        {
+          "feature": "SOX_ma_deviation_5_lag0",
+          "family": "market",
+          "description": "SOX 최근 5개 종가 평균 대비 괴리율 · 0거래일 시차",
+          "n": 54,
+          "r": -0.5452949711305295
+        },
+        {
+          "feature": "delta_TGA_abs_sum_8_lag3",
+          "family": "treasury",
+          "description": "TGA 증감 · 최근 8거래일 합의 절댓값 · 3거래일 시차",
+          "n": 54,
+          "r": 0.5440155548723857
+        },
+        {
+          "feature": "delta_TGA_abs_sum_10_lag3",
+          "family": "treasury",
+          "description": "TGA 증감 · 최근 10거래일 합의 절댓값 · 3거래일 시차",
+          "n": 54,
+          "r": 0.5419688523612924
+        }
+      ]
+    }
+  }
+}
