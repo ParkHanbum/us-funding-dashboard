@@ -26,7 +26,7 @@ const report={model_id:'tga-public-face-residual-v1',schema_version:1,public_use
 assert.equal((await handleSox(req('/api/sox/ingest',{report,status:{state:'LICENSE_REQUIRED'}},true),env)).status,200);
 const pub=await (await handleSox(req('/api/sox'),env)).json();
 assert.equal(pub.live.points.drawdown.length,0);assert.equal(pub.live.sox_close,undefined);assert.equal(pub.live.raw_data,undefined);
-assert.equal(pub.overfit,null);
+assert.equal('overfit' in pub,false);
 assert.equal((await handleSox(req('/api/sox/state',undefined,true),env)).status,200);
 assert.equal((await handleSox(req('/api/sox/not-real'),env)).status,404);
 
@@ -64,7 +64,7 @@ assert.equal(personal.live.latest_macro.drawdown_pct,2);
 assert.equal(personal.live.latest_macro.sox_close,undefined);
 assert.equal(personal.live.points.drawdown[0].sox_close,undefined);
 assert.equal(personal.live.sources.sox.sox_close,undefined);
-assert.equal(personal.overfit.selection,'POSTHOC_X_ONLY_RULES_FROZEN');
+assert.equal('overfit' in personal,false);
 data.inputs=[{payload_json:JSON.stringify({date:'2026-10-01',tga_bn:100,prior_tga_bn:90,net_issuance_bn:10,sox_close:12345,raw_data:'PRIVATE_INPUT'})}];
 const withPrivateInputs=await (await handleSox(req('/api/sox'),env)).json();
 assert(!JSON.stringify(withPrivateInputs).includes('sox_close'));
@@ -75,5 +75,5 @@ await handleSox(req('/api/sox/ingest',{report:{...personalReport,personal_use_co
 const revoked=await (await handleSox(req('/api/sox'),env)).json();
 assert.equal(revoked.live.points.drawdown.length,0);
 assert.equal(revoked.live.latest_macro.drawdown_pct,null);
-assert.equal(revoked.overfit,null,'Revoking analysis scope hides the new derived chart too.');
+assert.equal('overfit' in revoked,false,'Removed chart is never returned.');
 console.log('Worker routes/auth/validation/publication guards: passed');
