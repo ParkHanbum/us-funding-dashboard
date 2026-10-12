@@ -1,0 +1,119 @@
+{
+  "checked_at": "2026-10-12T16:57:48.443Z",
+  "timezone": "Asia/Seoul",
+  "scope": "Remove entire SOX correlation section",
+  "url": "https://us-funding-dashboard.nb2sy.workers.dev",
+  "source_commit": "8569a1cd3ddee9d5da7c36c531ab59855dfb40b1",
+  "deployment_version": "4c6ed7c4-78ee-464a-8041-c247537ac45b",
+  "endpoints": [
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/summary",
+      "status": 200
+    },
+    {
+      "path": "/api/settlements",
+      "status": 200
+    },
+    {
+      "path": "/api/liquidity",
+      "status": 200
+    },
+    {
+      "path": "/api/sox",
+      "status": 200
+    },
+    {
+      "path": "/api/sox/status",
+      "status": 200
+    },
+    {
+      "path": "/api/sox/state",
+      "status": 401
+    }
+  ],
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "123da99cdc53277c08b6a155b476900b5af84244340cb65cd428f90bc40ca1bd",
+      "matches": true
+    },
+    {
+      "file": "app.js",
+      "sha256": "f25825165830ec1b406438ce4a690a1c450ae22a6eeef32c9bc60d1eb42d5230",
+      "matches": true
+    },
+    {
+      "file": "styles.css",
+      "sha256": "5597a0d886be50729ebfe382304b866d0d8ad1b306aef2cbaddccb46b814a276",
+      "matches": true
+    }
+  ],
+  "baseline_preserved": {
+    "reference": true,
+    "daily_points": true,
+    "daily_statistics": true,
+    "drawdown_n": 52,
+    "rebound_n": 48
+  },
+  "removed": {
+    "dashboard_sox_section": true,
+    "sox_assets": true,
+    "overfit_response": true
+  },
+  "configuration_preserved": {
+    "worker_cron": "0 * * * *",
+    "workflow_cron": "17 * * * *",
+    "d1_id": "32c13b0f-bb9b-49c5-a5b2-281ebc00fa8e",
+    "public_use_confirmed": false,
+    "personal_use_confirmed": true,
+    "collectors": true,
+    "secret_references": true
+  },
+  "database_migration": false,
+  "database_writes": false,
+  "raw_sox_prices_exposed": false,
+  "repository": {
+    "main_verified_at": "2026-10-12T16:59:28.869Z",
+    "main_source_commit": "8569a1cd3ddee9d5da7c36c531ab59855dfb40b1",
+    "html_matches": true,
+    "workflow_count": 1,
+    "workflow_state": "active",
+    "force_push": false
+  },
+  "validation": {
+    "worker_routes_auth_publication": "passed",
+    "javascript_syntax": "passed",
+    "diff_check": "passed",
+    "wrangler_dry_run": "passed",
+    "local_browser": {
+      "result": "passed",
+      "core_endpoints": 4,
+      "cards": 8,
+      "panels": 5,
+      "settlement_days": 0,
+      "liquidity_days": 5,
+      "sox_requests": 0,
+      "page_errors": 0,
+      "mobile_width": 390
+    },
+    "production_browser": {
+      "result": "passed",
+      "core_endpoints": 4,
+      "cards": 8,
+      "panels": 5,
+      "settlement_days": 2,
+      "liquidity_days": 5,
+      "sox_requests": 0,
+      "page_errors": 0,
+      "mobile_width": 390
+    }
+  },
+  "screenshots": {
+    "local": "/Users/b2sy/.codex/visualizations/2026/10/09/01a11eb3-336c-7e22-b133-136285eb4717/sox-removal-2026-10-13/local",
+    "production": "/Users/b2sy/.codex/visualizations/2026/10/09/01a11eb3-336c-7e22-b133-136285eb4717/sox-removal-2026-10-13/production"
+  }
+}

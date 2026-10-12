@@ -168,7 +168,11 @@ workflow는 기존 1개/active, 예약 시각과 D1 binding·Worker URL은 기�
 
 로컬 Worker에서 읽기 전용 대시보드 브라우저 검사를 통과했다. 이전 `#sox-research` 주소로 접속해도 기본 자금 화면이 열리며 SOX 영역·전용 파일·API 요청은 없다. 자금 패널 5개, 카드 8개, 히트맵 5일, 390px 모바일 폭과 JavaScript 오류 0건을 확인했다. 로컬 DB에는 기존 자금 지표·예정 정산 자료가 없으므로 실제 값·정산 표시는 운영에서 별도로 검증한다. Worker 인증·입력·결과 공개 보호 검사, 변경된 JS 문법 검사와 `git diff --check`를 통과했고 Wrangler 4.136.3 배포 dry run도 성공했다.
 
-운영 배포·main 반영과 확인 결과는 이후 이 항목에 기록한다. 실제 로컬 입력을 보존하기 위해 fixture를 쓰는 runtime 테스트를 기존 DB에 실행하지 않았다.
+기존 Worker에 삭제 소스 커밋 `8569a1c`를 배포했다. 배포 버전은 `4c6ed7c4-78ee-464a-8041-c247537ac45b`이고 기존 URL·시간당 예약 실행을 유지했다. 운영 HTML에는 SOX 참조가 없으며 HTML·기존 app.js·styles.css가 작업 파일과 바이트 단위로 일치했다. 운영 브라우저에서 실제 자금 값, 예정 정산 2일, 히트맵 5일, 카드 8개/패널 5개, 390px 모바일 폭, SOX 요청 및 JavaScript 오류 0건을 확인했다. 기존 해시 주소로 접속해도 대시보드가 정상 표시됐다.
+
+삭제 전후 기본 일별 표본 52/48점의 모든 좌표·통계와 원본 14점이 동일했다. 과적합 응답 필드만 사라졌으며 일반 공개 이용 false·개인 이용 true를 유지했다. 운영 health/summary/settlements/liquidity/sox/status는 HTTP 200, 인증 없는 SOX state는 HTTP 401이었다. DB migration·운영 DB 입력 변경은 실행하지 않았다. 실제 로컬 입력을 보존하기 위해 fixture를 쓰는 runtime 테스트를 기존 DB에 실행하지 않았다.
+
+main에 강제 push 없이 반영한 뒤 공개 GitHub API에서 `8569a1c`와 HTML 일치를 확인했다. workflow는 기존 1개/active를 유지했다. 이전 요청의 전체 기간 단일 팩터 정정 연구도 이력으로 함께 저장했으며 대시보드에 다시 넣지 않았다. [삭제·운영 검증 기록](research/sox-validation/2026-10-13-sox-chart-removal.json)에 배포 버전, 보존 확인, 파일 해시와 브라우저 결과를 기록했다.
 
 ## 운영 반영에 사용한 순서
 
