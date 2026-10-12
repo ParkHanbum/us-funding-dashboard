@@ -32,11 +32,3 @@ jobs:
           TREASURY_INGEST_URL: https://us-funding-dashboard.nb2sy.workers.dev/api/treasury-ingest
           TREASURY_INGEST_TOKEN: ${{ secrets.TREASURY_INGEST_TOKEN }}
         run: python scripts/treasury_collector.py
-
-      - name: SOX research (daily snapshot)
-        if: ${{ !cancelled() }}
-        timeout-minutes: 4
-        env:
-          TREASURY_INGEST_URL: https://us-funding-dashboard.nb2sy.workers.dev/api/treasury-ingest
-          TREASURY_INGEST_TOKEN: ${{ secrets.TREASURY_INGEST_TOKEN }}
-        run: python scripts/sox_daily.py

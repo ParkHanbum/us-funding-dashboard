@@ -2,19 +2,19 @@
 
 Cloudflare Worker + D1 dashboard for funding rates, Treasury settlements and coupon-adjusted liquidity risk.
 
-The entire SOX correlation section was removed at the user's request on 2026-10-13, including its daily, original and overfit tabs. The dashboard loads only the funding panels. The existing data collector, research history, Worker hourly cron, D1 binding and ingest secret remain in place.
+The entire SOX correlation section was removed at the user's request on 2026-10-13, including its daily, original and overfit tabs. SOX automatic collection was then stopped by removing its step from the existing workflow. The dashboard loads only the funding panels. Funding collection continues with the original Treasury step and Worker hourly cron; research history, D1 binding and ingest secret remain in place.
 
 ## Retained SOX data and research
 
 - Original sample: six U1/drawdown points and eight U4/rebound points, with separate descriptive regressions.
 - Daily sample: every eligible session under `tga-public-face-residual-v1`, with no outcome-based event selection.
-- The SOX API and collection retain the original and daily samples separately; the dashboard does not request or render them.
+- The SOX API retains the original and last collected daily samples separately; the dashboard does not request or render them. New SOX snapshots are not scheduled.
 - The model measures absolute mismatch magnitude, not a signed net cash drain: `U1 = |ΔTGA − N|`; `ΔTGA` is a balance change. Reversing the subtraction gives the same magnitude. U4 sums the signed residuals first.
 - Missing inputs and prices remain unavailable. A verified no-principal day may be a genuine zero; an unverified maturity cannot.
 - The model uses face-value issuance less SOMA and verified public maturity estimates. It is separate from the existing coupon-adjusted cash-flow heatmap.
 - Input revisions retain hashes and the first complete observation time. Outcomes require the following four/five market sessions.
 
-`config/sox-model.json` retains `sox.public_use_confirmed=false` and records the user's confirmed personal, noncommercial research use as `sox.personal_use_confirmed=true`. This mode downloads SOX closes and retains derived results with Nasdaq/FRED source metadata. It does not claim a general service or redistribution license. [FRED's terms](https://fred.stlouisfed.org/legal/) allow personal or noncommercial educational use of pre-approval series; other uses require the data owner's permission. [NASDAQSOX](https://fred.stlouisfed.org/series/NASDAQSOX) is owned by Nasdaq.
+`config/sox-model.json` retains `sox.public_use_confirmed=false` and records the user's confirmed personal, noncommercial research use as `sox.personal_use_confirmed=true`. These analysis-scope flags do not schedule collection; the automatic SOX workflow step is absent. If explicitly run for research, the collector retains derived results with Nasdaq/FRED source metadata. It does not claim a general service or redistribution license. [FRED's terms](https://fred.stlouisfed.org/legal/) allow personal or noncommercial educational use of pre-approval series; other uses require the data owner's permission. [NASDAQSOX](https://fred.stlouisfed.org/series/NASDAQSOX) is owned by Nasdaq.
 
 The two confirmations are separate. Turning both off stops SOX collection and hides derived outcomes (`LICENSE_REQUIRED`), while retaining private revision history and continuing Treasury updates. Raw SOX closes remain restricted to the authenticated inputs endpoint in either mode. The daily FRED CSV download uses curl, which is available on the existing GitHub Ubuntu runner, with request/time/size limits. It does not scrape the HTML graph page.
 
@@ -32,9 +32,9 @@ U4_t = |d_t + d_(t−1) + d_(t−2) + d_(t−3)|
 session-5 rebound = 100 × [P_(t+5) / min(P_t,…,P_(t+4)) − 1]
 ```
 
-The existing `Treasury collector` workflow has one additional SOX step. Both original schedules stay unchanged. After the initial/configuration-change run, the daily gate opens at 18:00 America/New_York. Failed attempts remain eligible for retry; successful snapshots are not repeated that day.
+The existing `Treasury collector` workflow now runs only its original Treasury collection step after checkout and Python setup. Its `17 * * * *` cron, manual trigger and existing environment remain unchanged. The Worker continues its `0 * * * *` funding-metric updates. Neither automatic path invokes `scripts/sox_daily.py`; no Worker redeployment or DB migration is needed to stop the SOX step.
 
-If FRED has not yet published the latest closed market session, the collector keeps prior points and reports `WAITING_SOURCE_UPDATE`. That attempt does not complete the daily gate: the next existing workflow run retries, including across midnight when publication arrives late. Weekends and market holidays use the latest actual trading session rather than wait for a nonexistent close.
+The retained SOX script has its own daily gate and source-publication retry handling for explicit research runs. It is no longer called by scheduled or manually dispatched Treasury workflows.
 
 ## Local checks
 
@@ -81,7 +81,7 @@ After the user clarified that the intended scope was every valid date since 2026
 
 Production migration, deployment and main changes require the user's approval. For the initial installation, apply `migrations/0033_sox.sql` to the existing D1 before deploying; the migration creates three SOX tables and does not replace the existing schema or database. Chart removal requires no migration or data deletion. Deploy the verified Worker, check the live results, then publish the repository changes to main.
 
-Keep the current `wrangler.jsonc`, D1 ID, Worker URL, cron schedules and `TREASURY_INGEST_TOKEN`. Keep the general SOX public-use flag disabled until permission for that scope is confirmed. The user's personal research confirmation enables the existing workflow to collect Treasury and SOX inputs and retain the daily results without adding a workflow or schedule.
+Keep the current `wrangler.jsonc`, D1 ID, Worker URL, cron schedules and `TREASURY_INGEST_TOKEN`. Keep the general SOX public-use flag disabled until permission for that scope is confirmed. Personal research confirmation remains recorded, but collection is controlled separately: the workflow currently collects Treasury inputs only.
 
 Retained data endpoints: `/api/sox` and `/api/sox/status`. The former serves the derived results for the confirmed analysis scope. `/api/sox/state` and `/api/sox/ingest` require the existing ingest token. Responses exclude raw SOX closes at both top level and inside nested report structures, and hide outcomes when neither scope is confirmed. The funding dashboard does not call these endpoints.
 

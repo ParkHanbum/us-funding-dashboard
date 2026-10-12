@@ -2,7 +2,7 @@
 
 검증일: 2026-10-09, Asia/Seoul. 작업 브랜치: `codex/sox-v3.3`.
 
-현재 구성(2026-10-13): 사용자 요청으로 SOX 상관 차트 영역 전체를 제거했다. 아래의 이전 차트 검증 기록은 작업 이력이며 현재 대시보드에 해당 탭은 없다. 데이터·수집·연구 파일은 유지한다.
+현재 구성(2026-10-13): 사용자 요청으로 SOX 상관 차트 영역 전체를 제거한 뒤 SOX 자동수집도 중단했다. 기존 자금 지표·Treasury 자동수집은 계속 실행한다. 아래의 이전 차트 검증 기록은 작업 이력이며 현재 대시보드에 해당 탭은 없다. 저장된 데이터·연구 파일은 유지한다.
 
 ## 적용 기준
 
@@ -173,6 +173,14 @@ workflow는 기존 1개/active, 예약 시각과 D1 binding·Worker URL은 기�
 삭제 전후 기본 일별 표본 52/48점의 모든 좌표·통계와 원본 14점이 동일했다. 과적합 응답 필드만 사라졌으며 일반 공개 이용 false·개인 이용 true를 유지했다. 운영 health/summary/settlements/liquidity/sox/status는 HTTP 200, 인증 없는 SOX state는 HTTP 401이었다. DB migration·운영 DB 입력 변경은 실행하지 않았다. 실제 로컬 입력을 보존하기 위해 fixture를 쓰는 runtime 테스트를 기존 DB에 실행하지 않았다.
 
 main에 강제 push 없이 반영한 뒤 공개 GitHub API에서 `8569a1c`와 HTML 일치를 확인했다. workflow는 기존 1개/active를 유지했다. 이전 요청의 전체 기간 단일 팩터 정정 연구도 이력으로 함께 저장했으며 대시보드에 다시 넣지 않았다. [삭제·운영 검증 기록](research/sox-validation/2026-10-13-sox-chart-removal.json)에 배포 버전, 보존 확인, 파일 해시와 브라우저 결과를 기록했다.
+
+## SOX 자동수집 중단 (2026-10-13)
+
+사용자가 차트 삭제 후 ‘SOX 자동수집도 꺼줘. 기존 자금 지표 자동업데이트는 그대로 두고’라고 요청했다. 기존 `Treasury collector` workflow에서 `SOX research (daily snapshot)` 단계만 제거했다. checkout·Python 설정·Treasury 수집 단계와 수동 실행 트리거, GitHub cron `17 * * * *`, workflow 개수는 유지한다. Worker의 `collectAll`은 NY Fed·RRP·SRF·Fed 자금 지표만 수집하며 SOX 스크립트를 호출하지 않는다. Worker 코드·cron `0 * * * *`과 대시보드의 5분 갱신도 그대로다.
+
+SOX 이용 확인을 취소하는 변경과 구분하여 `config/sox-model.json`은 수정하지 않았다. 저장된 SOX 자료·수정 이력·분석 보고서는 보존한다. 이번 변경은 GitHub main의 workflow 반영으로 적용하며 Worker 재배포·DB migration·DB 입력 변경·secret 변경은 필요하지 않다.
+
+YAML을 해석해 기존 workflow에서 SOX 단계 하나를 제외하면 나머지 설정·단계와 완전히 동일함을 확인했다. src/public/scripts/config/migrations 전체와 wrangler/schema/package 파일이 이전 main과 바이트 단위로 동일했다. workflow는 1개, 남은 단계는 checkout·Python 설정·Treasury 수집의 3개이며 자동 경로에서 SOX 스크립트를 실행하지 않는다. 운영 health/summary/settlements/liquidity는 HTTP 200이고 자금 지표 7개가 정상 제공됐다. 운영 Worker의 2026-10-13 02:02:03~02:02:11(한국 시각) 수집은 `ok=1`로 완료됐다. 이는 기존 자금 수집 확인이며 변경 후 GitHub 예약 실행을 미리 실행했다는 의미는 아니다.
 
 ## 운영 반영에 사용한 순서
 
