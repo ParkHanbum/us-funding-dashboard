@@ -1,0 +1,127 @@
+{
+  "checked_at": "2026-10-12T15:48:55.900Z",
+  "client_date": "2026-10-13",
+  "production_url": "https://us-funding-dashboard.nb2sy.workers.dev/#sox-research",
+  "checks": {
+    "public_api": "passed",
+    "selected_subset_rules_and_stats": "passed",
+    "prior_baseline_and_reference_preserved": true,
+    "raw_prices_excluded": true,
+    "production_assets_match_local": true,
+    "actual_browser": "passed",
+    "mobile_horizontal_overflow": false,
+    "browser_js_errors": 0,
+    "endpoints": {
+      "/api/health": 200,
+      "/api/summary": 200,
+      "/api/settlements": 200,
+      "/api/liquidity": 200,
+      "/api/sox/status": 200,
+      "/api/sox/state": 401
+    }
+  },
+  "data": {
+    "status": "READY",
+    "latest_macro": "2026-10-08",
+    "latest_sox": "2026-10-09",
+    "baseline": {
+      "drawdown": {
+        "n": 52,
+        "r": -0.16855210947323293,
+        "slope": -0.020992722041917464,
+        "intercept": 2.964089975815945
+      },
+      "rebound": {
+        "n": 48,
+        "r": -0.05602414338446393,
+        "slope": -0.004822114363815586,
+        "intercept": 3.965190073852016
+      }
+    },
+    "selected": {
+      "drawdown": {
+        "n": 11,
+        "r": 0.9160704378059377,
+        "slope": 0.06863261419241425,
+        "intercept": -1.1334006718213416
+      },
+      "rebound": {
+        "n": 10,
+        "r": 0.9505335489085931,
+        "slope": 0.09052870274229038,
+        "intercept": 0.2038195610863589
+      }
+    },
+    "full_sample": {
+      "drawdown": {
+        "n": 45,
+        "r": 0.15683996324611432,
+        "slope": 0.007504223358476324,
+        "intercept": 1.3898996131896029
+      },
+      "rebound": {
+        "n": 47,
+        "r": 0.3672961515352652,
+        "slope": 0.03424982545792639,
+        "intercept": 1.342553229087272
+      }
+    },
+    "new_confirmations": {
+      "drawdown": {
+        "n": 1,
+        "r": null,
+        "slope": null,
+        "intercept": null
+      },
+      "rebound": {
+        "n": 0,
+        "r": null,
+        "slope": null,
+        "intercept": null
+      }
+    }
+  },
+  "asset_sha256": {
+    "index.html": "c639be7d5e9452e4d676862c23d0a9d294a987c59ee397b94c9ae9cd7a995719",
+    "sox-panel.js": "b2c99bfbc1c49aa059694afa63899155f5bf8350642a09592ff6d725b0bf658a",
+    "sox-panel.css": "335b97ddca97b1c22657d9ef54c064e0a012fba199a95fc87e38da8a571d22a9",
+    "app.js": "f25825165830ec1b406438ce4a690a1c450ae22a6eeef32c9bc60d1eb42d5230"
+  },
+  "screenshots": "/Users/b2sy/.codex/visualizations/2026/10/09/01a11eb3-336c-7e22-b133-136285eb4717/overfit-production-2026-10-13",
+  "deployment": {
+    "worker_version": "ffef7953-70aa-40fa-8df9-92196b35cec2",
+    "previous_worker_version": "204546be-29c6-4944-8ad0-104f0b92a47d",
+    "traffic_percentage": 100,
+    "deployed_source_commit": "46172cffd55125ebd9276c46f46620633b33fc38",
+    "main_source_files_verified": true,
+    "main_updated_without_force": true
+  },
+  "automation": {
+    "workflow_count": 1,
+    "workflow_state": "active",
+    "worker_cron": "0 * * * *",
+    "github_cron": "17 * * * *",
+    "last_observed_success": {
+      "id": 38269717241,
+      "status": "completed",
+      "conclusion": "success",
+      "event": "schedule",
+      "head_sha": "40238c5cccf98a0ce404d3a88b50c6b2d75af132",
+      "created_at": "2026-10-12T15:22:08Z",
+      "updated_at": "2026-10-12T15:22:32Z",
+      "url": "https://github.com/ParkHanbum/us-funding-dashboard/actions/runs/38269717241"
+    },
+    "run_on_new_main_observed": false
+  },
+  "constraints": {
+    "d1_database_id": "32c13b0f-bb9b-49c5-a5b2-281ebc00fa8e",
+    "worker_url_preserved": true,
+    "model_config_and_collector_preserved": true,
+    "public_use_confirmed": false,
+    "personal_use_confirmed": true,
+    "migration_performed": false,
+    "production_input_write_performed": false,
+    "secret_value_read": false,
+    "secret_changed": false
+  }
+}

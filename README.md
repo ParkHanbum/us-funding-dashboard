@@ -83,7 +83,7 @@ High correlations selected after searching the complete sample are exploratory, 
 
 ## Production rollout
 
-Production migration, deployment and main changes require the user's approval. After approval, apply `migrations/0033_sox.sql` to the existing D1, deploy this Worker, then publish the verified repository changes to main. The migration creates three SOX tables and does not replace the existing schema or database.
+Production migration, deployment and main changes require the user's approval. For the initial installation, apply `migrations/0033_sox.sql` to the existing D1 before deploying; the migration creates three SOX tables and does not replace the existing schema or database. The frozen overfit chart uses those existing inputs and needs no additional migration. Deploy the verified Worker, check the live results, then publish the repository changes to main.
 
 Keep the current `wrangler.jsonc`, D1 ID, Worker URL, cron schedules and `TREASURY_INGEST_TOKEN`. Keep the general SOX public-use flag disabled until permission for that scope is confirmed. The user's personal research confirmation enables the existing workflow to collect Treasury and SOX inputs and update the derived chart without adding a workflow or schedule.
 

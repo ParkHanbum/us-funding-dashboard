@@ -132,6 +132,18 @@ FRED는 장 마감 뒤 늦게 종가를 발표할 수 있다. 새 설정으로 �
 
 수집기·기존 산식·workflow·cron·D1/secret 설정·Worker URL·DB schema는 변경하지 않았다. 운영 DB migration은 필요 없다. [로컬 검증 기록](research/sox-validation/2026-10-10-overfit-chart-local.json)에 결과와 미리보기 경로를 기록했다. 운영 배포와 main 반영은 앞서 요청한 승인 조건에 따라 대기한다.
 
+## 과적합 차트 운영 반영 (2026-10-13)
+
+사용자가 “배포 ㄱㄱ”로 운영 배포와 main 반영을 승인했다. 최신 원격 main이 `40238c5`이고 검증한 작업 브랜치의 소스 커밋 `46172cf`까지 충돌 없이 반영 가능함을 확인했다. 고정 팩터 검사와 Worker API 보호 검사가 통과한 뒤 기존 Worker에 배포했다. 배포 버전은 `ffef7953-70aa-40fa-8df9-92196b35cec2`이며 트래픽 100%에 적용됐다. main은 강제 push 없이 반영했고 공개 GitHub API에서 소스와 설정 파일의 일치를 확인했다.
+
+실제 운영 API와 응답을 가로채지 않은 브라우저에서 기본 과적합 차트·전체 표본 비교·원본 분리·터치 선택·모바일 표시를 검증했다. 운영 자료는 SOX 2026-10-09, TGA·순발행 2026-10-08까지다. 새로 확정된 낙폭 1점이 고정 조건에 해당하여 현재 선택 표본은 낙폭 11점/r=0.9160704378059377, 반등 10점/r=0.9505335489085931이다. 선정 후 확정 표본은 낙폭 1점, 반등 0점이며 상관을 산출할 수 없는 작은 표본은 r=null로 유지한다.
+
+배포 전후 기존 U1/U4 자동 표본 52/48점과 원본 14점의 좌표·통계가 동일했다. 원시 종가는 응답에서 제외됐으며 개인 이용 확인은 true, 일반 공개 이용 확인은 false로 유지됐다. 배포된 HTML·SOX JS/CSS·기존 app.js의 SHA-256은 작업 파일과 모두 일치했다. 기존 health/summary/settlements/liquidity/status는 HTTP 200, 인증 없는 SOX state는 HTTP 401이었다. JavaScript 오류와 모바일 가로 넘침은 없었다.
+
+workflow는 기존 1개/active, 예약 시각과 D1 binding·Worker URL은 기존 설정을 유지했다. 기존 예약 수집의 [2026-10-13 00:22 실행](https://github.com/ParkHanbum/us-funding-dashboard/actions/runs/38269717241)이 성공했음을 공개 GitHub API로 확인했다. 해당 실행은 배포 전 소스에서 실행됐으며 이번 변경은 수집기·workflow를 수정하지 않는다. 새 코드 커밋에서의 다음 예약 실행까지 확인했다는 의미는 아니다. GitHub 브라우저 로그인 없이 기존 Git SSH와 공개 API를 사용했다. 이번 배포에는 DB migration이나 운영 DB 입력 변경이 필요하지 않았다.
+
+[운영 검증 기록](research/sox-validation/2026-10-13-overfit-production.json)에 실제 통계·배포 버전·설정 확인·파일 해시·미리보기 경로를 보관했다.
+
 ## 운영 반영에 사용한 순서
 
 1. 작업 브랜치 변경을 확인하고 커밋한다.
